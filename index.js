@@ -9,7 +9,7 @@ const logger = require("morgan");
 const ejs = require("ejs");
 const fs = require("fs");
 
-
+//in index.js
 //set view engine and views directory
 app.set("view engine", "ejs");
 app.set("views", "./views");
