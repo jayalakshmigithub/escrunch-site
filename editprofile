@@ -1,0 +1,298 @@
+<div class="container " style="margin-top: 10%;">
+    <div class="row">
+        <div class="col-lg-4 pb-5">
+            <!-- Account Sidebar-->
+            <div class="author-card pb-3">
+                <!-- <div class="author-card-cover" style="background-image: url(https://bootdey.com/img/Content/flores-amarillas-wallpaper.jpeg);"><a class="btn btn-style-1 btn-white btn-sm" href="#" data-toggle="tooltip" title="" data-original-title="You currently have 290 Reward points to spend"><i class="fa fa-award text-md"></i>&nbsp;290 points</a></div> -->
+                <div class="author-card-profile">
+                     <div class="author-card-avatar"><img src="/user-assets/img/userlogo.png" alt="">
+                </div> 
+                    <div class="author-card-details">
+                        <h5 class="author-card-name text-lg">
+                            <%= user.name %>
+                        </h5><span class="author-card-position">Joined February 06, 2017</span>
+                    </div>
+                </div>
+            </div>
+            <div class="wizard">
+                <nav class="list-group list-group-flush">
+                    <a class="list-group-item" href="#">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div><i class="fe-icon-shopping-bag mr-1 text-muted"></i>
+                                <div class="d-inline-block font-weight-medium text-uppercase">Orders List</div>
+                            </div><span class="badge badge-secondary">6</span>
+                        </div>
+                    </a><a class="list-group-item active" href="#"><i class="fe-icon-user text-muted"></i>Profile
+                        Settings</a><a class="list-group-item" href="#"><i
+                            class="fe-icon-map-pin text-muted"></i>Addresses</a>
+                    <a class="list-group-item"
+                        href="https://www.bootdey.com/snippets/view/bs4-wishlist-profile-page" target="__blank">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div><i class="fe-icon-heart mr-1 text-muted"></i>
+                                <div class="d-inline-block font-weight-medium text-uppercase">My Wishlist</div>
+                            </div><span class="badge badge-secondary">3</span>
+                        </div>
+                    </a>
+                    <a class="list-group-item" href="https://www.bootdey.com/snippets/view/bs4-account-tickets"
+                        target="__blank">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div><i class="fe-icon-tag mr-1 text-muted"></i>
+                                <div class="d-inline-block font-weight-medium text-uppercase">My Tickets</div>
+                            </div><span class="badge badge-secondary">4</span>
+                        </div>
+                    </a>
+                </nav>
+            </div>
+        </div>
+        <!-- Profile Settings-->
+        <div class="col-lg-8 pb-5">
+            <form class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="account-fn">Name</label>
+                        <input class="form-control" type="text" id="account-fn" value="<%= user.name %>"
+                            required="">
+                    </div>
+                </div>
+
+
+                <div class="col-md-6">
+                    <!-- <div class="form-group">
+                    <label for="account-pass">New Password</label>
+                    <input class="form-control" type="password" id="account-pass">
+                </div> -->
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="account-ln">Phone Number</label>
+                        <input class="form-control" type="text" id="account-phone" value="<%= user.mobile %>"
+                            required="">
+                    </div>
+                </div>
+
+
+                <!-- <div class="col-md-6">
+                <div class="form-group">
+                    <label for="account-phone">Phone Number</label>
+                    <input class="form-control" type="text" id="account-phone" value="+7 (805) 348 95 72" required="">
+                </div>
+            </div> -->
+
+                <!-- <div class="col-md-6">
+                <div class="form-group">
+                    <label for="account-email">Phone Number</label>
+                    <input class="form-control" type="text" id="account-phone" value="" disabled="" readonly>
+                </div>
+            </div> -->
+                <div class="col-md-6">
+                    <!-- <div class="form-group">
+                    <label for="account-confirm-pass">Confirm Password</label>
+                    <input class="form-control" type="password" id="account-confirm-pass">
+                </div> -->
+                </div>
+                <div class="col-12">
+                    <hr class="mt-2 mb-3">
+                    <div class="d-flex flex-wrap justify-content-between align-items-center">
+                        <div class="custom-control custom-checkbox d-block">
+                            <input class="custom-control-input" type="checkbox" id="subscribe_me" checked="">
+                            <label class="custom-control-label" for="subscribe_me">Subscribe me to
+                                Newsletter</label>
+                        </div>
+
+                        <div>
+                            <button class="btn btn-style-1 btn-primary" type="button" id="editProfileButton"
+                                onclick="location.href='/editprofile'" style="margin-right: 1px;">
+                                Reset Password
+                            </button>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Update Profile</button>
+
+<!-- Modal -->
+<!-- <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+  Modal Body - Place your message here -->
+  <!-- <div class="modal-body">
+    <p>Your profile updated successfully.</p>
+  </div>
+
+   Modal Footer -->
+  <!-- <div class="modal-footer">
+
+
+     Close button -->
+    <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+
+  </div>
+</div>
+</div>
+</div>   -->
+<!-- Your modal button -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Update Profile</button>
+
+<!-- Modal -->
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+  <!-- Modal Body - Place your message here -->
+  <div class="modal-body">
+    <p>Your profile updated successfully.</p>
+  </div>
+
+  <!-- Modal Footer -->
+  <div class="modal-footer">
+    <!-- Close button -->
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+  </div>
+</div>
+</div>
+</div>
+
+
+                            <!-- <button class="btn btn-style-1 btn-primary" type="button" data-toast=""
+                                data-toast-position="topRight" data-toast-type="success"
+                                data-toast-icon="fe-icon-check-circle" data-toast-title="Success!"
+                                data-toast-message="Your profile updated successfully.">Update Profile</button> -->
+                        </div>
+                        <!-- Large modal -->
+
+
+                        <!-- Add Bootstrap CSS (place this in the <head> section) -->
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Add Bootstrap JavaScript (place this at the end of the <body> section, just before </body>) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Update Profile</button> -->
+<!-- <button type="button" data-toggle="modal" data-target="#myModal">Launch modal</button> -->
+<!-- Your modal button -->
+
+
+
+<!-- Small modal -->
+<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-sm">Small modal</button>
+
+<div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-sm">
+<div class="modal-content">
+  ...
+</div>
+</div>
+</div> -->
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+////profile------<%-  %>
+<div class="container " style="margin-top: 10%;">
+    <div class="row">
+        <div class="col-lg-4 pb-5">
+            <!-- Account Sidebar-->
+            <div class="author-card pb-3">
+                <!-- <div class="author-card-cover" style="background-image: url(https://bootdey.com/img/Content/flores-amarillas-wallpaper.jpeg);"><a class="btn btn-style-1 btn-white btn-sm" href="#" data-toggle="tooltip" title="" data-original-title="You currently have 290 Reward points to spend"><i class="fa fa-award text-md"></i>&nbsp;290 points</a></div> -->
+                <div class="author-card-profile">
+                    <!-- <div class="author-card-avatar"><img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="Daniel Adams">
+                    </div> -->
+                    <div class="author-card-details">
+                        <h5 class="author-card-name text-lg"><%= user.name %></h5><span class="author-card-position">Joined February 06, 2017</span>
+                    </div>
+                </div>
+            </div>
+            <div class="wizard">
+                <nav class="list-group list-group-flush">
+                    <a class="list-group-item" href="#">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div><i class="fe-icon-shopping-bag mr-1 text-muted"></i>
+                                <div class="d-inline-block font-weight-medium text-uppercase">Orders List</div>
+                            </div><span class="badge badge-secondary">6</span>
+                        </div>
+                    </a><a class="list-group-item active" href="#"><i class="fe-icon-user text-muted"></i>Profile Settings</a><a class="list-group-item" href="#"><i class="fe-icon-map-pin text-muted"></i>Addresses</a>
+                    <a class="list-group-item" href="https://www.bootdey.com/snippets/view/bs4-wishlist-profile-page" target="__blank">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div><i class="fe-icon-heart mr-1 text-muted"></i>
+                                <div class="d-inline-block font-weight-medium text-uppercase">My Wishlist</div>
+                            </div><span class="badge badge-secondary">3</span>
+                        </div>
+                    </a>
+                    <a class="list-group-item" href="https://www.bootdey.com/snippets/view/bs4-account-tickets" target="__blank">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div><i class="fe-icon-tag mr-1 text-muted"></i>
+                                <div class="d-inline-block font-weight-medium text-uppercase">My Tickets</div>
+                            </div><span class="badge badge-secondary">4</span>
+                        </div>
+                    </a>
+                </nav>
+            </div>
+        </div>
+        <!-- Profile Settings-->
+        <div class="col-lg-8 pb-5">
+            <form class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="account-fn">First Name</label>
+                        <input class="form-control" type="text" id="account-fn" value="<%= user.name %>" required="" readonly>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="account-ln">Phone Number</label>
+                        <input class="form-control" type="text" id="account-phone" value="<%= user.mobile %>" required="" readonly>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="account-email">E-mail Address</label>
+                        <input class="form-control" type="email" id="account-email" value="<%= user.email %>" required="" readonly>
+                    </div>
+                </div>
+                <!-- <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="account-phone">Phone Number</label>
+                        <input class="form-control" type="text" id="account-phone" value="+7 (805) 348 95 72" required="">
+                    </div>
+                </div> -->
+                <!-- <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="account-pass">New Password</label>
+                        <input class="form-control" type="password" id="account-pass">
+                    </div>
+                </div> -->
+                <!-- <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="account-email">Phone Number</label>
+                        <input class="form-control" type="text" id="account-phone" value="<%= user.mobile %>" disabled="" readonly>
+                    </div>
+                </div> -->
+                <!-- <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="account-confirm-pass">Confirm Password</label>
+                        <input class="form-control" type="password" id="account-confirm-pass">
+                    </div>
+                </div> -->
+                <div class="col-12">
+                    <hr class="mt-2 mb-3">
+                    <div class="d-flex flex-wrap justify-content-between align-items-center">
+                        <div class="custom-control custom-checkbox d-block">
+                            <input class="custom-control-input" type="checkbox" id="subscribe_me" checked="">
+                            <label class="custom-control-label" for="subscribe_me">Subscribe me to Newsletter</label>
+                        </div>
+                        <!-- <button class="btn btn-style-1 btn-primary" type="button" data-toast="" data-toast-position="topRight" data-toast-type="success" data-toast-icon="fe-icon-check-circle" data-toast-title="Success!" data-toast-message="Your profile updated successfuly.">Update Profile</button> -->
+                        <button class="btn btn-style-1 btn-primary" type="button" id="editProfileButton" onclick="location.href='/editprofile'">
+                            Edit Profile
+                          </button>
+                          <!-- <button class="btn btn-style-1 btn-primary" type="button" data-toast="" data-toast-position="topRight" data-toast-type="success" data-toast-icon="fe-icon-check-circle" data-toast-title="Success!" data-toast-message="Your profile updated successfully." onclick="location.href='edit_profile.html'">Edit Profile</button> -->
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+

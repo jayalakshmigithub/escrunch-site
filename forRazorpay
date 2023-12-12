@@ -1,0 +1,394 @@
+const handleRazorpayPayment = async (order, res) => {
+  try {
+    // Code to interact with Razorpay and initiate the payment
+    // This code should generate a Razorpay payment link and redirect the user
+
+    // Example: Generating a Razorpay payment link
+    const razorpay = createRazorpayInstance();
+
+try {
+  const razorpay_order = await razorpay.orders.create({
+    amount: order.finalPrice * 100, // Amount in paisa
+    currency: 'INR',
+    receipt: order._id.toString(),
+  });
+
+    // Redirect the user to the Razorpay payment gateway
+    res.status(200).json({ success: true, url: `/orders/payment?oid=${order._id}` });
+  } catch (error) {
+    console.error('Razorpay API Error:', error);
+    res.status(500).json({ success: false, message: 'Failed to initiate Razorpay payment' });
+  }
+}catch(err){
+  console.log(err)
+}
+
+// Define the userCheckoutPost function
+const userCheckoutPost = async (req, res) => {
+  const userId = req.session.user_id;
+  const { address, paymentMethod, subTotalPrice } = req.body;
+
+  try {
+    // Fetch the user from the database using the user ID
+    const user = await userModel.findById(userId).exec();
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    // Retrieve user's cart
+    const orders = await cartModel.find({ user: userId }).exec();
+
+    if (orders.length === 0) {
+      return res.status(404).json({ success: false, message: 'No orders found for this user' });
+    }
+
+    const products = orders[0].products;
+
+    // Create the order
+    const addressId = new mongoose.Types.ObjectId(address);
+    const details = {
+      user: userId,
+      items: [...products],
+      totalAmount: +subTotalPrice,
+      paymentMode: paymentMethod,
+      finalPrice: +subTotalPrice,
+      address: addressId,
+    };
+
+    const order = await orderModel.create(details);
+
+    if (order) {
+      const orderId = orders[0]._id;
+      const deleteResponse = await cartModel.deleteOne({ _id: orderId }, { user: userId });
+
+      return res.status(201).json({ status: true, message: 'Order placed successfully' });
+    } else {
+      return res.json({ status: false, message: 'Order placing failed' });
+    }
+
+    if (paymentMethod === 'cashondelivery') {
+      order.save();
+      await cartModel.findOneAndUpdate({ user }, { products: [] });
+      return res.status(200).json({ success: true, url: `/orderdetails/${order._id}` });
+    } else if (paymentMethod === 'onlinepayment') {
+      const razorpay = createRazorpayInstance();
+
+      try {
+        const razorpay_order = await handleRazorpayPayment(order, res);
+        order.paymentData = razorpay_order;
+        order.save();
+        return;
+      } catch (error) {
+        console.error('Razorpay API Error:', error);
+        return res.status(500).json({ success: false, message: 'Failed to create Razorpay order' });
+      }
+    } else {
+      return res.status(500).json({ success: false, message: 'Please select a valid payment option' });
+    }
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ success: false, message: 'Internal Server Error' });
+  }
+}
+}
+
+
+
+// at 12:19 tuesday
+// chatgpt-------
+const userCheckoutPost = async (req, res) => {
+  const userId = req.session.user_id;
+  const { address, paymentMethod,subTotalPrice } = req.body;
+
+  try {
+    // Fetch the user from the database using the user ID
+    // const userId = user._id;
+    const user = await userModel.findById(userId).exec();
+    console.log('logging user',user);
+    
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    // Retrieve user's cart
+    const orders = await cartModel.find({ user: userId }).exec();
+    console.log('logging orderzzz', orders);
+    
+    if (orders.length === 0) {
+      // Handle the case when no orders are found
+      return res.status(404).json({ success: false, message: "No orders found for this user" });
+    }
+    
+    const products = orders[0].products;
+    
+    // Create the order
+    const addressId = new mongoose.Types.ObjectId(address);
+    const details = {
+      user: userId,
+      items: [...products],
+      totalAmount: +subTotalPrice,
+      paymentMode: paymentMethod,
+      finalPrice: +subTotalPrice,
+      address: addressId,
+    };
+    
+    const order = await orderModel.create(details);
+    
+    if (order) {
+      const orderId = orders[0]._id;
+      const deleteResponse = await cartModel.deleteOne({ _id: orderId }, { user: userId });
+      // Handle the deleteResponse if needed
+      // Send a success response
+      return res.status(201).json({ status: true, message: "Order placed successfully" });
+    } else {
+      res.json({ status: false, message: "Order placing failed" });
+    }
+    if (paymentMethod === "cashondelivery") {
+      console.log('entered hereeee');
+      order.save();
+      await cartModel.findOneAndUpdate({ user }, { products: [] });
+      res.status(200).json({ success: true, url: `/orderdetails/${order._id}` });
+    } else if (paymentMethod === "onlinepayment") {
+      console.log('entered in online payment or razorpay');
+  
+      console.log('Payment method:', paymentMethod);
+    
+      const razorpay = createRazorpayInstance();
+    
+      
+      console.log('Is razorpay a valid instance:', !!razorpay);
+    
+      try {
+        
+        console.log('Trying to create Razorpay order');
+    
+        const razorpay_order = await razorpay.orders.create({
+          amount: order.finalPrice * 100,
+          currency: "INR",
+          receipt: order._id.toString(),
+        });
+    
+        // Debugging: Check the razorpay_order
+        console.log('Razorpay order:', razorpay_order);
+    
+        order.paymentData = razorpay_order;
+        order.save();
+        console.log('Testing hereee', order.paymentData);
+        res.status(200).json({ success: true, url: `/orders/payment?oid=${order._id}` });
+        console.log('Reaching my orders');
+      } catch (error) {
+        console.error("Razorpay API Error:", error);
+        res.status(500).json({ success: false, message: "Failed to create Razorpay order" });
+      }
+    } else {
+      // Handle other payment options
+      // You can add more payment methods here
+      res.status(500).json({ success: false, message: "Please select a valid payment option" });
+    }
+  } catch(err){
+    console.log(err)
+
+  }
+}  
+
+
+// at 12:20 tuesday
+
+// -----edited checkout------
+
+const userCheckoutPost = async (req, res) => {
+  try {
+    // Set response headers
+    res.setHeader(
+      "Cache-Control",
+      "no-store, no-cache, must-revalidate, proxy-revalidate"
+    );
+    res.setHeader("Pragma", "no-cache");
+    res.setHeader("Expires", "0");
+    res.setHeader("Surrogate-Control", "no-store");
+
+    // Get the user ID from the session
+    const userId = req.session.user_id;
+
+    // Fetch the user from the database using the user ID
+    const user = await userModel.findById(userId).exec();
+    const { address, paymentMethod, subTotalPrice } = req.body;
+
+    // If user is not found, return a 404 response
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    const user_id = user._id;
+
+    // Retrieve user's cart
+    const orders = await cartModel.find({ user: user_id }).exec();
+    
+    // Commented out update operations and other sections for brevity
+
+    // TODO: Handle order processing, inventory updates, etc.
+
+    // Get the address for the order
+    let addressdetail;
+    user.address.forEach((item) => {
+      if (item._id.toString() == address) addressdetail = item;
+    });
+
+    const products = orders[0].products;
+    
+    // Create order details
+    const details = {
+      user: user_id,
+      items: [...products],
+      totalAmount: +subTotalPrice,
+      paymentMode: paymentMethod,
+      finalPrice: +subTotalPrice,
+      address: addressdetail,
+    };
+
+    // Create the order
+    const response = await orderModel.create(details);
+    if (response) { 
+            const orderId = orders[0]._id
+          const response = await cartModel.deleteOne({_id:orderId},{user:user_id});
+            console.log('order id',orderId)
+            console.log('response',response)
+            console.log('its hereee')
+      
+            // res
+            //   .status(201)
+            //   .json({ status: true, message: "order placed successfully" });
+          }
+
+    if (paymentMethod === "cashondelivery") {
+      console.log('entered hereeee.............');
+      response.save();
+      await cartModel.findOneAndUpdate({ user }, { products: [] });
+      res.status(200).json({ success: true, url: `/orderdetails/${response._id}` });
+    } else if (paymentMethod === 'onlinepayment') {
+      // Create a Razorpay instance
+      const razorpay = createRazorpayInstance();
+
+      // Create a Razorpay order
+      const razorpay_order = await razorpay.orders.create({
+        amount: response.finalPrice * 100,
+        currency: "INR",
+        receipt: response._id.toString(),
+      });
+
+      response.paymentData = razorpay_order;
+      await response.save();
+      res.status(200).json({ success: true, message: 'order placed successfully', });
+      // url: `/myorders/payment?oid=${response._id}`   
+    } else {
+      // If paymentMethod is neither 'cashondelivery' nor 'onlinepayment'
+      return res.status(400).json({ success: false, message: "Invalid payment method" });
+    }
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
+
+
+
+script in userpayment 
+
+<script>
+    
+    document.addEventListener('DOMContentLoaded', function () {
+        const status = document.querySelector('#payment-status');
+        const container = document.querySelector('#lottie-container');
+
+        let inProgress = true
+
+        const animation = lottie.loadAnimation({
+            container: container,
+            renderer: 'svg',
+            loop: false,
+            autoplay: false,
+            path: '/assets/animation_lkjt130b.json',
+        });
+
+        animation.setSpeed(1000);
+
+        function startAnimation() {
+            animation.playSegments([1, 12], false)
+            animation.addEventListener('complete', () => {
+                animation.setSpeed(0.8);
+                if (inProgress) animation.playSegments([1, 12], false)
+            })
+        }
+        startAnimation()
+
+        function showSuccess() {
+            animation.setSpeed(1.2)
+            if (inProgress) animation.playSegments([13, 48], false)
+            inProgress = false
+        }
+
+        function showFailure() {
+            animation.setSpeed(1.2)
+            animation.setDirection(-1)
+            if (inProgress) animation.playSegments([12, 1], false)
+            inProgress = false
+        }
+        
+
+        const options = {
+            "key": '<%= razorpay_key %>',
+            "amount": '<%= order.totalAmount*100 %>',
+            "currency": "INR",
+            "name": "Escrunch",
+            "order_id": '<%= order.paymentData.id %>',
+            "handler": function (response) {
+
+                status.textContent = "Waiting for payment confirmation"
+                fetch("/orders/check-payment", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        razorpayOrderId: response.razorpay_order_id,
+                        razorpayPaymentId: response.razorpay_payment_id,
+                        secret: response.razorpay_signature
+                    }),
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            showSuccess()
+                            status.textContent = "Success"
+                            setTimeout(() =>{
+                                window.location.href='/orderdetails/<%= order._id %>'
+                            },1000)
+                        } else {
+                            showFailure()
+                            status.textContent = "Oops! Looks like there is a problem with your payment"
+                        }
+                    })
+                    .catch(error => {
+                        showFailure()
+                        console.log("Error:", error)
+                        status.textContent = "Oops! Looks like there is a problem with your payment"
+                    })
+            },
+            "prefill": {
+                
+            },
+            "theme": {
+                "color": "#4D4DFF",
+            }
+        };
+
+        const rzp1 = new Razorpay(options);
+        rzp1.on('payment.failed', function (response) {
+            status.textContent = response.error.description
+        });
+        rzp1.open();
+    })
+
+
+</script>

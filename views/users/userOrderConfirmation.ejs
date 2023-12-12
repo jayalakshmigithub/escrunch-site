@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zxx" class="no-js">
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="shortcut icon" href="img/fav.png">
+	<meta name="author" content="CodePixar">
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<meta charset="UTF-8">
+	<title>E-scrunch</title>
+     
+	<link rel="stylesheet" href="/user-assets/css/linearicons.css">
+	<link rel="stylesheet" href="/user-assets/css/owl.carousel.css">
+	<link rel="stylesheet" href="/user-assets/css/themify-icons.css">
+	<link rel="stylesheet" href="/user-assets/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/user-assets/css/nice-select.css">
+	<link rel="stylesheet" href="/user-assets/css/nouislider.min.css">
+	<link rel="stylesheet" href="/user-assets/css/bootstrap.css">
+	<link rel="stylesheet" href="/user-assets/css/main.css">
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="stylesheet" href="/user-assets/css/userprofile.css">
+
+    <!-- Add Bootstrap CSS (place this in the <head> section) -->
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Add Bootstrap JavaScript (place this at the end of the <body> section, just before </body>) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+	<header class="header_area sticky-header">
+		<div class="main_menu">
+			<nav class="navbar navbar-expand-lg navbar-light main_box">
+				<div class="container">
+					<a class="navbar-brand logo_h" href="/home"><img src="img/logo.png" alt=""></a>
+					<button class="navbar-toggler" type="button" data-toggle="collapse"
+						data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+						aria-expanded="false" aria-label="Toggle navigation">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+						<ul class="nav navbar-nav menu_nav ml-auto">
+							<li class="nav-item"><a class="nav-link" href="/home">Home</a></li>
+							<li class="nav-item submenu dropdown">
+								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+									aria-haspopup="true" aria-expanded="false">Shop</a>
+								<ul class="dropdown-menu">
+									<li class="nav-item"><a class="nav-link" href="category.html">Shop Category</a></li>
+									<li class="nav-item"><a class="nav-link" href="/productdetails">Product
+											Details</a></li>
+									<li class="nav-item"><a class="nav-link" href="/checkout">Product Checkout</a>
+									</li>
+									<li class="nav-item"><a class="nav-link" href="/cart">Shopping Cart</a></li>
+									<li class="nav-item"><a class="nav-link" href="confirmation.html">Confirmation</a>
+									</li>
+								</ul>
+							</li>
+							<li class="nav-item submenu dropdown">
+								<a href="/cart" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+									aria-haspopup="true" aria-expanded="false">Blog</a>
+								<ul class="dropdown-menu">
+									<li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+									<li class="nav-item"><a class="nav-link" href="single-blog.html">Blog Details</a>
+									</li>
+								</ul>
+							</li>
+							<li class="nav-item submenu dropdown active">
+								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+									aria-haspopup="true" aria-expanded="false">Pages</a>
+								<ul class="dropdown-menu">
+									<li class="nav-item active"><a class="nav-link" href="/login">Login</a></li>
+									<li class="nav-item"><a class="nav-link" href="tracking.html">Tracking</a></li>
+									<li class="nav-item"><a class="nav-link" href="elements.html">Elements</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="/userprofile">User</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+
+								</ul>
+							</li>
+							<li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+						</ul>
+						<ul class="nav navbar-nav navbar-right">
+							<li class="nav-item"><a href="#" class="cart"><span class="ti-bag"></span></a></li>
+							<li class="nav-item">
+								<button class="search"><span class="lnr lnr-magnifier" id="search"></span></button>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</div>
+		<!-- <div class="search_input" id="search_input_box">
+			<div class="container">
+				<form class="d-flex justify-content-between">
+					<input type="text" class="form-control" id="search_input" placeholder="Search Here">
+					<button type="submit" class="btn"></button>
+					<span class="lnr lnr-cross" id="close_search" title="Close Search"></span>
+				</form>
+			</div>
+		</div> -->
+	</header>
+
+<!-- Start Banner Area -->
+<section class="banner-area organic-breadcrumb">
+    <div class="container">
+        <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+            <div class="col-first">
+                <h1>Confirmation</h1>
+                <nav class="d-flex align-items-center">
+                    <a href="/home">Home<span class="lnr lnr-arrow-right"></span></a>
+                    <a href="/orderconfirmation">Confirmation</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Banner Area -->
+
+<!--================Order Details Area =================-->
+<!-- Your template -->
+<% if (order) { %>
+    <section class="order_details section_gap">
+      <div class="container">
+        <h3 class="title_confirmation">Thank you. Your order has been received.</h3>
+        <div class="row order_d_inner">
+          <div class="col-lg-6">
+            <div class="details_item">
+              <h4>Order Info</h4>
+              <ul class="list">
+                <li><a href="#"><span>Order ID</span> : <%= order._id %></a></li>
+
+                <li><a href="#"><span>Date</span> : <%= new Date(order.createdAt).toLocaleString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true }) %></a></li>
+                <li><a href="#"><span>Total</span> : <%= order.finalPrice %></a></li>
+                <li><a href="#"><span>Payment method</span> : <%= order.paymentMode %></a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="details_item">
+            <h4>Billing Address</h4>
+            <ul class="list">
+              <li><a href="#"><span>Address</span> : <%= order.address.address %></a></li>
+              <li><a href="#"><span>City</span> : <%= order.address.city %></a></li>
+              <li><a href="#"><span>State</span> : <%= order.address.state %></a></li>
+              <li><a href="#"><span>Pincode</span> : <%= order.address.pincode %></a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="order_details_table">
+          <h2>Order Details</h2>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Product</th>
+                  <th scope="col">Quantity</th>
+                  <th scope="col">Total</th>
+                </tr>
+              </thead>
+              <% order.items.forEach(function(item) { %>
+                <tbody>
+                  <tr>
+                    <td>
+                      <p><%= item.productId.productname %></p>
+                    </td>
+                    <td>
+                      <h5>x <%= item.quantity %></h5>
+                    </td>
+                    <td>
+                      <p><%= item.price %></p>
+                    </td>
+                  </tr>
+                </tbody>
+              <% }) %>
+              <tr>
+                <td>
+                  <h4>Subtotal</h4>
+                </td>
+                <td>
+                  <h5></h5>
+                </td>
+                <td>
+                  <p><%= order.totalAmount %></p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <h4>Coupon Discount</h4>
+                </td>
+                <td>
+                  <h5></h5>
+                </td>
+                <td>
+                  <p><%= order.discountAmount %></p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <h4>Grand Total</h4>
+                </td>
+                <td>
+                  <h5></h5>
+                </td>
+                <td>
+                  <p><%= order.finalPrice %></p>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <br>
+        <% if (order.orderStatus === 'pending' || order.orderStatus === 'placed') { %>
+          <button class="genric-btn danger" onclick="cancelOrder('<%= orderId %>')">Cancel Order</button>
+          <button class="genric-btn warning" onclick="returnOrder('<%= orderId %>')">Return Order</button>
+        <% } %>
+      </div>
+    </section>
+  <% } else { %>
+    <p>Order not found</p>
+  <% } %>
+  
+<!--================End Order Details Area =================-->
+
+
+
+
+<script>
+
+function cancelOrder(orderId) {
+    Swal.fire({
+        title: 'Are you sure you want to Cancel the order?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, Cancel it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // If the user confirms the action, perform the deletion
+            window.location.href = `/editorderdetails/${orderId}?action=cancel`;
+        }
+    });
+}
+
+function returnOrder(orderId) {
+    Swal.fire({
+        title: 'Are you sure you want to Return the order?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, Return it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // If the user confirms the action, perform the deletion
+            window.location.href = `/editorderdetails/${orderId}?action=return`;
+        }
+    });
+}
+
+
+</script>

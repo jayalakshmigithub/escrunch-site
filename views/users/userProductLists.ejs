@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zxx" class="no-js">
+  <head>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link rel="shortcut icon" href="img/fav.png" />
+    <meta name="author" content="CodePixar" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta charset="UTF-8" />
+    <title>E-scrunch</title>
+
+    <link rel="stylesheet" href="/user-assets/css/linearicons.css" />
+    <link rel="stylesheet" href="/user-assets/css/owl.carousel.css" />
+    <link rel="stylesheet" href="/user-assets/css/themify-icons.css" />
+    <link rel="stylesheet" href="/user-assets/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="/user-assets/css/nice-select.css" />
+    <link rel="stylesheet" href="/user-assets/css/nouislider.min.css" />
+    <link rel="stylesheet" href="/user-assets/css/bootstrap.css" />
+    <link rel="stylesheet" href="/user-assets/css/main.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+    />
+
+    <!-- <style>
+      #sortOption:hover,
+      #sortOption:hover option {
+          background-color: #ff1493;
+      }
+  </style> -->
+  <!-- <style>
+    .price-scale {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+
+    .bullet {
+        width: 20px;
+        height: 20px;
+        background-color:black;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .line {
+        height: 2px;
+        width: 100%;
+        background-color:black;
+    }
+</style> -->
+  </head>
+
+  <body>
+    <header class="header_area sticky-header">
+      <div class="main_menu">
+        <nav class="navbar navbar-expand-lg navbar-light main_box">
+          <div class="container">
+            <a class="navbar-brand logo_h" href="/home"><img src="img/logo.png" alt="" /></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+              <ul class="nav navbar-nav menu_nav ml-auto">
+                <li class="nav-item">
+                  <a class="nav-link" href="/home" style="color: #ff1493;">Home</a>
+                </li>
+                <li class="nav-item submenu dropdown">
+                  <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                  aria-expanded="false" style="color: #ff1493;">Products</a>
+              
+                  <ul class="dropdown-menu">
+                    <li class="nav-item">
+                      <a class="nav-link" href="/products" style="color: #ff1493;">Products</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/productdetails" style="color: #ff1493;">Product Details</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/checkout" style="color: #ff1493;">Product Checkout</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/cart" style="color: #ff1493;">Shopping Cart</a>
+                    </li>
+                  </ul>
+                </li>
+                <!-- <li class="nav-item submenu dropdown">
+                  <a href="/cart" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+                    aria-haspopup="true" aria-expanded="false">Blog</a>
+                </li> -->
+                <li class="nav-item submenu dropdown active">
+                  <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                    aria-expanded="false" style="color: #ff1493;">Account</a>
+                  <ul class="dropdown-menu">
+                    <li class="nav-item">
+                      <a class="nav-link" href="/userprofile" style="color: #ff1493;">My profile</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/myorders" style="color: #ff1493;">My Orders</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/wallet" style="color: #ff1493;">My wallet</a>
+                    </li>
+                    <!-- <li class="nav-item">
+                      <a class="nav-link" href="tracking.html" style="color: #ff1493;">Tracking</a>
+                    </li> -->
+                    <!-- <li class="nav-item">
+                      <a class="nav-link" href="elements.html" style="color: #ff1493;">Elements</a>
+                    </li> -->
+                    <!-- <li class="nav-item">
+                      <a class="nav-link" href="/logout" style="color: #ff1493;">Logout</a>
+                    </li> -->
+                  </ul>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="contact.html" style="color: #ff1493;">Contact</a>
+                </li>
+              </ul>
+              <ul class="nav navbar-nav navbar-right">
+                <li class="nav-item" style="display: inline-block; margin-right: 2px;">
+                  <a href="/cart" class="cart" style="text-decoration: none; padding: 1px 2px; font-size: 16px; cursor: pointer; color: #ff1493;">
+                    <span class="ti-bag"></span>
+                  </a>
+                </li>
+                <li class="nav-item" style="display: inline-block; margin-right: 2px;">
+                  <button class="search" style="background: transparent; border: none; cursor: pointer; padding: 1px 2px; font-size: 16px; color: #ff1493;">
+                    <span class="lnr lnr-magnifier" id="search"></span>
+                  </button>
+                </li>
+                <li class="nav-item" style="display: inline-block;">
+                  <div class="dropdown">
+                    <button class="user-button" id="userButton" style="background: transparent; border: none; cursor: pointer; padding: 1px 2px;">
+                      <img src="/user-assets/img/usericon.png" alt="User Icon" id="user-icon" style="width: 40px; height: 40px; border-radius: 50%;">
+                    </button>
+                    <ul class="dropdown-menu" id="dropdownMenu" style="color: #ff1493;">
+                      <li class="nav-item">
+                        <a class="nav-link " href="/logout" style="color: #ff1493;">Logout</a>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Start Banner Area -->
+    <!-- <section class="banner-area organic-breadcrumb">
+        <div class="container">
+            <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+                <div class="col-first">
+                     <h1 style="background-color: black; color: white; padding: 10px;">Products</h1> 
+
+                </div>
+            </div>
+        </div>
+    </section>  -->
+    <!-- End Banner Area -->
+
+    <div class="container" style="margin-top: 100px;">
+        <div class="row">
+            <div class="col-xl-3 col-lg-4 col-md-5"
+                style="background: #fff; padding: 15px; border: 1px solid #e0e0e0; border-radius: 7px; box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1);">
+                <div class="sidebar-categories">
+                    <div class="head"
+                        style="font-size: 18px; color: #333; margin-bottom: 10px; background-color: #ff1493; border-radius: 7px; color: white;">
+                        Browse Categories
+                    </div>
+                    
+                    <ul class="main-categories" style="list-style: none; padding: 0;">
+                        <% category.forEach(function(item) { %>
+                            <li class="main-nav-list"
+                                style="margin-bottom: 10px; border: 1px solid #ff1493; border-radius: 7px; box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1);">
+                                <a href="/categoryproducts/<%= item.categoryid %>"
+                                    style="text-decoration: none; color: #333; font-size: 16px;">
+                                    <%= item.catname %>
+                                </a>
+                            </li>
+                        <% }) %>
+                    </ul>
+                    <!-- <div class="price-scale">
+                      <div class="bullet">0</div>
+                      <div class="line"></div>
+                      <div class="bullet">699</div>
+                  </div> -->
+                </div>
+            </div>
+            <div class="col-xl-9 col-lg-8 col-md-7">
+                <!-- Start Filter Bar -->
+                <div class="filter-bar d-flex flex-wrap align-items-center" style="justify-content: space-between; background: #fff; padding: 15px;  border: 1px solid #e0e0e0; border-radius: 7px; box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1);">
+                  <form id="sortForm">
+                      <div class="sorting">
+                          <select id="sortOption" name="sortOption" style="border: 1px solid #e0e0e0; border: 1px solid #e0e0e0; border: 1px solid #e0e0e0; border-radius: 7px; box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1); padding: 5px; background: #f9f9f9;">
+                              <option value="1">Sort by Price</option>
+                              <option value="2" <%= sortOption === '2' ? 'selected' : '' %>>Price: Low to High</option>
+                              <option value="3" <%= sortOption === '3' ? 'selected' : '' %>>Price: High to Low</option>
+                          </select>
+                      </div>
+                  </form>
+              </div>
+                <!-- End Filter Bar -->
+    
+                <!-- Start Best Seller -->
+                <section class="lattest-product-area pb-40 category-list">
+                    <div class="row">
+                        <% products.forEach(function(product) { %>
+                            <% if (product.status === 'Listed') { %>
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="single-product"
+                                        style="background: #fff;  border: 1px solid #e0e0e0; border: 1px solid #e0e0e0; border-radius: 7px; box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1);">
+                                        <img class="img-fluid" src="/uploadProductImages/<%= product.image[0] %>" alt=""
+                                            style="width: 100%;">
+                                        <div class="product-details">
+                                            <h6 style="font-size: 16px; color: #333; margin: 10px 0;">
+                                                <%= product.productname %>
+                                            </h6>
+                                            <div class="price" style="font-size: 16px; color: #333; margin: 10px 0;">
+                                                <h6>
+                                                    MRP ₹<%= product.mrp.toLocaleString('en-IN', {
+                                                        minimumFractionDigits: 2, maximumFractionDigits: 2
+                                                    }) %>
+                                                </h6>
+                                                <h6 class="l-through">
+                                                    MRP ₹<%= product.mrp.toLocaleString('en-IN', {
+                                                        minimumFractionDigits: 2, maximumFractionDigits: 2
+                                                    }) %>
+                                                </h6>
+                                            </div>
+                                            <div class="prd-bottom">
+                                                <!-- Add your product actions here -->
+                                                <!-- <a href="" class="social-info">
+                                                    <span class="lnr lnr-heart"></span>
+                                                    <p class="hover-text">Wishlist</p>
+                                                </a> -->
+                                                <a href="/productdetails/<%= product._id %>" class="social-info">
+                                                    <span class="ti-layers"></span>
+                                                    <p class="hover-text">compare</p>
+                                                </a>
+                                                <a href="/productdetails/<%= product._id %>?timestamp=<%= Date.now() %>"
+                                                    class="social-info">
+                                                    <span class="ti-more-alt"></span>
+                                                    <p class="hover-text">view more</p>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% } %>
+                        <% }); %>
+                    </div>
+                </section>
+    
+                <!-- Start Pagination -->
+                <div class="pagination-area mt-30 mb-50" style="display: flex; justify-content: center; align-items: center;">
+                  <nav aria-label="Page navigation example">
+                      <ul class="pagination" style="list-style: none; display: flex; align-items: center;">
+                          <% for (let i = 1; i <= totalPages; i++) { %>
+                              <% if (i === currentPage) { %>
+                                  <li class="page-item active" style="background: #007bff; color: #fff; padding: 5px 10px; margin: 0 5px; border-radius: 5px;">
+                                      <a class="page-link" href="#" style="text-decoration: none;">
+                                          <%= i %>
+                                      </a>
+                                  </li>
+                              <% } else { %>
+                                  <li class="page-item" style="background: #f0f0f0; color: #333; padding: 5px 10px; margin: 0 5px; border-radius: 5px;">
+                                      <a class="page-link" href="/sortedproducts?sortOption=<%= sortOption %>&page=<%= i %>" style="text-decoration: none;"><%= i %></a>
+                                  </li>
+                              <% } %>
+                          <% } %>
+                      </ul>
+                  </nav>
+              </div>
+                <!-- End Pagination -->
+            </div>
+    
+
+
+
+
+
+
+
+
+
+    
+
+            <script>
+              $(document).ready(function () {
+                  $('#sortOption').change(function () {
+                      const selectedOption = $(this).val();
+  
+                      // Redirect the user based on the selected option
+                      if (selectedOption === '2') {
+                          window.location.href = '/sortedproducts?sortOption=2'; // Redirect to low to high
+                      } else if (selectedOption === '3') {
+                          window.location.href = '/sortedproducts?sortOption=3'; // Redirect to high to low
+                      }
+                  });
+              });
+          </script>

@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="zxx" class="no-js">
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="shortcut icon" href="img/fav.png">
+	<meta name="author" content="CodePixar">
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<meta charset="UTF-8">
+	<title>E-scrunch</title>
+     
+	<link rel="stylesheet" href="/user-assets/css/linearicons.css">
+	<link rel="stylesheet" href="/user-assets/css/owl.carousel.css">
+	<link rel="stylesheet" href="/user-assets/css/themify-icons.css">
+	<link rel="stylesheet" href="/user-assets/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/user-assets/css/nice-select.css">
+	<link rel="stylesheet" href="/user-assets/css/nouislider.min.css">
+	<link rel="stylesheet" href="/user-assets/css/bootstrap.css">
+	<link rel="stylesheet" href="/user-assets/css/main.css">
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="stylesheet" href="/user-assets/css/userprofile.css">
+
+    <!-- Add Bootstrap CSS (place this in the <head> section) -->
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Add Bootstrap JavaScript (place this at the end of the <body> section, just before </body>) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@12"></script>
+
+
+</head>
+
+<body>
+  <header class="header_area sticky-header">
+    <div class="main_menu">
+      <nav class="navbar navbar-expand-lg navbar-light main_box">
+        <div class="container">
+          <a class="navbar-brand logo_h" href="/home"><img src="img/logo.png" alt="" /></a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+            <ul class="nav navbar-nav menu_nav ml-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="/home" style="color: #ff1493;">Home</a>
+              </li>
+              <li class="nav-item submenu dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                aria-expanded="false" style="color: #ff1493;">Products</a>
+            
+                <ul class="dropdown-menu">
+                  <li class="nav-item">
+                    <a class="nav-link" href="/products" style="color: #ff1493;">Products</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/productdetails" style="color: #ff1493;">Product Details</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/checkout" style="color: #ff1493;">Product Checkout</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/cart" style="color: #ff1493;">Shopping Cart</a>
+                  </li>
+                </ul>
+              </li>
+              <!-- <li class="nav-item submenu dropdown">
+                <a href="/cart" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+                  aria-haspopup="true" aria-expanded="false">Blog</a>
+              </li> -->
+              <li class="nav-item submenu dropdown active">
+                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                  aria-expanded="false" style="color: #ff1493;">Account</a>
+                <ul class="dropdown-menu">
+                  <li class="nav-item">
+                    <a class="nav-link" href="/userprofile" style="color: #ff1493;">My profile</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/myorders" style="color: #ff1493;">My Orders</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/wallet" style="color: #ff1493;">My wallet</a>
+                  </li>
+                  <!-- <li class="nav-item">
+                    <a class="nav-link" href="tracking.html" style="color: #ff1493;">Tracking</a>
+                  </li> -->
+                  <!-- <li class="nav-item">
+                    <a class="nav-link" href="elements.html" style="color: #ff1493;">Elements</a>
+                  </li> -->
+                  <!-- <li class="nav-item">
+                    <a class="nav-link" href="/logout" style="color: #ff1493;">Logout</a>
+                  </li> -->
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/contact" style="color: #ff1493;">Contact</a>
+              </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li class="nav-item" style="display: inline-block; margin-right: 2px;">
+                <a href="/cart" class="cart" style="text-decoration: none; padding: 1px 2px; font-size: 16px; cursor: pointer; color: #ff1493;">
+                  <span class="ti-bag"></span>
+                </a>
+              </li>
+              <li class="nav-item" style="display: inline-block; margin-right: 2px;">
+                <button class="search" style="background: transparent; border: none; cursor: pointer; padding: 1px 2px; font-size: 16px; color: #ff1493;">
+                  <span class="lnr lnr-magnifier" id="search"></span>
+                </button>
+              </li>
+              <li class="nav-item" style="display: inline-block;">
+                <div class="dropdown">
+                  <button class="user-button" id="userButton" style="background: transparent; border: none; cursor: pointer; padding: 1px 2px;">
+                    <img src="/user-assets/img/usericon.png" alt="User Icon" id="user-icon" style="width: 40px; height: 40px; border-radius: 50%;">
+                  </button>
+                  <ul class="dropdown-menu" id="dropdownMenu" style="color: #ff1493;">
+                    <li class="nav-item">
+                      <a class="nav-link " href="/logout" style="color: #ff1493;">Logout</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+    
+
+
+    <!-- Start Banner Area -->
+    <!-- <section class="banner-area organic-breadcrumb">
+       <div class="container">
+           <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+               <div class="col-first">
+                   <h1>User Profile</h1>
+                   <nav class="d-flex align-items-center">
+                       <a href="/home">Home<span class="lnr lnr-arrow-right"></span></a>
+                       <a href="/cart">Cart</a>
+                   </nav>
+               </div>
+           </div>
+       </div>
+   </section> -->
+   
+   <!-- End Banner Area -->
+   
+   
+   <div class="container" style="margin-top: 100px; ">
+    <div class="mb-4">
+        <h2 style="color: #ff1493;">User Details</h2>
+        <hr> <!-- Add a horizontal line for separation -->
+        <div class="author-card-avatar">
+            <img src="/user-assets/img/userlogo.png" alt="Daniel Adams" style="width: 100px; height: 100px;">
+        </div>
+        <div class="author-card-details">
+            <h5 class="author-card-name text-lg" ><%= user.name %></h5>
+            <span class="author-card-position">Joined February 06, 2017</span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="mt-4 mb-4">
+                <h5 class="text-uppercase">PROFILE INFORMATION</h5>
+                <form action="/userprofile" method="POST" id="userprofileform">
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" name="name" class="form-control" required="required" id="nameInput"   value="<%= user.name %>">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="phonenumber">Phone Number</label>
+                                <input type="text" name="phonenumber" class="form-control" required="required"  id="phonenumberInput"  value="<%= user.mobile %>">
+                            </div>
+                        </div>
+                    </div>
+                    <div><a href="/changepassword">Change Password?</a></div>
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <!-- <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" name="email" class="form-control" required="required" value="<%= user.email %>">
+                            </div> -->
+                        </div>
+                       
+                    </div>
+                  
+                    
+                    <button class="btn btn-primary" type="submit">UPDATE USER</button>
+                    <!-- <button class="btn btn-primary" type="submit" data-toggle="modal" data-target="#successModal">UPDATE USER</button> -->
+
+                     <!-- <button class="btn btn-primary" type="submit">UPDATEPASSWORD</button>  -->
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+   
+
+<!-- profile useraddress page -->
+userProfile Address content
+<!-- Your HTML content with the styled elements -->
+    <h5 class="text-uppercase mt-4">ADDRESS INFORMATION</h5>
+<div class="mt-4 mb-4 d-flex flex-wrap justify-content-between">
+  <% user.address.forEach(function(item, index) { %>
+    <div class="border-2 p-3">
+      <h6 class="font-weight-bold">Address:</h6>
+      <p><%= item.address %></p>
+      <h6 class="font-weight-bold">City:</h6>
+      <p><%= item.city %></p>
+      <h6 class="font-weight-bold">State:</h6>
+      <p><%= item.state %></p>
+      <h6 class="font-weight-bold">Pincode:</h6>
+      <p><%= item.pincode %></p>
+      <a href="/removeaddress?addressId=<%= item._id %>">
+        <button class="btn btn-primary">Remove</button>
+    </a>
+    <a href="/editaddress/<%= item._id %>">
+        <button style="height: 35px; width: 80px; background-color: #007bff; border: none; border-radius: 5px;" class="btn btn-primary">Edit</button>
+    </a>
+    
+      
+
+    </div>
+    
+  </a>
+  <% }); %>
+
+  
+  <a href="/addaddress" class="text-decoration-none">
+    <button class="genric-btn success-border mt-2">+ ADD ADDRESS</button>
+  </a>
+  <!-- i have given the view orders button here  -->
+  <a href="/myorders" class="text-decoration-none">
+    <button class="genric-btn success-border mt-2">+ VIEW ORDERS</button>
+  </a>
+  <!-- <a href="/changepassword" class="text-decoration-none">
+    <button class="genric-btn success-border mt-2">+ CHANGE PASSWORD</button>
+  </a> -->
+  
+</div>
+<!-- >ends here -->
+
+             <!-- <button class="btn btn-success-border">+ ADD ADDRESS</button>  -->
+         
+
+         
+              
+
+        </div>
+      
+      </div>
+    </div>
+  </div>
+  
+
+
+
+        </a>
+    </div>
+</div>
+<!-- Modal -->
+<!-- <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="myModal">Updated Successfully</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Your profile has been updated successfully.</p>
+         You can add a tick sign (or any other icon) here -->
+       
+      <!-- </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>  -->
+
+<!-- Add Bootstrap CSS (place this in the <head> section) -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Add Bootstrap JavaScript (place this at the end of the <body> section, just before </body>) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+
+<!-- //addadress modal script-------------- -->
+
+<!-- <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const updateButton = document.getElementById('updateButton');
+      const phonenumberInput = document.getElementById('phonenumberInput');
+      const phonenumberError = document.getElementById('phonenumberError');
+  
+      updateButton.addEventListener('click', function (event) {
+        if (phonenumberInput.value.trim() === '') {
+          phonenumberError.textContent = 'Phone number is required';
+          // Prevent the form from being submitted
+          event.preventDefault();
+        } else {
+          phonenumberError.textContent = ''; // Clear the error message
+          // The form will be submitted as usual
+        }
+      });
+    });
+  </script>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const updateButton = document.getElementById('updateButton');
+      const phonenumberInput = document.getElementById('phonenumberInput');
+      const phonenumberError = document.getElementById('phonenumberError');
+  
+      updateButton.addEventListener('click', async function (event) {
+        if (phonenumberInput.value.trim() === '') {
+          phonenumberError.textContent = 'Phone number is required';
+        } else {
+          phonenumberError.textContent = ''; // Clear the error message
+  
+          // Serialize the form data
+          const formData = new FormData(document.getElementById('userprofileform'));
+  
+          try {
+            const response = await fetch('/userprofile', {
+              method: 'POST',
+              body: formData,
+            });
+  
+            if (response.ok) {
+              // If the response is successful, show a SweetAlert and display the modal
+              Swal.fire({
+                icon: 'success',
+                title: 'Profile Updated',
+                text: 'Your profile has been successfully updated!',
+              });
+  
+              // Optionally, display the modal
+              $('#successModal').modal('show');
+            } else {
+              // Handle server validation errors if needed
+              const errorResponse = await response.json();
+              // Handle the error and display a SweetAlert or update the page accordingly
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: errorResponse.error,
+              });
+            }
+          } catch (error) {
+            // Handle other network or server-related errors
+            console.error(error);
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'An error occurred while updating your profile. Please try again later.',
+            });
+          }
+        }
+      });
+    });
+  </script> -->
+  <!-- <script>
+    $('#myModal').on('shown.bs.modal', function (e) {
+        // Do something after the modal is fully shown
+        console.log('Modal has been fully displayed.');
+    });
+</script> -->
+
+  <!-- <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const updateButton = document.getElementById('updateButton');
+        const phonenumberInput = document.getElementById('phonenumberInput');
+        const phonenumberError = document.getElementById('phonenumberError');
+        const successModal = document.getElementById('successModal');
+    
+        updateButton.addEventListener('click', async function (event) {
+            event.preventDefault(); // Prevent the default form submission behavior
+    
+            // Get the phone number value
+            const phoneNumber = phonenumberInput.value.trim();
+    
+            if (!phoneNumber) {
+                phonenumberError.textContent = 'Phone number is required';
+            } else {
+                phonenumberError.textContent = ''; // Clear the error message
+    
+                try {
+                    const response = await fetch('/your-server-endpoint', {
+                        method: 'POST',
+                        body: JSON.stringify({ phonenumber: phoneNumber }),
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    });
+    
+                    if (response.ok) {
+                        // Handle success, e.g., show a success message or redirect
+                        console.log('Phone number updated successfully');
+                        // Show the success modal
+                        $(successModal).modal('show');
+                    } else {
+                        // Handle the error response from the server
+                        const errorResponse = await response.json();
+                        phonenumberError.textContent = errorResponse.error;
+                    }
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+        });
+    });
+    </script> -->
+    
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+          const updateButton = document.getElementById('updateButton');
+          const phonenumberInput = document.getElementById('phonenumberInput');
+          const phonenumberError = document.getElementById('phonenumberError');
+  
+          updateButton.addEventListener('click', async function (event) {
+              // Prevent the default form submission behavior
+              event.preventDefault();
+  
+              // Get the phone number value
+              const phoneNumber = phonenumberInput.value.trim();
+  
+              if (!phoneNumber) {
+                  phonenumberError.textContent = 'Phone number is required';
+              } else {
+                  phonenumberError.textContent = ''; // Clear the error message
+  
+                  // Collect other form data if needed
+                  const formData = {
+                      name: document.getElementById('nameInput').value,
+                      phonenumber: phoneNumber
+                      // Add other form fields here
+                  };
+  
+                  try {
+                      const response = await fetch('/userProfile', {
+                          method: 'POST',
+                          body: JSON.stringify(formData),
+                          headers: {
+                              'Content-Type': 'application/json',
+                          },
+                      });
+  
+                      if (response.ok) {
+                          // Use SweetAlert to display a success message
+                          Swal.fire({
+                              icon: 'success',
+                              title: 'Profile Updated',
+                              text: 'Your profile has been successfully updated!',
+                          });
+  
+                          // Optionally, you can redirect to another page or perform other actions
+                      } else {
+                          // Handle server validation errors if needed
+                          const errorResponse = await response.json();
+                          // Handle the error and display a SweetAlert or update the page accordingly
+                          Swal.fire({
+                              icon: 'error',
+                              title: 'Error',
+                              text: errorResponse.error,
+                          });
+                      }
+                  } catch (error) {
+                      // Handle other network or server-related errors
+                      console.error(error);
+                      Swal.fire({
+                          icon: 'error',
+                          title: 'Error',
+                          text: 'An error occurred while updating your profile. Please try again later.',
+                      });
+                  }
+              }
+          });
+      });
+  </script>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const nameInput = document.querySelector('input[name="name"]');
+    const nameError = document.getElementById('name-error');
+    const phonenumberInput = document.querySelector('input[name="phonenumber"]');
+    const phonenumberError = document.getElementById('phonenumber-error');
+    const form = document.getElementById('userprofileform'); // Add the form element
+
+    form.addEventListener('submit', function (event) {
+      // Check input validity when the form is submitted
+      if (!isValidName(nameInput.value) || !isValidPhoneNumber(phonenumberInput.value)) {
+        event.preventDefault(); // Prevent form submission
+        // Display error messages (if any)
+        if (!isValidName(nameInput.value)) {
+          nameError.textContent = 'Name must begin with a capital letter and contain only letters';
+          nameError.style.display = 'block';
+        }
+        if (!isValidPhoneNumber(phonenumberInput.value)) {
+          phonenumberError.textContent = 'Invalid mobile number';
+          phonenumberError.style.display = 'block';
+        }
+      }
+    });
+
+    nameInput.addEventListener('input', function () {
+      if (!isValidName(nameInput.value)) {
+        nameError.textContent = 'Name must begin with a capital letter and contain only letters';
+        nameError.style.display = 'block';
+      } else {
+        nameError.style.display = 'none';
+      }
+    });
+
+    phonenumberInput.addEventListener('input', function () {
+      if (!isValidPhoneNumber(phonenumberInput.value)) {
+        phonenumberError.textContent = 'Invalid mobile number';
+        phonenumberError.style.display = 'block';
+      } else {
+        phonenumberError.style.display = 'none';
+      }
+    });
+
+    function isValidName(name) {
+      const namePattern = /^[A-Z][a-zA-Z\s]*$/; // Allow spaces with \s
+      return namePattern.test(name);
+    }
+
+
+    function isValidPhoneNumber(phonenumber) {
+      const phoneNumberPattern = /^\d{10}$/;
+      if (!phoneNumberPattern.test(phonenumber)) {
+        return false;
+      }
+      for (let i = 0; i <= 9; i++) {
+        if (phonenumber.indexOf(i.toString().repeat(10)) !== -1) {
+          return false;
+        }
+      }
+      return true;
+    }
+  });
+
+
+
+</script>
+  
+  
+  
+<footer class="footer-area section_gap">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3  col-md-6 col-sm-6">
+                <div class="single-footer-widget">
+                    <h6>About Us</h6>
+                    <div style="color: #fff;">
+                        <p style="font-size: 18px; margin-bottom: 10px;">At E-Scrunch, we believe in the artistry of adorning your hair with handcrafted beauty.</p>
+                        <p style="font-size: 18px; margin-bottom: 10px;">Each of our hair accessories tells a unique story, intricately crafted with love and dedication.</p>
+                        <!-- <p style="font-size: 18px; margin-bottom: 10px;">We invite you to explore our world of handmade hair treasures.</p>
+                        <p style="font-size: 18px; margin-bottom: 10px;">Join us on this enchanting journey of weaving dreams into hair accessories, and discover the beauty that lies in every strand.</p> -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4  col-md-6 col-sm-6">
+                <div class="single-footer-widget">
+                    <h6>Newsletter</h6>
+                    <p>Stay update with our latest</p>
+                    <div class="" id="mc_embed_signup">
+
+                        <form target="_blank" novalidate="true"
+                            action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
+                            method="get" class="form-inline">
+
+                            <div class="d-flex flex-row">
+
+                                <input class="form-control" name="EMAIL" placeholder="Enter Email"
+                                    onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Email '"
+                                    required="" type="email">
+
+
+                                <button class="click-btn btn btn-default"><i class="fa fa-long-arrow-right"
+                                        aria-hidden="true"></i></button>
+                                <div style="position: absolute; left: -5000px;">
+                                    <input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value=""
+                                        type="text">
+                                </div>
+
+                                <!-- <div class="col-lg-4 col-md-4">
+                                                <button class="bb-btn btn"><span class="lnr lnr-arrow-right"></span></button>
+                                            </div>  -->
+                            </div>
+                            <div class="info"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3  col-md-6 col-sm-6">
+                <div class="single-footer-widget mail-chimp">
+                    <h6 class="mb-20">Instragram Feed</h6>
+                    <ul class="instafeed d-flex flex-wrap">
+                        <li><img src="/user-assets/img/i1.jpg" alt=""></li>
+                        <li><img src="/user-assets/img/i2.jpg" alt=""></li>
+                        <li><img src="/user-assets/img/i3.jpg" alt=""></li>
+                        <li><img src="/user-assets/img/i4.jpg" alt=""></li>
+                        <li><img src="/user-assets/img/i5.jpg" alt=""></li>
+                        <li><img src="/user-assets/img/i6.jpg" alt=""></li>
+                        <li><img src="/user-assets/img/i7.jpg" alt=""></li>
+                        <li><img src="/user-assets/img/i8.jpg" alt=""></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6 col-sm-6">
+                <div class="single-footer-widget">
+                    <h6>Follow Us</h6>
+                    <p>Let us be social</p>
+                    <div class="footer-social d-flex align-items-center">
+                        <a href="#"><i class="fa fa-facebook"></i></a>
+                        <a href="#"><i class="fa fa-twitter"></i></a>
+                        <a href="#"><i class="fa fa-dribbble"></i></a>
+                        <a href="#"><i class="fa fa-behance"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom d-flex justify-content-center align-items-center flex-wrap">
+            <p class="footer-text m-0">
+                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                Copyright &copy;
+                <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is
+                made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com"
+                    target="_blank">Colorlib</a>
+                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            </p>
+        </div>
+    </div>
+</footer>
+
+  

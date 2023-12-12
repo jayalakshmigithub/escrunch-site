@@ -1,0 +1,94 @@
+
+
+    <!-- Start Banner Area -->
+
+    <!-- Start Banner Area -->
+   <!-- Your existing HTML content -->
+
+<!-- Transaction Table -->
+<section class="banner-area organic-breadcrumb">
+	<div class="container">
+	  <div
+		class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end"
+	  >
+		<div class="col-first">
+		  <h1 style="background-color: #ff1493; color: white; padding: 10px">
+			Wallet
+		  </h1>
+		  <nav class="d-flex align-items-center"></nav>
+		</div>
+	  </div>
+	</div>
+  </section>
+
+  
+
+
+<table style="border-collapse: collapse; width: 100%; border: 1px solid #ddd">
+  <thead>
+    <tr style="background-color: #ffffff; color: rgb(13, 12, 12)">
+      <th style="text-align: left; padding: 8px; font-weight: bold">Order ID</th>
+      <th style="text-align: left; padding: 8px; font-weight: bold">Date and Time</th>
+      <th style="text-align: left; padding: 8px; font-weight: bold">Type</th>
+      <th style="text-align: left; padding: 8px; font-weight: bold">Amount</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if (userTransactions && userTransactions.length > 0) { %>
+      <% userTransactions.forEach(transaction => { %>
+        <tr style="text-align: left; padding: 8px; color: #ffffff">
+          <td><%= transaction.ID %></td>
+          <td>
+            <%= new Date(transaction.createdAt).toLocaleString('en-US', {
+              weekday: 'short', month: 'short', day: 'numeric', year: 'numeric',
+              hour: 'numeric', minute: 'numeric', hour12: true
+            }) %>
+          </td>
+          <td>
+            <%= transaction.type %>
+          </td>
+  
+          <td>
+            <%= parseFloat(transaction.amount).toLocaleString(undefined, {
+              minimumFractionDigits: 2, maximumFractionDigits: 2
+            }) %>
+          </td>
+        </tr>
+      <% }); %>
+  
+      <!-- Script for styling based on transaction type -->
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          const rows = document.querySelectorAll("tbody tr");
+  
+          rows.forEach(function (row) {
+            const transactionType = row.querySelector("td:nth-child(3)").textContent;
+  
+            if (transactionType.toLowerCase() === "debit") {
+              row.style.color = "red";
+            } else if (transactionType.toLowerCase() === "credit") {
+              row.style.color = "green";
+            } else {
+              row.style.color = "black";
+            }
+          });
+        });
+      </script>
+  
+    <% } else { %>
+      <tr>
+        <td colspan="4">
+          <p style="font-size: 18px; margin-bottom: 20px; color: red">
+            No wallet data available.
+          </p>
+        </td>
+      </tr>
+    <% } %>
+  </tbody>
+</table>
+
+
+<!-- Your existing HTML content -->
+
+  </body>
+</html>

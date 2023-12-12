@@ -1,0 +1,112 @@
+<section class="banner-area organic-breadcrumb">
+    <div class="container">
+        <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+            <div class="col-first">
+                <h1 style="background-color: black; color: white; padding: 10px;">Wishlist</h1>
+                <nav class="d-flex align-items-center">
+
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Banner Area -->
+
+<section class="cart_area">
+    <div class="container">
+        <div class="cart_inner">
+            <div class="table-responsive">
+                <% if (wishlist.products.length> 0) { %>
+                    <table class="table">
+                        <thead style="background-color: #f5f5f5;">
+                            <tr>
+                                <th scope="col" style="font-weight: bold;">Product</th>
+                                <th scope="col" style="font-weight: bold;">Price</th>
+                                <th scope="col" style="font-weight: bold;">Add to Cart</th>
+                                <th scope="col" style="font-weight: bold;">Availability</th>
+                                <th scope="col" style="font-weight: bold;">Remove</th>
+                            </tr>
+                        </thead>
+
+                        <% wishlist.products.forEach(function (item) { %>
+
+                            <tr class="cartPrice" data-price="<%= item.product.price %>"
+                                data-id="<%= item.product._id %>"
+                                style="background-color: #f9f9f9; border-bottom: 1px solid #ddd;">
+                                <td class="align-middle">
+                                    <img src="/uploadProductImages/<%= item.product.image[0] %>" alt=""
+                                        style="width: 50px;">
+                                    <%= item.product.productname %>
+                                </td>
+                                <td class="align-middle price">
+                                    <%= item.product.price.toFixed(2) %>
+                                </td>
+                                <td>
+                                    <% if (item.product.stock!==0) { %>
+                                        <div class="card_area d-flex align-items-center">
+                                            <p id="addtocartId" value="<%= item.product._id %>" hidden></p>
+                                            <button class="primary-btn"
+                                                onclick="buttonclick('<%= item.product._id %>')" id="addtocart"
+                                                href="#" style="margin-bottom: 30px; margin-top: 20px;">Add to
+                                                Cart</button>
+                                        </div>
+                                        <% } else { %>
+                                            <span style="color: rgb(0, 0, 0); font-size: larger;"></span>
+                                            <% } %>
+                                </td>
+                                <td class="align-middle price">
+                                    <% if (item.product.stock===0) { %>
+                                        <span style="color: red; font-size: larger; white-space: nowrap;">Out of
+                                            Stock</span>
+                                        <% } else { %>
+                                            <span style="color: rgb(17, 194, 55); font-size: larger;">In
+                                                Stock</span>
+                                            <% } %>
+                                </td>
+                                <td class="align-middle">
+                                    <button class="btn btn-sm btn-danger"
+                                        onclick="deleteItem('<%= wishlist._id %>', '<%= item.product._id %>')"
+                                        style="background-color: #000000; color: #fff; border: none; border-radius: 5px;">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <% }); %>
+
+                    </table>
+                    <% } else { %>
+                        <div class="empty-wishlist"
+                          style="text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh;">
+                           
+                                
+                            <a href="/home" class="empty-message-link"
+                                style="display: inline-block; padding: 10px 20px; background-color: #0f0f0f; color: #fff; text-decoration: none; border: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s;">Go
+                                back to the home page</a>
+                        </div>
+
+                        <% } %>
+            </div>
+        </div>
+
+        <div class="modal" id="addToCartModal" style="display: none;">
+            <div class="modal-dialog" style="max-width: 400px;">
+                <div class="modal-content"
+                    style="border-radius: 10px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);">
+                    <div class="modal-body" style="padding: 20px;">
+                        <h4 style="text-align: center; font-size: 20px; color: #cf0548;">Hooray! <br> Your Cart Just
+                            Got a
+                            New Item</h4>
+                        <div style="text-align: center; margin-top: 20px;">
+                            <button class="btn btn-primary" data-dismiss="modal"
+                                style="background-color: #007bff; color: #fff; border: none; border-radius: 5px; padding: 10px 20px;">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- container -->
+    </div>
+</section>
