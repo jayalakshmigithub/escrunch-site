@@ -160,26 +160,68 @@
 </footer>
 </main>
 
+
+
+
 <script>
-  document.getElementById('categoryform').addEventListener('submit', function(event) {
-   
-    document.getElementById('categoryNameError').innerText = '';
-    document.getElementById('descriptionError').innerText = '';
-    var categoryName = document.getElementById('categoryname').value.trim();
-    if (categoryName === '') {
-      document.getElementById('categoryNameError').innerText = 'Category Name is required';
-      event.preventDefault(); 
+  document.addEventListener("DOMContentLoaded",function(){
+
+    const form = document.getElementById('categoryform');
+    const categoryNameInput = document.getElementById('categoryname');
+    const categoryDescription = document.getElementById('description')
+  
+
+  form.addEventListener('submit',function(){
+    if(!validateCategoryName()||!validateDescription()){
+      event.preventDefault();
+    }
+  })
+  categoryName.addEventListener("blur",validateCategoryName);
+  categoryDescription.addEventListener("blur",validateDescription);
+
+  function validateCategoryName(){
+    const categoryName = categoryNameInput.value.trim()
+    const categoryNameError = document.getElementById("categoryNameError")
+
+    if(categoryName===""){
+      categoryNameError.textContent ="Category name cannot be empty"
+      return false;
     }
 
-    var categoryDescription = document.getElementById('description').value.trim();
-    if (categoryDescription === '') {
-      document.getElementById('descriptionError').innerText = 'Category Description is required';
-      event.preventDefault(); 
+    if(!/^[a-zA-Z]+$/.test(categoryName)){
+      categoryNameError.textContent= 'Only letters are allowed in category name'
+      return false;
     }
 
+    categoryNameError.textContent="";
+    return true;
+  }
 
-  });
+  
+
+  function validateDescription(){
+    const description = categoryDescription.value.trim()
+    const descriptionError = document.getElementById('descriptionError')
+
+    if(categoryDescription===""){
+      descriptionError.textContent='Category description cannot be empty'
+      return false
+    }
+
+    if( !/[a-zA-Z]+$/.test(categoryDescription)){
+      descriptionError.textContent ='Only letters are allowed '
+      return false;
+
+    }
+    descriptionError.textContent =" ";
+    return true;
+  
+  }
+});
+
+
 </script>
+
 
 
 <script src="/assets/js/vendors/jquery-3.6.0.min.js"></script>
