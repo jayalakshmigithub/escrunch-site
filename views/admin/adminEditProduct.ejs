@@ -101,6 +101,7 @@
                 action="/admin/editproduct?_id=<%= products._id %>"
                 method="POST"
                 enctype="multipart/form-data"
+                onsubmit="return validateForm()"
               >
                 <div class="row">
                   <div class="col-md-6 mb-4">
@@ -114,6 +115,7 @@
                         value="<%= products.productname %>"
                         name="productname"
                       />
+                      <div class="error" id="productNameError"></div>
                     </div>
                   </div>
                   <div class="col-md-6 mb-4">
@@ -128,6 +130,7 @@
                             </option>
                           <% }); %>
                         </select>
+                        <div class="error" id="categoryError"></div>
                       </div>
                     </div>
                   </div>
@@ -148,6 +151,8 @@
                         value="<%= products.description %>"
                         name="description"
                       />
+                      <div class="error" id="descriptionError"></div>
+                      
                     </div>
                   </div>
                   <div class="col-md-6 mb-4 pb-2">
@@ -160,6 +165,7 @@
                         value="<%= products.mrp %>"
                         name="mrp"
                       />
+                      <div class="error" id="mrpError"></div>
                     </div>
                   </div>
                 </div>
@@ -175,6 +181,7 @@
                         name="price"
                         class="form-control form-control-lg"
                       />
+                      <div class="error" id="priceError"></div>
                     </div>
                   </div>
 
@@ -182,6 +189,7 @@
                     <div class="form-outline">
                       <label class="form-label" for="addimage">Add images</label>
                       <input type="file" name="file" accept="image/*" multiple />
+                      <div class="error" id="ImageError"></div>
                     </div>
                   </div>
                 </div>
@@ -212,6 +220,7 @@
                         name="stock"
                         class="form-control form-control-lg"
                       />
+                      <div class="error" id="stockError"></div>
                     </div>
                   </div>
 
@@ -250,6 +259,155 @@
     </div>
 </footer>
 </main>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("productForm");
+    const productNameInput = document.getElementById("productName");
+    const categorySelect = document.querySelector('select[name="categoryname"]');
+    const descriptionInput = document.getElementById("description");
+    const mrpInput = document.getElementById("mrp");
+    const priceInput = document.getElementById("price");
+    const imageInput = document.querySelector('input[name="file"]');
+    const stockInput = document.getElementById("stock");
+
+    form.addEventListener("submit", function (event) {
+      if (
+        !validateProductName() ||
+        !validateCategory() ||
+        !validateDescription() ||
+        !validateMRP() ||
+        !validatePrice() ||
+        !validateImage() ||
+        !validateStock()
+      ) {
+        event.preventDefault();
+      }
+    });
+
+    productNameInput.addEventListener("blur", validateProductName);
+    categorySelect.addEventListener("change", validateCategory);
+    descriptionInput.addEventListener("blur", validateDescription);
+    mrpInput.addEventListener("blur", validateMRP);
+    priceInput.addEventListener("blur", validatePrice);
+    imageInput.addEventListener("change", validateImage);
+    stockInput.addEventListener("blur", validateStock);
+
+    function validateProductName() {
+      const productName = productNameInput.value.trim();
+      const productNameError = document.getElementById("productNameError");
+
+      if (productName === "") {
+        productNameError.textContent = "Product name can't be empty";
+        productNameError.style.color = "red";
+        return false;
+      }
+
+      // if (/\s/.test(productName)) {
+      //   productNameError.textContent =
+      //     "Product name cannot contain empty spaces";
+      //   productNameError.style.color = "red";
+      //   return false;
+      // }
+
+      productNameError.textContent = "";
+      return true;
+    }
+
+    function validateCategory() {
+      const selectedCategory = categorySelect.value;
+      const categoryError = document.getElementById("categoryError");
+
+      if (selectedCategory === "") {
+        categoryError.textContent = "Please choose a category";
+        categoryError.style.color = "red";
+        return false;
+      }
+
+      categoryError.textContent = "";
+      return true;
+    }
+
+    function validateDescription(){
+      const description = descriptionInput.value.trim();
+      const descriptionError = document.getElementById("descriptionError")
+      if (description === "") {
+      descriptionError.textContent = "Description can't be empty";
+      descriptionError.style.color = "red";
+      return false;
+    }
+      // if(/\s/.test(description)){
+      //   descriptionError.textContent = "Description cannot contain empty spaces"
+      //   descriptionError.style.color ="red";
+
+      // }
+      descriptionError.textContent ="";
+      return true;
+    }
+
+    function validateMRP(){
+      const mrp =  mrpInput.value.trim()
+      const mrpError = document.getElementById("mrpError")
+
+      if(mrp === ""){
+        mrpError.textContent ="MRP can't be empty";
+        mrpError.style.color ="red"
+        return false
+      }
+
+      mrpError.textContent ="";
+      return true;
+    }
+
+    function validatePrice(){
+      const price = priceInput.value.trim()
+      const priceError = document.getElementById("priceError")
+
+      if(price===""){
+        priceError.textContent ="offer price can't be empty"
+        priceError.style.color = "red";
+        return false
+      }
+      priceError.textContent = "";
+      return true;
+
+
+    }
+
+    function validateImage() {
+    const image = imageInput.value.trim();
+    const imageError = document.getElementById("imageError");
+
+    if (image === "") {
+      imageError.textContent = "Please select an image";
+      imageError.style.color = "red";
+      return false;
+    }
+
+    imageError.textContent = "";
+    return true;
+  }
+
+
+    function validateStock() {
+      const stock = stockInput.value.trim();
+      const stockError = document.getElementById("stockError");
+
+      if (stock === "") {
+        stockError.textContent = "Stock can't be empty";
+        stockError.style.color = "red";
+        return false;
+      }
+
+      stockError.textContent = "";
+      return true;
+    }
+  });
+</script>
+
+
+
+
 <script src="/assets/js/vendors/jquery-3.6.0.min.js"></script>
 <script src="/assets/js/vendors/bootstrap.bundle.min.js"></script>
 <script src="/assets/js/vendors/select2.min.js"></script>
