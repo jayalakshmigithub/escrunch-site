@@ -17,7 +17,7 @@ const catImgCrop = require('../multer/catImgCrop');
 const adminProducts = async(req,res)=>{
     try{
     
-        const product = await productModel.find().populate('categoryname');
+        const product = await productModel.find().populate('categoryname').sort({createdAt:-1g});
         console.log(product);
         res.render('admin/adminProducts',{ data: product });
     }catch(err){
