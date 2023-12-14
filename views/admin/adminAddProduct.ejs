@@ -367,12 +367,12 @@ document.addEventListener("DOMContentLoaded", function () {
       return false;
     }
 
-    if (/\s/.test(productName)) {
-      productNameError.textContent =
-        "Product name cannot contain empty spaces";
-      productNameError.style.color = "red";
-      return false;
-    }
+    // if (/\s/.test(productName)) {
+    //   productNameError.textContent =
+    //     "Product name cannot contain empty spaces";
+    //   productNameError.style.color = "red";
+    //   return false;
+    // }
 
     productNameError.textContent = "";
     return true;
@@ -391,27 +391,45 @@ document.addEventListener("DOMContentLoaded", function () {
     categoryError.textContent = "";
     return true;
   }
-
   function validateDescription() {
-    const description = descriptionInput.value.trim();
-    const descriptionError = document.getElementById("descriptionError");
+  const description = descriptionInput.value.trim();
+  const descriptionError = document.getElementById("descriptionError");
 
-    if (description === "") {
-      descriptionError.textContent = "Description can't be empty";
-      descriptionError.style.color = "red";
-      return false;
-    }
-
-    if (/\s/.test(description)) {
-      descriptionError.textContent =
-        "Description cannot contain empty spaces";
-      descriptionError.style.color = "red";
-      return false;
-    }
-
-    descriptionError.textContent = "";
-    return true;
+  if (description === "") {
+    setDescriptionError("Description can't be empty");
+    return false;
   }
+
+  // Other validation logic
+
+  descriptionError.textContent = ""; // Clear the error if there are no issues
+  return true;
+
+  function setDescriptionError(message) {
+    descriptionError.textContent = message;
+    descriptionError.style.color = "red";
+  }
+}
+  // function validateDescription() {
+  //   const description = descriptionInput.value.trim();
+  //   const descriptionError = document.getElementById("descriptionError");
+
+  //   if (description === "") {
+  //     descriptionError.textContent = "Description can't be empty";
+  //     descriptionError.style.color = "red";
+  //     return false;
+  //   }
+
+    // if (/\s/.test(description)) {
+    //   descriptionError.textContent =
+    //     "Description cannot contain empty spaces";
+    //   descriptionError.style.color = "red";
+    //   return false;
+    // }
+
+  //   descriptionError.textContent = "";
+  //   return true;
+  // }
 
   function validateMRP() {
     const mrp = mrpInput.value.trim();
