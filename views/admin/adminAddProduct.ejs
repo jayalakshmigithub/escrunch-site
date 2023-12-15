@@ -402,7 +402,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Other validation logic
 
-  descriptionError.textContent = ""; // Clear the error if there are no issues
+  descriptionError.textContent = ""; 
   return true;
 
   function setDescriptionError(message) {
@@ -410,27 +410,7 @@ document.addEventListener("DOMContentLoaded", function () {
     descriptionError.style.color = "red";
   }
 }
-  // function validateDescription() {
-  //   const description = descriptionInput.value.trim();
-  //   const descriptionError = document.getElementById("descriptionError");
-
-  //   if (description === "") {
-  //     descriptionError.textContent = "Description can't be empty";
-  //     descriptionError.style.color = "red";
-  //     return false;
-  //   }
-
-    // if (/\s/.test(description)) {
-    //   descriptionError.textContent =
-    //     "Description cannot contain empty spaces";
-    //   descriptionError.style.color = "red";
-    //   return false;
-    // }
-
-  //   descriptionError.textContent = "";
-  //   return true;
-  // }
-
+  
   function validateMRP() {
     const mrp = mrpInput.value.trim();
     const mrpError = document.getElementById("mrpError");

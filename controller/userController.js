@@ -58,7 +58,7 @@ const userSignup = async (req, res) => {
     console.log(error.message);
   }
 };
-//inserting a new user into your database
+
 
 const insertUser = async (req, res) => {
   try {
@@ -203,32 +203,11 @@ const otpVerificaton = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    // Handle the error appropriately, e.g., res.status(500).send("Internal Server Error")
+
   }
 };
 
-// const otpVerificaton = async (req, res) => {
-//     try {
-//         const otp = req.body.OTP;
-//         const mobile = req.body.mobileNumber;
-//         client.verify
-//       .services(process.env.VERIFY_SID) // Change service ID
-//       .verificationChecks.create({
-//         to: `+91${mobile}`,
-//         code: otp,
-//   }).then( async (data)=>{
-//     console.log(data);
-//     if(data.status==="approved"){
-//         await userModel.updateOne({ mobile:mobile,$set:{isVerified:true}})
-//         res.redirect('/login');
-//     }else{
-//         res.redirect('/otpVerification');
-//     }
-//   });
-//     } catch (error) {
 
-//     }
-// }
 
 const viewOtpPage = async (req, res) => {
   try {

@@ -665,14 +665,12 @@ const adminOrderLists = async (req, res) => {
     const skipItems = (page - 1) * ITEMS_PER_PAGE;
     const totalCount = await orderModel.countDocuments();
         const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
-
-
-    // Fetch orders and populate the necessary fields
+        
     const orders = await orderModel
       .find({})
-      .populate('user', 'name email') // Populate user details
-      .populate({ path: 'items.product', select: 'name price' })// Populate product details
-      .sort({createdAt:-1})  // Sort by createdAt in descending order
+      .populate('user', 'name email') 
+      .populate({ path: 'items.product', select: 'name price' })
+      .sort({createdAt:-1})  
       .skip(skipItems)
       .limit(ITEMS_PER_PAGE);
 

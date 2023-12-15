@@ -17,7 +17,7 @@ const catImgCrop = require('../multer/catImgCrop');
 const adminProducts = async(req,res)=>{
     try{
     
-        const product = await productModel.find().populate('categoryname').sort({createdAt:-1g});
+        const product = await productModel.find().populate('categoryname').sort({createdAt:-1});
         console.log(product);
         res.render('admin/adminProducts',{ data: product });
     }catch(err){
@@ -122,18 +122,17 @@ const adminAddProduct = async (req, res) => {
   await cropImage.crop(req);
   const images = req.files.map((file) => file.filename);
 
-  // Assign the images to the product
+  
   product.image = images;
 
   try {
     await productModel.create(product);
 
-    // After adding the product, you can redirect to the product list page with the products sorted by ObjectId (_id) in descending order
     const sortedProducts = await productModel.find().sort({ _id: -1 });
 
     res.render('admin/adminProducts', { data: sortedProducts });
   } catch (err) {
-    // Check if the error is a Mongoose validation error
+    
     if (err.name === 'ValidationError') {
       const validationErrors = Object.values(err.errors).map((error) => error.message);
       res.status(400).json({ errors: validationErrors });
@@ -157,13 +156,12 @@ const adminEditProductPage = async (req, res) => {
     try {
         const productId = req.query._id;
 
-        // Validate if productId is a valid ObjectId
+       
         if (!mongoose.Types.ObjectId.isValid(productId)) {
           return res.status(400).json({ success: false, message: 'Invalid product ID' });
         }
     
-        // Continue with updating the product...
-        ; // Use req.query instead of req.body
+        
       console.log('product id in admineditproductpage', productId);
       const products = await productModel.findById(productId);
   console.log('hhhhhhhhhhhhhhh')
@@ -174,8 +172,7 @@ const adminEditProductPage = async (req, res) => {
       const category = await categoryModel.find();
       console.log('xxxxxxxxxx')
       
-      // Ensure 'products' is defined as an array or an empty array if there are multiple products
-    //   const productss = Array.isArray(product) ? product : [product];
+      
   console.log('pto',products)
       res.render('admin/adminEditProduct', { productId, products, category });
     } catch (err) {
@@ -300,7 +297,7 @@ const adminEditProduct = async (req, res) => {
             const images = req.files.map(file => file.filename);
             updatedProductData.image = images;
         }
-        // Find the product by ID and update the data
+        
         const updateProduct = await productModel.findByIdAndUpdate(validProductId, updatedProductData);
         console.log('validProductId',validProductId)
         
@@ -343,15 +340,15 @@ const adminEditProduct = async (req, res) => {
 const adminDeleteImage = async (req, res) => {
   const { id, file } = req.body;
   try {
-      // Construct the image file path
+      
       const path = require('path');
       const imagePath = path.join(__dirname, '..', 'public', 'uploadProductImages', file);
 
-      // Check if the file exists
+
       const fs = require('fs');
       if (fs.existsSync(imagePath)) {
           // File exists, proceed with deletion.
-          await fs.promises.unlink(imagePath); // Use async version to avoid blocking
+          await fs.promises.unlink(imagePath); 
 
           // Update the product in the database
           await productModel.findByIdAndUpdate(id, { $pull: { image: file } });
@@ -374,14 +371,14 @@ const listProduct = async (req, res) => {
   const productId = req.params.productId;
 console.log('gjos')
   try {
-    // Update the product's status to 'Listed'
+   
     await productModel.findByIdAndUpdate(productId, { status: 'Listed' });
 
-    // Redirect to a product details page, product list, or another appropriate page
+   
     res.redirect('/admin/adminproducts');
   } catch (err) {
     console.log(err.message);
-    // Handle the error
+   
   }
 };
 
@@ -390,14 +387,14 @@ const unlistProduct = async (req, res) => {
   const productId = req.params.productId;
 
   try {
-    // Update the product's status to 'Delisted'
+    
     await productModel.findByIdAndUpdate(productId, { status: 'Delisted' });
 
-    // Redirect to a product details page, product list, or another appropriate page
+    
     res.redirect('/admin/adminproducts');
   } catch (err) {
     console.log(err.message);
-    // Handle the error
+   
   }
 };
 
