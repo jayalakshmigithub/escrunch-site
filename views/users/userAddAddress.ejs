@@ -174,7 +174,7 @@
             <div class="mt-4 mb-4">
                 <h6 class="text-uppercase">Enter Your Address Here...</h6>
 
-                <form action="/addaddress" method="POST" id="addaddressform">
+                <form action="/addaddress" method="POST" id="addaddressform" onsubmit="return validateForm()">
                     <div class="form-group">
                         <label for="address">Address</label>
                         <input type="text" name="address" class="form-control" required="required" id="address" placeholder="Enter your address">
@@ -296,6 +296,91 @@
         </div>
     </div>
 </footer>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("addaddressform");
+    const addressInput = document.getElementById("address");
+    const cityInput = document.getElementById("city");
+    const stateInput = document.getElementById("state");
+    const pincodeInput = document.getElementById("pincode");
+
+    form.addEventListener("submit", function (event) {
+      if (
+        !validateAddress() ||
+        !validateCity() ||
+        !validateState() ||
+        !validatePincode()
+      ) {
+        event.preventDefault();
+      }
+    });
+
+    addressInput.addEventListener("blur", validateAddress);
+    cityInput.addEventListener("blur", validateCity);
+    stateInput.addEventListener("blur", validateState);
+    pincodeInput.addEventListener("blur", validatePincode);
+
+    function validateAddress() {
+      const addressValue = addressInput.value.trim();
+      const addressError = document.getElementById("address-error");
+
+      if (addressValue === "") {
+        addressError.textContent = "Address field can't be empty";
+        addressError.style.color = "red";
+        return false;
+      }
+
+      addressError.textContent = "";
+      return true;
+    }
+
+    function validateCity() {
+      const cityValue = cityInput.value.trim();
+      const cityError = document.getElementById("city-error");
+
+      if (cityValue === "") {
+        cityError.textContent = "City field can't be empty";
+        cityError.style.color = "red";
+        return false;
+      }
+
+      cityError.textContent = "";
+      return true;
+    }
+
+    function validateState() {
+      const stateValue = stateInput.value.trim();
+      const stateError = document.getElementById("state-error");
+
+      if (stateValue === "") {
+        stateError.textContent = "State field can't be empty";
+        stateError.style.color = "red";
+        return false;
+      }
+
+      stateError.textContent = "";
+      return true;
+    }
+
+    function validatePincode() {
+      const pincodeValue = pincodeInput.value.trim();
+      const pincodeError = document.getElementById("pincode-error");
+
+      if (pincodeValue === "" || isNaN(pincodeValue)) {
+        pincodeError.textContent = "Pincode must be a number";
+        pincodeError.style.color = "red";
+        return false;
+      }
+
+      pincodeError.textContent = "";
+      return true;
+    }
+  });
+</script>
+
+
 
 
 <script>
