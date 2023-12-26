@@ -9,6 +9,8 @@ module.exports = {
         if(req.session.admin) next()
         else res.redirect('/admin/login')
     },
+
+
 }
 //working 
 // const isLogin = (req,res,next)=>{
@@ -22,6 +24,8 @@ module.exports = {
 //     console.log(error.message);
 // }
 // }
+
+
 
 
 const isLogin = (req, res, next) => {
@@ -80,4 +84,5 @@ module.exports ={
     isAdminAuthorized,
     isLogout,
     validatePhoneNumber,
+    
 }

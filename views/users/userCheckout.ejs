@@ -38,6 +38,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
   </head>
 
   <body>
@@ -645,83 +646,73 @@
 
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <script>
-    $("#addAddressForm").submit((e) => {
-      e.preventDefault();
-      $.ajax({
-        url: "/addaddress",
-        method: "post",
-        data: $("#addAddressForm").serialize(),
-        success: (response) => {
-          if (response.status) {
-            window.location.reload();
-          } else {
-            alert("Address ~ added");
-          }
-        },
-      });
+ <!-- Include SweetAlert2 library -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+  $("#addAddressForm").submit((e) => {
+    e.preventDefault();
+    $.ajax({
+      url: "/addaddress",
+      method: "post",
+      data: $("#addAddressForm").serialize(),
+      success: (response) => {
+        if (response.status) {
+          window.location.reload();
+        } else {
+          alert("Address ~ added");
+        }
+      },
     });
+  });
 
-    function handlePlaceOrder(){
-                        let contactDetails = $('#addressForm').serialize();
-                        contactDetails = contactDetails.split("=")[1];
-                        let paymentMethod = $('#paymentOption').serialize();
-                        paymentMethod = paymentMethod.split("=")[1];
-                        var subTotalPriceElement = $('#subTotalPrice');
-                        var subTotalPrice = subTotalPriceElement.text();
-                        subTotalPrice = +subTotalPrice;
-                        const details = {
-                          address:contactDetails,
-                          paymentMethod:paymentMethod,
-                          subTotalPrice,
-                        }
-                        $.ajax({
-        url: "/checkoutpost",
-        method: "post",
-        data: details,
-        success: (response) => {
-          razorpayPayment(response)
-        console.log('response',response)
-        },
-      });
+  function handlePlaceOrder() {
+    let contactDetails = $('#addressForm').serialize();
+    contactDetails = contactDetails.split("=")[1];
+    let paymentMethod = $('#paymentOption').serialize();
+    paymentMethod = paymentMethod.split("=")[1];
+    var subTotalPriceElement = $('#subTotalPrice');
+    var subTotalPrice = subTotalPriceElement.text();
+    subTotalPrice = +subTotalPrice;
+    const details = {
+      address: contactDetails,
+      paymentMethod: paymentMethod,
+      subTotalPrice,
+    };
 
-    }
+    $.ajax({
+      url: "/checkoutpost",
+      method: "post",
+      data: details,
+      success: (response) => {
+        if (paymentMethod === 'cashondelivery') {
+          showCashOnDeliveryAlert();
+        } else {
+          razorpayPayment(response);
+        }
+        console.log('response', response);
+      },
+      error: (error) => {
+        console.error('Error placing order:', error);
+      },
+    });
+  }
 
+  function showCashOnDeliveryAlert() {
+        Swal.fire({
+      icon: 'success',
+      title: 'Order Placed Successfully!',
+      // html: '<img src="/user-assets/img/gifsuccess" alt="Success" style="width: 100px; height: 100px;">' +
+      //       '<p>Thank you for your order. Your order will be delivered soon.</p>',
+      confirmButtonText: 'OK',
+    }).then((result)=>{
+      if(result.isConfirmed){
+        window.location.href ="/myorders"
+      }
+    })
+  }
+</script>
 
-    function razorpayPayment(order) {
-    console.log('order in payment ejs',order)
-        var options = {
-          "key": order.key_id, // Use the actual key_id from the response
-        "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-            "currency": "INR",
-            "name": "E-Scrunch",
-            "description": "Test Transaction",
-            "image": "https://example.com/your_logo",
-            "order_id": order.order_id, //This is a sample Order ID. Pass the id obtained in the response of Step 1
-            "handler": function (response) {
-              alert('payment succeeded')
-              
-              console.log(response)
-            },
-            "prefill": {
-                "name": order.name,
-                "email": "gaurav.kumar@example.com",
-                "contact": "9999999999"
-            },
-            "notes": {
-                "address": "Razorpay Corporate Office"
-            },
-            "theme": {
-                "color": "#3399cc"
-            }
-        };
-        var rzp1 = new Razorpay(options);
-        rzp1.open();
-    }
-
-    
-
-  </script>
 
   
 </html>

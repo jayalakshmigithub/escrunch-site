@@ -643,7 +643,124 @@ const userCheckOut = async (req, res) => {
 //   }
 // };
 
-//checkout post with stock management ie decresing the qty when order placed 
+//checkout post with stock management ie decresing the qty when order placed OG 21/12/23
+// const userCheckoutPost = async (req, res) => {
+//   try {
+//     console.log('in checkout post')
+//     // Get the user ID from the session
+//     const userId = req.session.user_id;
+
+//     // Fetch the user from the database using the user ID
+//     const user = await userModel.findById(userId).exec();
+//     const { address, paymentMethod, couponId, subTotalPrice } = req.body;
+//     const validatedCouponId = couponId === "" ? null : couponId;
+
+//     // If the user is not found, return a 404 response
+//     if (!user) {
+//       return res.status(404).json({ success: false, message: "User not found" });
+//     }
+
+//     const user_id = user._id;
+
+//     // Retrieve the user's cart
+//     const orders = await cartModel.find({ user: user_id }).exec();
+
+//     // Handle order processing, inventory updates, etc. (add your code here)
+
+//     // Get the address for the order
+//     let addressdetail;
+//     user.address.forEach((item) => {
+//       if (item._id.toString() == address) addressdetail = item;
+//     });
+//     let discountAmount = 0;
+
+//     if (couponId) {
+//       discountAmount = await couponModel.findById(couponId);
+//       discountAmount = discountAmount ? discountAmount.discountAmount : 0;
+//     }
+
+//     const products = orders[0].products;
+
+//     let finalPrice = +subTotalPrice - discountAmount;
+
+//     // Create order details
+//     const details = {
+//       user: user_id,
+//       items: [...products],
+//       totalAmount: +subTotalPrice,
+//       coupon: validatedCouponId,
+//       discountAmount: discountAmount,
+//       paymentMode: paymentMethod,
+//       finalPrice: finalPrice,
+//       address: addressdetail,
+//     };
+
+//     // Loop through the products in the order and update their quantities
+//     for (const product of products) {
+//       const { product: productId, quantity } = product;
+//       console.log(`Product ID: ${productId}, Quantity: ${quantity}`)
+//       await  updateProductAfterOrder(productId, quantity);
+//     }
+
+//     // Create the order
+//     const response = await orderModel.create(details);
+//     console.log('Order creation response:', response);
+
+//     // Update the cart to remove items
+//     await cartModel.findOneAndUpdate({ user }, { products: [] });
+
+//     if (paymentMethod === "cashondelivery") {
+//       res.status(200).json({ success: true, message: 'order placed successfully', paymentMethod: 'cashondelivery', response });
+//     } else if (paymentMethod === 'onlinepayment') {
+//       const options = {
+//         amount: finalPrice * 100,
+//         currency: "INR",
+//         receipt: '12344'
+//       };
+
+//       console.log('payment method in checkoutpost',paymentMethod)
+
+//       // Initialize Razorpay
+//       const instance = new Razorpay({
+//         key_id: process.env.RAZORPAY_KEY_ID,
+//         key_secret: process.env.RAZORPAY_KEY_SECRET
+//       });
+
+//       // Create the Razorpay order asynchronously using a Promise
+//       const createRazorpayOrder = async (options) => {
+//         return new Promise((resolve, reject) => {
+//           instance.orders.create(options, (error, orderResponse) => {
+//             if (error) {
+//               reject(error);
+//             } else {
+//               resolve(orderResponse);
+//             }
+//           });
+//         });
+//       };
+
+//       // Create the Razorpay order
+//       const orderResponse = await createRazorpayOrder(options);
+
+//       // Handle the response
+//       res.status(200).send({
+//         success: true,
+//         order_id: orderResponse.id,
+//         amount: parseInt(+subTotalPrice * 100),
+//         key_id: process.env.RAZORPAY_KEY_ID
+//       });
+//     } else {
+//       return res.status(400).json({ success: false, message: "Invalid payment method" });
+//     }
+//   } catch (error) {
+//     console.error('Error placing order:', error);
+//     return res.status(500).json({ success: false, message: "Internal server error" });
+//   }
+// }; 
+
+
+
+
 const userCheckoutPost = async (req, res) => {
   try {
     console.log('in checkout post')
@@ -710,8 +827,10 @@ const userCheckoutPost = async (req, res) => {
     await cartModel.findOneAndUpdate({ user }, { products: [] });
 
     if (paymentMethod === "cashondelivery") {
+      console.log("payment method is cod",)
       res.status(200).json({ success: true, message: 'order placed successfully', paymentMethod: 'cashondelivery', response });
     } else if (paymentMethod === 'onlinepayment') {
+      console.log("processing online payment")
       const options = {
         amount: finalPrice * 100,
         currency: "INR",

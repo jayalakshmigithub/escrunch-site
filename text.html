@@ -1580,3 +1580,85 @@ usercheckout <tbody> IMPORTANT</tbody>------------------------------------------
 
 
 </script>
+
+
+
+//script for place order 
+
+<script>
+    $("#addAddressForm").submit((e) => {
+      e.preventDefault();
+      $.ajax({
+        url: "/addaddress",
+        method: "post",
+        data: $("#addAddressForm").serialize(),
+        success: (response) => {
+          if (response.status) {
+            window.location.reload();
+          } else {
+            alert("Address ~ added");
+          }
+        },
+      });
+    });
+
+    function handlePlaceOrder(){
+                        let contactDetails = $('#addressForm').serialize();
+                        contactDetails = contactDetails.split("=")[1];
+                        let paymentMethod = $('#paymentOption').serialize();
+                        paymentMethod = paymentMethod.split("=")[1];
+                        var subTotalPriceElement = $('#subTotalPrice');
+                        var subTotalPrice = subTotalPriceElement.text();
+                        subTotalPrice = +subTotalPrice;
+                        const details = {
+                          address:contactDetails,
+                          paymentMethod:paymentMethod,
+                          subTotalPrice,
+                        }
+                        $.ajax({
+        url: "/checkoutpost",
+        method: "post",
+        data: details,
+        success: (response) => {
+          razorpayPayment(response)
+        console.log('response',response)
+        },
+      });
+
+    }
+
+
+    function razorpayPayment(order) {
+    console.log('order in payment ejs',order)
+        var options = {
+          "key": order.key_id, //  key_id from the response
+        "amount": order.amount, //  Default currency is INR. Hence, 50000 refers to 50000 paise
+            "currency": "INR",
+            "name": "E-Scrunch",
+            "description": "Test Transaction",
+            "image": "https://example.com/your_logo",
+            "order_id": order.order_id, //This is a sample Order ID. Pass the id obtained in the response of Step 1
+            "handler": function (response) {
+              alert('payment succeeded')
+              
+              console.log(response)
+            },
+            "prefill": {
+                "name": order.name,
+                "email": "gaurav.kumar@example.com",
+                "contact": "9999999999"
+            },
+            "notes": {
+                "address": "Razorpay Corporate Office"
+            },
+            "theme": {
+                "color": "#3399cc"
+            }
+        };
+        var rzp1 = new Razorpay(options);
+        rzp1.open();
+    }
+
+    
+
+  </script>

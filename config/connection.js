@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const db = 'mongodb://127.0.0.1:27017/escrunch';
+const db = 'mongodb+srv://user123:qIPf8fkvKUOh5zWd@cluster0.e5561a5.mongodb.net/escrunch';
 
 
 const connectDB = () => {
