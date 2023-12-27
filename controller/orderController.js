@@ -298,7 +298,6 @@ const cancelOrder = async (req, res) => {
       )
     );
 
-    // Fetch the user by ID
     const userId = canceledOrder.user._id;
     const user = await userModel.findById(userId);
 
@@ -311,7 +310,7 @@ const cancelOrder = async (req, res) => {
     user.wallet.balance += canceledOrder.totalAmount;
 
     const cancelID = canceledOrder._id.toString(); // Convert ObjectId to string
-    // Push a new transaction to the wallet.transactions array
+    // Push  new transaction to the wallet.transactions arr
     user.wallet.transactions.push({
       ID: cancelID,
       type: transactionType,
@@ -333,79 +332,6 @@ const cancelOrder = async (req, res) => {
 
 
 
-//new cancel order for stock management jst above is OG
-// const updateProductAfterCancel = async (productId, quantity) => {
-//   try {
-//     const product = await productModel.findById(productId).exec();
-//     console.log(`Updating product after cancel - Product ID: ${productId}, Quantity: ${quantity}`);
-    
-//     if (!product) {
-//       console.error(`Product with ID ${productId} not found`);
-//       return;
-//     }
-
-//     // Increase product quantity and stock
-//     product.quantity += quantity;
-//     product.stock += quantity;
-
-//     await product.save();
-//     console.log(`Product stock updated successfully after cancellation. New stock: ${product.stock}`);
-//   } catch (error) {
-//     console.error(`Error updating product quantity and stock after cancellation for product ID ${productId}: ${error.message}`);
-//   }
-// };
-
-// const cancelOrder = async (req, res) => {
-//   const orderId = req.params.orderId;
-//   try {
-//     // Find the order by ID and update the orderStatus to 'cancelled'
-//     const canceledOrder = await orderModel.findByIdAndUpdate(
-//       orderId,
-//       { $set: { orderStatus: 'cancelled' } },
-//       { new: true }
-//     );
-
-//     if (!canceledOrder) {
-//       return res.status(404).send({ error: 'Order not found' });
-//     }
-
-//     // Loop through the products in the canceled order and update their quantities and stock
-//     for (const orderItem of canceledOrder.items) {
-//       const { productId, quantity } = orderItem;
-//       console.log('product id i cancel product ',productId)
-
-//       // Update product stock directly in the database
-//       await productModel.findByIdAndUpdate(productId, {
-//         $inc: { stock: quantity }
-//       });
-//     }
-//     // Fetch the user by ID
-//     const userId = canceledOrder.user._id;
-//     const user = await userModel.findById(userId);
-
-//     if (!user) {
-//       return res.status(404).send({ error: 'User not found' });
-//     }
-
-//     const transactionType = 'credit';
-
-//     user.wallet.balance += canceledOrder.totalAmount;
-
-//     const cancelID = canceledOrder._id.toString(); // Convert ObjectId to string
-//     // Push a new transaction to the wallet.transactions array
-//     user.wallet.transactions.push({
-//       ID: cancelID,
-//       type: transactionType,
-//       amount: canceledOrder.totalAmount,
-//     });
-
-//     await user.save();
-//     res.redirect('/myorders');
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send({ error: 'Internal Server Error' });
-//   }
-// };
 
 
 
@@ -565,12 +491,10 @@ const cancelOrder = async (req, res) => {
 // res.status(500).json({ success: false, message: 'Internal Server Error' });
 // }
 
-// Assuming this is a route handler or a middleware function
+
 const returnedOrder = async (req, res) => {
   try {
     const orderId = req.params.orderId
-    // ... other code ...
-
     const returnOrder = await orderModel.findByIdAndUpdate(
       orderId,
       { $set: { orderStatus: 'Returned' } },
@@ -583,9 +507,7 @@ const returnedOrder = async (req, res) => {
       return res.status(404).json({ success: false, error: 'Order not found' });
     }
 
-    // You can perform additional actions here if needed
-
-    // Return a success response
+    
     res.json({ success: true });
   } catch (error) {
     console.error('Error returning order:', error);
@@ -593,7 +515,7 @@ const returnedOrder = async (req, res) => {
   }
 };
 
-// Export the function if needed
+
 
 
 
@@ -690,7 +612,7 @@ const adminEditOrderLists = async (req, res) => {
     const orderId = req.query._id;
     const order = await orderModel.findById(orderId).populate('user items.product');
 
-    // Populate the user.address field
+    // Populate  user.address field
     await order.populate({
       path: 'user.address',
       model: 'users',

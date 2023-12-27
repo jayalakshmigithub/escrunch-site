@@ -578,32 +578,25 @@
     </footer>
   </body>
   <script>
-
     const totalpricesum = document.querySelector('.total-price-sum');
     const priceaftercoupon = document.querySelector('.price-after-coupon');
     const order = document.querySelector('.primary-btn');
 
     /////////////////////////script to fetch the order data to the checkout post//////////////////////////////
     order.addEventListener('click', function () {
-
         console.log("clicked on on 'Place Order' in checkout page")
         const address = document.querySelector('input[name="defaultaddress"]:checked').getAttribute('data-address')
         const couponId = document.querySelector('.applycoupon').getAttribute('data-coupon');
-
         console.log("coupon data in checkout page:", couponId);
         const paymentType = document.querySelector('input[name="paymentoptions"]:checked').value
         const orderData = {
             address,
             couponId,
             paymentType
-
         };
-
-
         if (couponId) {
             orderData.coupon = coupon.getAttribute('data-coupon')
         }
-
         fetch("/checkoutpost", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -628,9 +621,7 @@
             .catch(error => {
                 showToast("Something went wrong")
             })
-
     });
-
 
 
     const applycoupon = document.querySelector('.applycoupon')
@@ -639,11 +630,6 @@
         window.location.href = `/usecoupon?total=${totalpricesum.textContent}`
     })
     </script>
-
-
-
-
-
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
  <!-- Include SweetAlert2 library -->
@@ -712,7 +698,4 @@
     })
   }
 </script>
-
-
-  
 </html>

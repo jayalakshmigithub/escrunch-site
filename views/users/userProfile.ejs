@@ -30,6 +30,36 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@12"></script>
+<!-- Add this to include SweetAlert CSS and JS files -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+  $(document).ready(function () {
+      $(".remove-address-btn").on("click", function (e) {
+          e.preventDefault();
+          var addressId = $(this).data("address-id");
+          Swal.fire({
+              title: 'Are you sure?',
+              text: 'You are about to remove this address!',
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Yes, remove it!'
+          }).then((result) => {
+              if (result.isConfirmed) {
+                  // redirect to the remove address URL
+                  window.location.href = "/removeaddress?addressId=" + addressId;
+              }
+          });
+      });
+  });
+</script>
+
+
+
+
 
 
 </head>
@@ -223,9 +253,10 @@ userProfile Address content
       <p><%= item.state %></p>
       <h6 class="font-weight-bold">Pincode:</h6>
       <p><%= item.pincode %></p>
-      <a href="/removeaddress?addressId=<%= item._id %>">
+      <a href="#" class="remove-address-btn" data-address-id="<%= item._id %>">
         <button class="btn btn-primary">Remove</button>
     </a>
+    
     <a href="/editaddress/<%= item._id %>">
         <button style="height: 35px; width: 80px; background-color: #007bff; border: none; border-radius: 5px;" class="btn btn-primary">Edit</button>
     </a>

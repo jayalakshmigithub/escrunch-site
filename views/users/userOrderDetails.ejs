@@ -339,6 +339,7 @@
             <% if(order.orderStatus === 'pending'||order.orderStatus === 'ordered'){%>
                 <button class="cancel btn btn-primary" onclick="cancelOrder('<%= order._id %>')">Cancel Order</button>
                 <% console.log('order cancelling') %>
+
 <div style="margin-top: 10px;"> <% if(order.orderStatus === 'pending' || order.orderStatus === 'ordered') { %>
   <button class="cancel btn btn-primary" onclick="returnedOrder('<%= order._id %>')">Return Order</button>
 <% } %></div>
@@ -483,14 +484,14 @@
       modal.style.display = "block";
     }
   
-    // Function to close the modal
+    //  close  modal
     function closeReturnOrderModal() {
       var modal = document.getElementById("returnedOrderModal");
       modal.style.display = "none";
     }
   </script>
   <script>
-    // Function to initiate the return process
+    // Function for  return 
     function returnedOrder(orderId) {
 
       fetch(`/returnedOrder/${orderId}`, {
@@ -498,19 +499,17 @@
         headers: {
           'Content-Type': 'application/json',
         },
-        // Add any necessary payload or data
-        // body: JSON.stringify({}),
+       
       })
       .then(response => response.json())
       .then(data => {
         // If the return is successful, show the modal and update the order status
         if (data.success) {
           showReturnOrderModal();
-          // Optionally, you can update the order status in the UI without a page reload
-          // Replace 'orderStatusElement' with the actual element that displays the order status
+         
           document.getElementById('orderStatusElement').innerText = 'Returned';
         } else {
-          // Handle errors or display a message to the user
+      
           console.error('Return order failed:', data.error);
         }
       })
@@ -519,9 +518,9 @@
       });
     }
 
-    // Function to show the return order modal
+   
     function showReturnOrderModal() {
-      // Use Bootstrap modal
+      // modal
       $('#returnOrderModal').modal('show');
     }
   </script> 
