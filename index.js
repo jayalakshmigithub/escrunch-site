@@ -30,6 +30,7 @@ app.use(
     secret: process.env.SESSION_SECRET || 'fallback-secret-key',
     resave: false,
     saveUninitialized: true,
+    
   })
 );
 
@@ -42,7 +43,7 @@ app.use('/admin', adminRoute);
 
 
 
-app.listen(3007, () => {
+app.listen(3008, () => {
   console.log('server is running')
 })
 module.exports = app;

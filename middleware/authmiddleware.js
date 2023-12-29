@@ -80,6 +80,21 @@ function validatePhoneNumber(req, res, next) {
     next(); // Continue to the next middleware or route handler
   }
   
+  const isHomeAuthenticated = (req, res, next) => {
+    try {
+      if (req.session && (req.session.user_id || req.session.admin)) {
+        // Check if either user or admin is authenticated
+        next();
+      } else {
+        // If not authenticated, redirect to the login page
+        res.redirect('/login');
+      }
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).send('Internal Server Error');
+    }
+  };
+  
 
 
 module.exports ={
@@ -87,5 +102,6 @@ module.exports ={
     isAdminAuthorized,
     isLogout,
     validatePhoneNumber,
+    isHomeAuthenticated,
     
 }

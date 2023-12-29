@@ -7,7 +7,7 @@ const orderController = require('../controller/orderController');
 const auth = require('../middleware/authmiddleware');
 const cropImage = require('../multer/productImageCrop');
 
-const { userLandingPage, userLogin, userSignup, otpVerificaton, viewOtpPage } = userController;
+const { userLandingPage, userLogin, userSignup, viewOtpPage } = userController;
 
 router.get('/', userLandingPage);//Render the landing page
 router.get('/login', userLogin);//Render the login page
@@ -22,7 +22,7 @@ router.post('/otpVerification', userController.otpVerificaton);//Verify Otp
 router.get('/login',userController.loginLoad);
 router.post('/login', userController.verifyLogin);
 router.get('/logout',auth.isLogin,userController.userLogout);
-router.get('/home',auth.isLogin,userController.userHome)//Render home page 
+router.get('/home',auth.isHomeAuthenticated,auth.isLogin,userController.userHome)//Render home page 
 router.get('/productdetails/:id',  userController.userProductDetails);//show single product details
 router.get('/products',auth.isLogin,userController.userProductLists);//show products list for filter
 router.get('/categoryproducts/:id',auth.isLogin,userController.userCategory);//show product based on category

@@ -60,6 +60,32 @@ const userSignup = async (req, res) => {
 };
 
 
+// const insertUser = async (req, res) => {
+//   try {
+//     const hashedPassword = await hashPassword(req.body.password);
+//     const usermodel = new userModel({
+//       name: req.body.name,
+//       email: req.body.email,
+//       mobile: req.body.mobile,
+//       password: hashedPassword,
+//       isVerified: true,
+//     });
+
+//     const count = await userModel.find({ mobile: req.body.mobile });
+
+//     const result = await usermodel.save();
+//     if (result) {
+//       await sendOTP(req.body.mobile);
+//       res.render("users/otpValidation", { mobile: req.body.mobile });
+//     } else {
+//       res.render("users/userSignup");
+//     }
+//   } catch (err) {
+//     console.log(err.message);
+//   }
+// };
+
+
 const insertUser = async (req, res) => {
   try {
     const hashedPassword = await hashPassword(req.body.password);
@@ -71,17 +97,22 @@ const insertUser = async (req, res) => {
       isVerified: true,
     });
 
-    const count = await userModel.find({ mobile: req.body.mobile });
-
     const result = await usermodel.save();
+
     if (result) {
       await sendOTP(req.body.mobile);
       res.render("users/otpValidation", { mobile: req.body.mobile });
     } else {
-      res.render("users/userSignup");
+      res.render("users/userSignup", { error: "Error creating user." });
     }
   } catch (err) {
-    console.log(err.message);
+    if (err.code === 11000) {
+      // Duplicate key error (mobile number already exists)
+      res.render("users/userSignup", { error: "User with this mobile number already exists." });
+    } else {
+      console.log(err.message);
+      res.render("users/userSignup", { error: "An error occurred." });
+    }
   }
 };
 
@@ -101,15 +132,38 @@ const userLandingPage = async (req, res) => {
     console.log(err.message);
   }
 };
+// const userLogin = async (req, res) => {
+//   try {
+//     if (req.session.user_id) res.redirect("/home");
+//     //if(req.session.user) res.redirect('/userLandingPage')
+//     else res.render("users/userLogin", { err: "user not found" });
+//   } catch (err) {
+//     console.log(err.message);
+//   }
+// };
+
 const userLogin = async (req, res) => {
   try {
-    if (req.session.user_id) res.redirect("/home");
-    //if(req.session.user) res.redirect('/userLandingPage')
-    else res.render("users/userLogin", { err: "user not found" });
+    console.log("in loginn")
+    if (req.session.user_id) {
+      res.redirect("/home");
+    } else {
+      res.render("users/userLogin", { err: "user not found" });
+    }
   } catch (err) {
     console.log(err.message);
   }
 };
+
+// const userLogout = async (req, res) => {
+//   try {
+//     // Destroy the session to log the user out
+//     req.session.destroy();
+//     res.redirect("/login");
+//   } catch (error) {
+//     console.log(error.message);
+//   }
+// };
 const userLogout = async (req, res) => {
   try {
     // Destroy the session to log the user out
@@ -120,10 +174,26 @@ const userLogout = async (req, res) => {
   }
 };
 
+
+const loginLoad = async (req, res) => {
+  try {
+    if (req.session.user_id) {
+      console.log("hah", req.session.user_id);
+      console.log("in login loaadddd")
+      res.redirect("/home");
+    } else {
+      res.render("users/userLogin");
+    }
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+
 //verify to login to the page
 
 const verifyLogin = async (req, res) => {
   try {
+    console.log("in verify login")
     const email = req.body.email;
     const password = req.body.password;
     console.log("Email:", email);
@@ -163,18 +233,7 @@ const verifyLogin = async (req, res) => {
 };
 //login user methods started
 
-const loginLoad = async (req, res) => {
-  try {
-    if (req.session.user_id) {
-      console.log("hah", req.session.user_id);
-      res.redirect("/home");
-    } else {
-      res.render("users/userLogin");
-    }
-  } catch (err) {
-    console.log(err.message);
-  }
-};
+
 
 const otpVerificaton = async (req, res) => {
   try {

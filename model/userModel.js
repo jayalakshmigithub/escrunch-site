@@ -11,7 +11,8 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
   mobile: {
-    type: Number,
+    type: String, // Change the type to String
+    unique: true, // Add unique option
     required: true,
   },
   password: {
