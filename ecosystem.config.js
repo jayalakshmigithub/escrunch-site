@@ -3,7 +3,7 @@ module.exports = {
     apps: [
       {
         name: 'ecosystem',
-        script: 'ecosystem.config.js', // Path to your main application file
+        script: 'index.js', // Path to your main application file
         instances: 'max', // Set to 'max' to use all available CPU cores
         autorestart: true,
         watch: false,
@@ -19,5 +19,5 @@ module.exports = {
       },
     ],
   };
-  
+
   
