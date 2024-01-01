@@ -132,29 +132,11 @@
 
     <div class="container">
         <div class="row">
-          <div class="sidebar-categories">
-            <div class="head"
-                style="font-size: 18px; color: #333; margin-bottom: 10px; background-color: #ff1493; border-radius: 7px; color: white;">
-                Browse Categories
-            </div>
-            
-            <ul class="main-categories" style="list-style: none; padding: 0;">
-                <% category.forEach(function(item) { %>
-                    <li class="main-nav-list"
-                        style="margin-bottom: 10px; border: 1px solid #ff1493; border-radius: 7px; box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1);">
-                        <a href="/categoryproducts/<%= item.categoryid %>"
-                            style="text-decoration: none; color: #333; font-size: 16px;">
-                            <%= item.catname %>
-                        </a>
-                    </li>
-                <% }) %>
-            </ul>
-        
-        </div>
 
 
 
 
+          
             <div class="col-xl-9 col-lg-8 col-md-7">
                 <!-- Start Filter Bar -->
                 <div class="filter-bar d-flex flex-wrap align-items-center"
