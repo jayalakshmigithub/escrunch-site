@@ -582,7 +582,7 @@ const checkPayment = async(req,res)=>{
 
 const adminOrderLists = async (req, res) => {
   try {
-    const ITEMS_PER_PAGE = 10;
+    const ITEMS_PER_PAGE = 6;
     const page = parseInt(req.query.page) || 1;
     const skipItems = (page - 1) * ITEMS_PER_PAGE;
     const totalCount = await orderModel.countDocuments();
