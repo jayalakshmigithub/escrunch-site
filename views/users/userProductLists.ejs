@@ -264,24 +264,22 @@
                 <!-- Start Pagination -->
                 <div class="pagination-area mt-30 mb-50" style="display: flex; justify-content: center; align-items: center;">
                   <nav aria-label="Page navigation example">
-                      <ul class="pagination" style="list-style: none; display: flex; align-items: center;">
-                          <% for (let i = 1; i <= totalPages; i++) { %>
-                              <% if (i === currentPage) { %>
-                                  <li class="page-item active" style="background: #007bff; color: #fff; padding: 5px 10px; margin: 0 5px; border-radius: 5px;">
-                                      <a class="page-link" href="#" style="text-decoration: none;">
-                                          <%= i %>
-                                      </a>
-                                  </li>
-                              <% } else { %>
-                                
-                                  <li class="page-item" style="background: #f0f0f0; color: #333; padding: 5px 10px; margin: 0 5px; border-radius: 5px;">
-                                      <a class="page-link" href="/sortedproducts?sortOption=<%= sortOption %>&page=<%= i %>" style="text-decoration: none;"><%= i %></a>
-                                  </li>
-                              <% } %>
-                          <% } %>
-                      </ul>
+                    <ul class="pagination" style="list-style: none; display: flex; align-items: center;">
+                      <% for (let i of displayedPages) { %>
+                        <% if (i === currentPage) { %>
+                          <li class="page-item active" style="background: #007bff; color: #fff; padding: 5px 10px; margin: 0 5px; border-radius: 5px;">
+                            <a class="page-link" href="#" style="text-decoration: none;"><%= i %></a>
+                          </li>
+                        <% } else { %>
+                          <li class="page-item" style="background: #f0f0f0; color: #333; padding: 5px 10px; margin: 0 5px; border-radius: 5px;">
+                            <a class="page-link" href="/sortedproducts?sortOption=<%= sortOption %>&page=<%= i %>" style="text-decoration: none;"><%= i %></a>
+                          </li>
+                        <% } %>
+                      <% } %>
+                    </ul>
                   </nav>
-              </div>
+                </div>
+                
                 <!-- End Pagination -->
             </div>
     
