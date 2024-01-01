@@ -697,5 +697,50 @@
       }
     })
   }
+
+  function razorpayPayment(order) {
+    console.log('order in payment ejs', order);
+
+    var options = {
+        "key": order.key_id,
+        "amount": order.amount,
+        "currency": "INR",
+        "name": "E-Scrunch",
+        "description": "Test Transaction",
+        "image": "https://example.com/your_logo",
+        "order_id": order.order_id,
+        "handler": function (response) {
+           
+            Swal.fire({
+                icon: 'success',
+                title: 'Payment succeeded',
+                showCancelButton: false,
+                confirmButtonText: 'OK'
+            }).then((result) => {
+               
+                if (result.isConfirmed) {
+                    window.location.href = '/myorders';
+                }
+            });
+
+            console.log(response);
+        },
+        "prefill": {
+            "name": order.name,
+            "email": "gaurav.kumar@example.com",
+            "contact": "9999999999"
+        },
+        "notes": {
+            "address": "Razorpay Corporate Office"
+        },
+        "theme": {
+            "color": "#3399cc"
+        }
+    };
+
+    var rzp1 = new Razorpay(options);
+    rzp1.open();
+}
+
 </script>
 </html>

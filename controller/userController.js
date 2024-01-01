@@ -280,7 +280,7 @@ const viewOtpPage = async (req, res) => {
 const userHome = async (req, res) => {
   try {
     let products = await productModel.find({status:'Listed'});
-    res.render("users/userHome", { products });
+    // res.render("users/userHome", { products });
     // res.setHeader('Cache-Control','no-cache, no-store, must-revalidate')
     // res.setHeader('Pragma','no-cache')
     // res.setHeader('Expires','0')
