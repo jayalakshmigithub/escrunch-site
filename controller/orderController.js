@@ -580,56 +580,28 @@ const checkPayment = async(req,res)=>{
 
 
 
-// const adminOrderLists = async (req, res) => {
-//   try {
-//     const ITEMS_PER_PAGE = 4;
-//     const page = parseInt(req.query.page) || 1;
-//     const skipItems = (page - 1) * ITEMS_PER_PAGE;
-//     const totalCount = await orderModel.countDocuments();
-//         const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
-        
-//     const orders = await orderModel
-//       .find({})
-//       .populate('user', 'name email') 
-//       .populate({ path: 'items.product', select: 'name price' })
-//       .sort({createdAt:-1})  
-//       .skip(skipItems)
-//       .limit(ITEMS_PER_PAGE);
-
-
-//     res.render("admin/adminOrderLists", { orders, currentPage: page, totalPages: totalPages });
-//   } catch (error) {
-//     console.log(error.message);
-//   }
-// };
-
 const adminOrderLists = async (req, res) => {
   try {
-    const ITEMS_PER_PAGE = 4;
+    const ITEMS_PER_PAGE = 10;
     const page = parseInt(req.query.page) || 1;
     const skipItems = (page - 1) * ITEMS_PER_PAGE;
-
     const totalCount = await orderModel.countDocuments();
-    const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
-
+        const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
+        
     const orders = await orderModel
       .find({})
       .populate('user', 'name email') 
-      .populate({
-        path: 'items.product',
-        model: 'products', // Assuming your product model is named 'products'
-        select: 'name price',
-      })
-      .sort({ createdAt: -1 })
+      .populate({ path: 'items.product', select: 'name price' })
+      .sort({createdAt:-1})  
       .skip(skipItems)
       .limit(ITEMS_PER_PAGE);
+
 
     res.render("admin/adminOrderLists", { orders, currentPage: page, totalPages: totalPages });
   } catch (error) {
     console.log(error.message);
   }
 };
-
 
 
 

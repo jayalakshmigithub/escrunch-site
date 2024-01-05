@@ -290,61 +290,61 @@ const userHome = async (req, res) => {
   }
 };
 
-const userProductLists = async (req, res) => {
-  try {
-    console.log('enterd in this productlist')
-    const results = await productModel.aggregate([
-      {
-        $group: {
-          _id: "$categoryname",
-          count: { $sum: 1 },
-        },
-      },
-    ]);
-    console.log('results in product list',results)
-    const categoriesWithCounts = await Promise.all(
-      results.map(async (result) => {
-        const category = await categoryModel.findOne({
-          categoryname: result._id,
-        });
+// const userProductLists = async (req, res) => {
+//   try {
+//     console.log('enterd in this productlist')
+//     const results = await productModel.aggregate([
+//       {
+//         $group: {
+//           _id: "$categoryname",
+//           count: { $sum: 1 },
+//         },
+//       },
+//     ]);
+//     console.log('results in product list',results)
+//     const categoriesWithCounts = await Promise.all(
+//       results.map(async (result) => {
+//         const category = await categoryModel.findOne({
+//           categoryname: result._id,
+//         });
 
-        return {
-          categoryid: result._id,
-          count: result.count,
-        };
-      })
-    );
+//         return {
+//           categoryid: result._id,
+//           count: result.count,
+//         };
+//       })
+//     );
 
-    for (const categoryinfo of categoriesWithCounts) {
-      // Find the product with the given ObjectId
-      const product = await productModel
-        .findOne({ categoryname: categoryinfo.categoryid })
-        .populate("categoryname")
-        .exec();
+//     for (const categoryinfo of categoriesWithCounts) {
+//       // Find the product with the given ObjectId
+//       const product = await productModel
+//         .findOne({ categoryname: categoryinfo.categoryid })
+//         .populate("categoryname")
+//         .exec();
 
-      if (product && product.categoryname) {
-        const categoryName = product.categoryname.categoryname;
-        categoryinfo.catname = categoryName;
-      }
-    }
+//       if (product && product.categoryname) {
+//         const categoryName = product.categoryname.categoryname;
+//         categoryinfo.catname = categoryName;
+//       }
+//     }
 
-    const ITEMS_PER_PAGE = 3;
-    const page = parseInt(req.query.page) || 1;
-    const skipItems = (page - 1) * ITEMS_PER_PAGE;
-    const totalCount = await productModel.countDocuments();
-    const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
-    const products = await productModel
-      .find()
-      .populate("categoryname")
-      .skip(skipItems)
-      .limit(ITEMS_PER_PAGE);
+//     const ITEMS_PER_PAGE = 3;
+//     const page = parseInt(req.query.page) || 1;
+//     const skipItems = (page - 1) * ITEMS_PER_PAGE;
+//     const totalCount = await productModel.countDocuments();
+//     const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
+//     const products = await productModel
+//       .find()
+//       .populate("categoryname")
+//       .skip(skipItems)
+//       .limit(ITEMS_PER_PAGE);
 
-    if (products)
-      res.render("users/userProductLists", { products,currentPage: page,totalPages: totalPages,category: categoriesWithCounts,  sortOption: req.query.sortOption || '1'});
-  } catch (error) {
-    console.log(error.message);
-  }
-};
+//     if (products)
+//       res.render("users/userProductLists", { products,currentPage: page,totalPages: totalPages,category: categoriesWithCounts,  sortOption: req.query.sortOption || '1'});
+//   } catch (error) {
+//     console.log(error.message);
+//   }
+// };
 
 // const ITEMS_PER_PAGE = 3;
 
@@ -415,6 +415,70 @@ const userProductLists = async (req, res) => {
 //     console.log(error.message);
 //   }
 // };
+
+
+
+
+const userProductLists = async (req, res) => {
+  try {
+    const ITEMS_PER_PAGE = 3;
+    const page = parseInt(req.query.page) || 1;
+    const skipItems = (page - 1) * ITEMS_PER_PAGE;
+    
+    const totalCount = await productModel.countDocuments();
+    const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
+
+    const products = await productModel
+      .find()
+      .populate("categoryname")
+      .skip(skipItems)
+      .limit(ITEMS_PER_PAGE);
+
+    const results = await productModel.aggregate([
+      {
+        $group: {
+          _id: "$categoryname",
+          count: { $sum: 1 },
+        },
+      },
+    ]);
+
+    const categoriesWithCounts = await Promise.all(
+      results.map(async (result) => {
+        const category = await categoryModel.findOne({
+          categoryname: result._id,
+        });
+
+        return {
+          categoryid: result._id,
+          count: result.count,
+        };
+      })
+    );
+
+    for (const categoryinfo of categoriesWithCounts) {
+      const product = await productModel
+        .findOne({ categoryname: categoryinfo.categoryid })
+        .populate("categoryname")
+        .exec();
+
+      if (product && product.categoryname) {
+        const categoryName = product.categoryname.categoryname;
+        categoryinfo.catname = categoryName;
+      }
+    }
+
+    res.render("users/userProductLists", {
+      products,
+      currentPage: page,
+      totalPages: totalPages,
+      category: categoriesWithCounts,
+      sortOption: req.query.sortOption || '1'
+    });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
 
 
 const userCategory = async (req, res) => {
