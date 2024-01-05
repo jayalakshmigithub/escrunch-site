@@ -330,9 +330,7 @@ const userProductLists = async (req, res) => {
 
     const ITEMS_PER_PAGE = 3;
     const page = parseInt(req.query.page) || 1;
-    // const skipItems = (page - 1) * ITEMS_PER_PAGE;
-    const skipItems = page * ITEMS_PER_PAGE;
-
+    const skipItems = (page - 1) * ITEMS_PER_PAGE;
     const totalCount = await productModel.countDocuments();
     const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
     const products = await productModel
