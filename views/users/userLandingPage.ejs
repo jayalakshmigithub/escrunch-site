@@ -223,58 +223,70 @@
 	</section>
 
 
-	<div class="container">
-		<div class="row justify-content-center">
-		  <div class="col-lg-6 text-center">
-			  <div class="section-title">
-				  <!-- Apply inline style to change the font and make it italic -->
-				  <h1 style="font-family: sans-serif; font-style: italic;">Latest Products</h1>
-				  <p style="font-family: sans-serif; font-style: italic;">
-					  Elevate your style with our trendy scrunchies. Discover the perfect accessory for effortless charm!
-				  </p>
-			  </div>
-		  </div>
-	  </div>
-	  
-		<div class="row">
-		  <% products.forEach(function(product) { %>
-		  <!-- single product -->
-		  <div class="col-lg-3 col-md-6">
-			<div class="single-product"
-			style="background: #fff;  border: 1px solid #e0e0e0; border: 1px solid #e0e0e0; border-radius: 7px; box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1);">
-			<img class="img-fluid" src="/uploadProductImages/<%= product.image[1] %>" alt="" />
-			<div class="product-details">
-				<h6 style="font-size: 16px; color: #333; margin: 10px 0;"><%= product.productname %></h6>
-				<div class="price" style="font-size: 16px; color: #333; margin: 10px 0;">
-					<h6>MRP ₹<%= product.price.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %></h6>
-					<h6 class="l-through">MRP ₹<%= product.mrp.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %></h6>
+	<section class="features-area section_gap">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-lg-6 text-center">
+					<div class="section-title">
+						<h1>Latest Products</h1>
+						<p>Latest collections of Watches are available here!!!.</p>
+					</div>
 				</div>
-				<div class="prd-bottom">
-				  <!-- Add your product actions here -->
-				  <!-- <a href="" class="social-info">
-					  <span class="lnr lnr-heart"></span>
-					  <p class="hover-text">Wishlist</p>
-				  </a> -->
-				  <a href="/productdetails/<%= product._id %>" class="social-info">
-					  <span class="ti-layers"></span>
-					  <p class="hover-text">compare</p>
-				  </a>
-				  <a href="/productdetails/<%= product._id %>?timestamp=<%= Date.now() %>"
-					  class="social-info">
-					  <span class="ti-more-alt"></span>
-					  <p class="hover-text">view more</p>
-				  </a>
-			  </div>
-			  
+			</div>
+			<div class="row">
+				<% products.forEach(function(product) { %>
+	
+	
+					<% if (product.status==='Listed' ) { %>
+	
+	
+	
+						<!-- single product -->
+						<div class="col-lg-3 col-md-6">
+							<a href="/login">
+	
+								<div class="single-product">
+									<% if (product.image && product.image.length> 0) { %>
+										<img class="img-fluid" src="/uploadProductImages/<%= product.image[0] %>" alt="">
+										<% } else { %>
+											<!-- Handle the case where product.image is undefined or empty -->
+											<img class="img-fluid" src="/default-placeholder-image.jpg" alt="Placeholder">
+											<% } %>
+	
+												<div class="product-details">
+													<h6>
+														<%= product.productname %>
+													</h6>
+													<h7>
+														<%= product.description %>
+													</h7>
+													<h7>(Inclusive of all taxes)</h7>
+	
+													<div class="price">
+														<h6>
+															MRP ₹ <%= product.price.toLocaleString('en-IN', {
+																minimumFractionDigits: 2, maximumFractionDigits: 2 }) %>
+	
+														</h6>
+	
+														<h6 class="l-through">MRP ₹ <%= product.mrp.toLocaleString('en-IN',
+																{ minimumFractionDigits: 2, maximumFractionDigits: 2 }) %>
+														</h6>
+													</div>
+	
+	
+												</div>
+								</div>
+								</a>
+						</div>
+						<% } %>
+							<% }); %>
+								<!-- single product -->
+	
+	
 			</div>
 		</div>
-		
-		  </div>
-		  <!-- single product -->
-  
-		  <% }); %>
-		</div>
-	  </div>
+		</section>
 
 
 	
