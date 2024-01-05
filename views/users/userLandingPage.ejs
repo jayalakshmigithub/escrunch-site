@@ -292,8 +292,8 @@
 	<!-- End category Area -->
 
 	<!-- start product Area -->
-	<section class="owl-carousel active-product-area section_gap">
-		<!-- single product slide -->
+	<!-- <section class="owl-carousel active-product-area section_gap">
+		< single product slide 
 		<div class="single-product-slider">
 			<div class="container">
 				<div class="row justify-content-center">
@@ -307,7 +307,7 @@
 					</div>
 				</div>
 				<div class="row">
-					<!-- single product -->
+					< single product -
 					<div class="col-lg-3 col-md-6">
 						<div class="single-product">
 							<img class="img-fluid" src="/uploadProductImages/1697475665437.jpg" alt="">
@@ -340,7 +340,7 @@
 							</div>
 						</div>
 					</div>
-					<!-- single product -->
+					<!-- single product -
 					<div class="col-lg-3 col-md-6">
 						<div class="single-product">
 							<img class="img-fluid" src="/uploadProductImages/1700394053259.jpg" alt="">
@@ -373,7 +373,7 @@
 							</div>
 						</div>
 					</div>
-					<!-- single product -->
+					<!-- single product -
 					<div class="col-lg-3 col-md-6">
 						<div class="single-product">
 							<img class="img-fluid" src="/uploadProductImages/1700684811095.jpg" alt="">
@@ -405,7 +405,7 @@
 							</div>
 						</div>
 					</div>
-					<!-- single product -->
+					<!-- single product -
 					<div class="col-lg-3 col-md-6">
 						<div class="single-product">
 							<img class="img-fluid" src="/uploadProductImages/1700754088775.jpg" alt="">
@@ -506,7 +506,7 @@
 							</div>
 						</div>
 					</div> -->
-					<!-- single product -->
+					<!-- single product -
 					<div class="col-lg-3 col-md-6">
 						<div class="single-product">
 							<img class="img-fluid" src="/uploadProductImages/1700753805573.jpg" alt="">
@@ -542,7 +542,7 @@
 				</div>
 			</div>
 		</div>
-		<!-- single product slide -->
+		<!-- single product slide -
 		<div class="single-product-slider">
 			<div class="container">
 				<div class="row justify-content-center">
@@ -556,7 +556,7 @@
 					</div>
 				</div>
 				<div class="row">
-					<!-- single product -->
+					<!-- single product -
 					<div class="col-lg-3 col-md-6">
 						<div class="single-product">
 							<img class="img-fluid" src="/uploadProductImages/1700754051154.jpg" alt="">
@@ -589,7 +589,7 @@
 							</div>
 						</div>
 					</div>
-					<!-- single product 248-->
+					<!-- single product 248-
 					<div class="col-lg-3 col-md-6">
 						<div class="single-product">
 							<img class="img-fluid" src="/uploadProductImages/1702569865248.jpg" alt="">
@@ -622,7 +622,7 @@
 							</div>
 						</div>
 					</div>
-					<!-- single product -->
+					<!-- single product -
 					<div class="col-lg-3 col-md-6">
 						<div class="single-product">
 							<img class="img-fluid" src="/uploadProductImages/1702613490357.jpg" alt="">
@@ -655,7 +655,7 @@
 							</div>
 						</div>
 					</div>
-					<!-- single product -->
+					<!-- single product --
 					<div class="col-lg-3 col-md-6">
 						<div class="single-product">
 							<img class="img-fluid" src="/uploadProductImages/1700755597691.jpg" alt="">
@@ -688,7 +688,7 @@
 							</div>
 						</div>
 					</div>
-					<!-- single product -->
+					<!-- single product --
 					<div class="col-lg-3 col-md-6">
 						<div class="single-product">
 							<img class="img-fluid" src="/uploadProductImages/1702378083476.jpg" alt="">
@@ -721,7 +721,7 @@
 							</div>
 						</div>
 					</div>
-					<!-- single product -->
+					<!-- single product --
 					<div class="col-lg-3 col-md-6">
 						<div class="single-product">
 							<img class="img-fluid" src="/uploadProductImages/1702382739466.jpg" alt="">
@@ -754,7 +754,7 @@
 							</div>
 						</div>
 					</div>
-					<!-- single product -->
+					<!-- single product --
 					<div class="col-lg-3 col-md-6">
 						<div class="single-product">
 							<img class="img-fluid" src="/uploadProductImages/1701010509854.jpg" alt="">
@@ -787,7 +787,7 @@
 							</div>
 						</div>
 					</div>
-					<!-- single product -->
+					<!-- single product --
 					<div class="col-lg-3 col-md-6">
 						<div class="single-product">
 							<img class="img-fluid" src="/uploadProductImages/1700761379281.jpg" alt="">
@@ -825,6 +825,44 @@
 		</div>
 	</section>
 	<!-- end product Area -->
+	<div class="row">
+        <% products.forEach(function(product) { %>
+        <!-- single product -->
+        <div class="col-lg-3 col-md-6">
+          <div class="single-product"
+          style="background: #fff;  border: 1px solid #e0e0e0; border: 1px solid #e0e0e0; border-radius: 7px; box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1);">
+          <img class="img-fluid" src="/uploadProductImages/<%= product.image[0] %>" alt="" />
+          <div class="product-details">
+              <h6 style="font-size: 16px; color: #333; margin: 10px 0;"><%= product.productname %></h6>
+              <div class="price" style="font-size: 16px; color: #333; margin: 10px 0;">
+                  <h6>MRP ₹<%= product.price.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %></h6>
+                  <h6 class="l-through">MRP ₹<%= product.mrp.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %></h6>
+              </div>
+              <div class="prd-bottom">
+                <!-- Add your product actions here -->
+                <!-- <a href="" class="social-info">
+                    <span class="lnr lnr-heart"></span>
+                    <p class="hover-text">Wishlist</p>
+                </a> -->
+                <a href="/productdetails/<%= product._id %>" class="social-info">
+                    <span class="ti-layers"></span>
+                    <p class="hover-text">compare</p>
+                </a>
+                <a href="/productdetails/<%= product._id %>?timestamp=<%= Date.now() %>"
+                    class="social-info">
+                    <span class="ti-more-alt"></span>
+                    <p class="hover-text">view more</p>
+                </a>
+            </div>
+            
+          </div>
+      </div>
+      
+        </div>
+        <!-- single product -->
+
+        <% }); %>
+      </div>
 
 	<!-- Start exclusive deal Area -->
 	<section class="exclusive-deal-area">
@@ -897,7 +935,7 @@
 				</div>
 			</div>
 		</div>
-	</section>
+	</section> -->
 	<!-- End exclusive deal Area -->
 
 	<!-- Start brand Area -->
