@@ -31,6 +31,19 @@
 	<link rel="stylesheet" href="/user-assets/css/magnific-popup.css">
 	<link rel="stylesheet" href="/user-assets/css/main.css">
 	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
+
+	<style>
+		.custom-col-style {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 7px;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  margin: 10px 0;
+}
+
+	</style>
 </head>
 
 <body>
@@ -257,11 +270,10 @@
 
 
 						<!-- single product -->
-						<div class="col-lg-3 col-md-6">
+						<div class="col-lg-3 col-md-6 custom-col-style">
 							<a href="/login">
 
-								<div class="single-product"
-								style="background: #fff;  border: 1px solid #e0e0e0; border: 1px solid #e0e0e0; border-radius: 7px; box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1);"></div>>
+								<div class="single-product">
 									<% if (product.image && product.image.length> 0) { %>
 										<img class="img-fluid" src="/uploadProductImages/<%= product.image[0] %>"
 											alt="">
