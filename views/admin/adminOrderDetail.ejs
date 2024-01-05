@@ -244,45 +244,90 @@
                                 </tr>
                             </thead>
                             <% order.items.forEach(function(items) { %>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <a class="itemside" href="#">
-                                            <div class="left">
-                                                <img src="/uploadProductImages/<%= items.product.image[0]%>" width="40" height="40" class="img-xs" alt="Item">
-                                            </div>
-                                            <div class="info"> <%= items.product.productname %> </div>
-                                        </a>
-                                    </td>
-                                    <td> <%= items.price %> </td>
-                                    <td> <%= items.quantity %> </td>
-                                    <td class="text-end"> <%= items.price %> </td>
-                                </tr>
-                                <% }) %>  
-                                
-                                
-                                <tr>
-                                    <td colspan="4">
-                                        <article class="float-end">
-                                            <dl class="dlist">
-                                                <dt>Subtotal:</dt>
-                                                <dd>₹<%= order.totalAmount %></dd>
-                                            </dl>
-                                           <!-- discount area -->
-                                            <dl class="dlist">
-                                                <dt>Grand total:</dt>
-                                                <dd> <b class="h5">₹<%= order.finalPrice %></b> </dd>
-                                            </dl>
-                                            <dl class="dlist">
-                                                <dt class="text-muted">Status:</dt>
-                                                <dd>
-                                                    <span class="badge rounded-pill alert-success text-success text-capitalize"><%= order.orderStatus %></span>
-                                                </dd>
-                                            </dl>
-                                        </article>
-                                    </td>
-                                </tr>
-                            </tbody>
+                                <tbody>
+                                    <% order.items.forEach(function(item) { %>
+                                      <tr>
+                                        <td class="product-info" style="display: flex; align-items: center;">
+                                          <img src="/uploadProductImage/<%= item.productId.image[0] %>" width="40" height="40"
+                                            class="product-image" style="width: 40px; height: 40px; margin-right: 10px;">
+                                          <p class="product-name" style="margin: 0;">
+                                            <%= item.productId.productname %>
+                                          </p>
+                                        </td>
+                                        <td class="unit-price" style="font-size: 16px;">
+                                          <%= item.price %>
+                                        </td>
+                                        <td class="quantity" style="font-size: 16px;">
+                                          <%= item.quantity %>
+                                        </td>
+                                        <td class="total text-end" style="font-size: 16px;">
+                                          <%= item.price %>
+                                        </td>
+                                        <td class="total text-end"
+                                          style="font-size: 16px; color: <%= item.productOrderStatus === 'Cancelled' ? 'red' : 'inherit' %>;">
+                                          <%= item.productOrderStatus %>
+                                        </td>
+                                      </tr>
+                                      <% }) %>
+                                        <tr>
+                                          <td colspan="4" style="padding-top: 10px; border-top: 2px solid #ccc;">
+                                            <article class="float-end">
+                                              <% if (order.coupon && order.totalAmount>=
+                                                order.coupon.minimumAmount) { %>
+                                                <dl class="dlist">
+                                                  <dt>Subtotal:</dt>
+                                                  <dd>₹<%= order.totalAmount.toLocaleString('en-US', { minimumFractionDigits: 2,
+                                                      maximumFractionDigits: 2 }) %>
+                                                  </dd>
+                                                </dl>
+                                                <dl class="dlist">
+                                                  <dt>Discount:</dt>
+                                                  <dd>₹<%= order.coupon.discountAmount.toLocaleString('en-US', { minimumFractionDigits: 2,
+                                                      maximumFractionDigits: 2 }) %>
+                                                  </dd>
+                                                </dl>
+                                                <dl class="dlist">
+                                                  <dt>Grand total:</dt>
+                                                  <dd><b class="h5">₹<%= order.finalPrice.toLocaleString('en-US', { minimumFractionDigits: 2,
+                                                        maximumFractionDigits: 2 }) %></b></dd>
+                                                </dl>
+                                                <% } else { %>
+                                                  <dl class="dlist">
+                                                    <dt>Subtotal:</dt>
+                                                    <dd>₹<%= order.totalAmount.toLocaleString('en-US', { minimumFractionDigits: 2,
+                                                        maximumFractionDigits: 2 }) %>
+                                                    </dd>
+                                                  </dl>
+                      
+                                                  <dl class="dlist">
+                                                    <dt>Grand total:</dt>
+                                                    <dd><b class="h5">₹<%= order.totalAmount.toLocaleString('en-US', { minimumFractionDigits:
+                                                          2, maximumFractionDigits: 2 }) %></b></dd>
+                                                  </dl>
+                      
+                                                  <% } %>
+                                                    <% if (order.orderStatus==='Cancelled' ) {%>
+                                                      <dl class="dlist">
+                                                        <dt>Cancelled Order Total:</dt>
+                                                        <dd><b class="h5">₹<%= order.cancelledPrice.toLocaleString('en-US', {
+                                                              minimumFractionDigits: 2, maximumFractionDigits: 2 }) %></b></dd>
+                                                      </dl>
+                                                      <%}%>
+                      
+                                                        <dl class="dlist">
+                                                          <dt class="text-muted">Status:</dt>
+                                                          <dd>
+                                                            <span class="badge rounded-pill text-capitalize"
+                                                              style="padding: 5px 10px; border-radius: 5px; font-weight: bold; text-transform: uppercase; display: inline-block; text-align: center; width: 100px; background-color: <%= order.orderStatus === 'pending' ? '#ffc107' : (order.orderStatus === 'Cancelled' ? '#dc3545' : (order.orderStatus === 'placed' ? '#007bff' : (order.orderStatus === 'Delivered' ? '#28a745' : '#17a2b8'))) %>; color: <%= order.orderStatus === 'Cancelled' ? 'white' : 'black' %>;">
+                                                              <%= order.orderStatus %>
+                                                            </span>
+                                                          </dd>
+                                                        </dl>
+                                            </article>
+                                          </td>
+                                        </tr>
+                      
+                                  </tbody>
                         </table>
                     </div> <!-- table-responsive// -->
                 </div> <!-- col// -->
@@ -318,7 +363,7 @@
         <div class="col-sm-6">
             <script>
             document.write(new Date().getFullYear())
-            </script> ©, Rose Collections .
+            </script> ©, EScrunch .
         </div>
         <div class="col-sm-6">
             <div class="text-sm-end">

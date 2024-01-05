@@ -610,7 +610,7 @@ const adminEditOrderLists = async (req, res) => {
   try { 
     console.log('In adminEditOrderLists page');
     const orderId = req.query._id;
-    const order = await orderModel.findById(orderId).populate('user items.product');
+    const order = await orderModel.findById(orderId).populate('user items.product').populate("coupon")
 
     // Populate  user.address field
     await order.populate({
@@ -618,7 +618,7 @@ const adminEditOrderLists = async (req, res) => {
       model: 'users',
     });
 
-    res.render('admin/adminOrderDetail', { order });
+    res.render('admin/adminOrderDetail', { order ,coupon:order.coupon});
   } catch (error) {
     console.log(error.message);
   }

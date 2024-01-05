@@ -425,7 +425,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     
     //Quantity
     const displayCount = document.querySelectorAll(".incrementdecrement");
-    const totalpricesum = document.querySelector('.total-price-sum');
+    // const totalpricesum = document.querySelector('.total-price-sum');
     const priceaftercoupon = document.querySelector('.price-after-coupon');
     
     
@@ -667,17 +667,17 @@ to correct alignment problm in orderlist its the old one
 script for salesreport in adminpage 
 <script>
     // Sample data for total sales per month
-    const data = '<%- JSON.stringify(data) %>';
+     data = '<%- JSON.stringify(data) %>';
     
     // Extracting the dates and sales amounts from the data
-    const dates = data.map(item => {
+     dates = data.map(item => {
         const date = new Date(item.date);
         return date.getDate();
     });
-    const amounts = data.map(item => item.amount);
+ amounts = data.map(item => item.amount);
     
     // Calculate the total sales
-    const totalSales = amounts.reduce((acc, curr) => acc + curr, 0);
+     totalSales = amounts.reduce((acc, curr) => acc + curr, 0);
     
     console.log("Dates = ", dates);
     console.log("Amount = ", amounts);
@@ -820,7 +820,7 @@ chtgpt corrected
 <script>
 
 	const totalpricesum = document.querySelector('.total-price-sum');
-	const priceaftercoupon = document.querySelector('.price-after-coupon');
+	 priceaftercoupon = document.querySelector('.price-after-coupon');
 	const order = document.querySelector('.primary-btn');
 	
 	// document.addEventListener('DOMContentLoaded', function() {
@@ -1688,3 +1688,67 @@ usercheckout <tbody> IMPORTANT</tbody>------------------------------------------
                       </ul>
                   </nav>
               </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			  <tbody>
+                                <tr>
+                                    <td>
+                                        <a class="itemside" href="#">
+                                            <div class="left">
+                                                <img src="/uploadProductImages/<%= items.product.image[0]%>" width="40" height="40" class="img-xs" alt="Item">
+                                            </div>
+                                            <div class="info"> <p class="product-name" style="margin: 0;">
+                                                <%= item.productId.productname %>
+                                              </p> </div>
+                                        </a>
+                                    </td>
+                                    <td> <%= items.price %> </td>
+                                    <td> <%= items.quantity %> </td>
+                                    <td class="text-end"> <%= items.price %> </td>
+                                </tr>
+                                <% }) %>  
+                                
+                                
+                                <tr>
+                                    <td colspan="4">
+                                        <article class="float-end">
+                                            <dl class="dlist">
+                                                <dt>Subtotal:</dt>
+                                                <dd>₹<%= order.totalAmount %></dd>
+                                            </dl>
+                                           <!-- discount area -->
+                                            <dl class="dlist">
+                                                <dt>Grand total:</dt>
+                                                <dd> <b class="h5">₹<%= order.finalPrice %></b> </dd>
+                                            </dl>
+                                            <dl class="dlist">
+                                                <dt class="text-muted">Status:</dt>
+                                                <dd>
+                                                    <span class="badge rounded-pill alert-success text-success text-capitalize"><%= order.orderStatus %></span>
+                                                </dd>
+                                            </dl>
+                                        </article>
+                                    </td>
+                                </tr>
+                            </tbody>
