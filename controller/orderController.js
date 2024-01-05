@@ -615,7 +615,11 @@ const adminOrderLists = async (req, res) => {
     const orders = await orderModel
       .find({})
       .populate('user', 'name email') 
-      .populate({ path: 'items.product', select: 'name price' })
+      .populate({
+        path: 'items.product',
+        model: 'products', // Assuming your product model is named 'products'
+        select: 'name price',
+      })
       .sort({ createdAt: -1 })
       .skip(skipItems)
       .limit(ITEMS_PER_PAGE);
