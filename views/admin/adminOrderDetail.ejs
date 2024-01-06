@@ -179,15 +179,15 @@
                             <i class="text-primary material-icons md-person"></i>
                         </span>
                         <div class="customer-details">
-                            <h6 class="customer-title" style="font-size: 18px; margin-bottom: 5px;">Customer</h6>
-                            <p class="customer-name" style="margin: 0;">
+                            <h6 class="customer-title">Customer</h6>
+                            <p class="customer-name">
                               <%= order.user.name %>
                             </p>
-                            <p class="customer-email" style="margin: 0;">
+                            <p class="customer-email">
                               <%= order.user.email %>
                             </p>
-                            <p class="customer-phone" style="margin: 0;">
-                              <%= order.user.phonenumber %>
+                            <p class="customer-phone">
+                              <%= order.user.mobile %>
                             </p>
                           </div>
                     </article>
@@ -212,14 +212,14 @@
                             <i class="text-primary material-icons md-place"></i>
                         </span>
                         <div class="delivery-details">
-                            <h6 class="delivery-title" style="font-size: 18px; margin-bottom: 5px;">Deliver to</h6>
-                            <p class="delivery-address" style="margin: 0;">City: <%= order.address.city %>, <%= order.address.state %>
+                            <h6 class="delivery-title">Deliver to</h6>
+                            <p class="delivery-address">City: <%= order.user.address.city %>, <%= order.user.address.state %>
                             </p>
-                            <p class="delivery-address" style="margin: 0;">
-                              <%= order.address.address %>
+                            <p class="delivery-address">
+                              <%= order.user.address.address %>
                             </p>
-                            <p class="delivery-pincode" style="margin: 0;">
-                              <%= order.address.pincode %>
+                            <p class="delivery-pincode">
+                              <%= order.user.address.pincode %>
                             </p>
                           </div>
                         
