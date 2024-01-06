@@ -854,6 +854,32 @@ const userUpdatedAddress = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
+const addNewAddress = async (req, res) => {
+  try {
+    const userId = req.session.user._id;
+    const address = req.body.address;
+    const city = req.body.city;
+    const state = req.body.state;
+    const pincode = req.body.pincode;
+    const user = await userModel.findByIdAndUpdate(
+      userId,
+      {
+        $push: {
+          address: {
+            address: address,
+            city: city,
+            state: state,
+            pincode: pincode,
+          },
+        },
+      },
+      { new: true }
+    );
+    res.redirect("/checkout");
+  } catch (error) {
+    console.log(error.message);
+  }
+};
 
 
 const removeAddress = async (req, res) => {
@@ -988,6 +1014,7 @@ module.exports = {
   userProfile,
   userProfileUpdated,
   userAddress,
+  addNewAddress,
   userAddAddressPost,
   userEditAddress,
   userUpdatedAddress,

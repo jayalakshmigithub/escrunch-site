@@ -44,6 +44,7 @@ router.get('/removeaddress',auth.isLogin,userController.removeAddress);//Remove 
 
 router.get('/editaddress/:addressId', auth.isLogin, userController.userEditAddress);//Render edit address page 
 router.post('/editaddress', auth.isLogin, userController.userUpdatedAddress);//Update address
+userRoute.post('/addNewAddress', auth.setCacheControl, auth.checkSession, userController.addNewAddress);
 
 router.get('/checkout:id?',auth.isLogin,cartController.userCheckOut);//Render checkout page
 router.post('/checkoutpost',auth.isLogin,cartController.userCheckoutPost);//Process checkout
