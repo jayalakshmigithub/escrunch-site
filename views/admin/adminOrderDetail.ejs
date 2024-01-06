@@ -211,18 +211,18 @@
                         <span class="icon icon-sm rounded-circle bg-primary-light">
                             <i class="text-primary material-icons md-place"></i>
                         </span>
-                        <div class="delivery-details">
-                            <h6 class="delivery-title">Deliver to</h6>
-                            <p class="delivery-address">City: <%= order.user.address.city %>, <%= order.user.address.state %>
-                            </p>
-                            <p class="delivery-address">
-                              <%= order.user.address.address %>
-                            </p>
-                            <p class="delivery-pincode">
-                              <%= order.user.address.pincode %>
-                            </p>
-                          </div>
-                        
+                        <div class="text">
+                            <h6 class="mb-1">Deliver to:</h6>
+                            <% if (order.user.address && order.user.address.length > 0) { %>
+                                <% order.user.address.forEach(address => { %>
+                                    <p class="mb-1">
+                                        <%= address.city %>, <%= address.state %><br><%= address.address %> <br> <%= address.pincode %>
+                                    </p>
+                                <% }); %>
+                            <% } else { %>
+                                <p class="mb-1">No address found for the user.</p>
+                            <% } %>
+                        </div>
 
                         
                     </article>
