@@ -231,7 +231,7 @@
                             <tbody>
                                 <tr>
                                     <td>
-                                        <a class="itemside d-flex" href="/admin/orderdetails/<%= item._id %>">
+                                        <a class="itemside d-flex" href="/admin/order/edit?_id=<%= item._id %>">
                                             <div class="left">
                                                 <% if (item.product && item.product.image && item.product.image[0]) { %>
                                                     <img src="/uploadProductImages/<%= item.product.image[0] %>" width="30" height="30" class="img-xs" alt="Item">
