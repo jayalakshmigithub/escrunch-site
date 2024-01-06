@@ -288,18 +288,23 @@
                   <td colspan="4">
                     <article class="float-end">
                         <dl class="dlist d-flex">
-                            <dt>Subtotal:</dt>
-                            <dd>₹<%= order.totalAmount %></dd>
-                        </dl>
-                        <dl class="dlist d-flex">
-                            <dt>Grand total:</dt>
-                            <dd> <b class="h5">₹<%= order.finalPrice %></b> </dd>
+                            <dt class="text-dark">Subtotal:</dt>
+                            <dd class="text-success">₹<%= order.totalAmount %></dd>
                         </dl>
                         
                         <% if (order.coupon && order.totalAmount >= order.coupon.minimumAmount) { %>
                             <dl class="dlist d-flex">
                                 <dt class="text-dark">Discount:</dt>
                                 <dd class="text-success">₹<%= order.discountAmount %></dd>
+                            </dl>
+                            <dl class="dlist d-flex">
+                                <dt class="text-dark">Grand total:</dt>
+                                <dd><b class="h5 text-success">₹<%= order.finalPrice %></b></dd>
+                            </dl>
+                        <% } else { %>
+                            <dl class="dlist d-flex">
+                                <dt class="text-dark">Grand total:</dt>
+                                <dd><b class="h5 text-success">₹<%= order.totalAmount %></b></dd>
                             </dl>
                         <% } %>
                     </article>

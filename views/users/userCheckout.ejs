@@ -578,6 +578,39 @@
     </footer>
   </body>
   <script>
+    document.getElementById('addAddressForm').addEventListener('click', function (event) {
+        // Prevent the default behavior of the button (e.g., following a link)
+        event.preventDefault();
+
+        // Get the form element by its ID
+        const form = document.getElementById('addAddressForm');
+
+        // Check if any field is empty
+        if ([...form.elements].some((element) => element.type !== 'submit' && element.value.trim() === '')) {
+            alert('All fields must be filled.');
+            return;
+        }
+
+        // Validate pincode
+        const pincode = form.elements['pincode'].value;
+        if (!/^\d{6}$/.test(pincode)) {
+            alert('Pincode must be 6 digits.');
+            return;
+        }
+
+        // Validate mobile
+        const mobile = form.elements['mobile'].value;
+        if (!/^\d{10}$/.test(mobile)) {
+            alert('Mobile number must be 10 digits.');
+            return;
+        }
+
+        // If all validations pass, you can submit the form
+        form.submit();
+    });
+</script>
+
+  <script>
     const totalpricesum = document.querySelector('.total-price-sum');
     const priceaftercoupon = document.querySelector('.price-after-coupon');
     const order = document.querySelector('.primary-btn');
