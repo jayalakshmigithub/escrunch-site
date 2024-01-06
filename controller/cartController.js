@@ -199,12 +199,11 @@ const userCheckoutPost = async (req, res) => {
     });
     let discountAmount = 0;
     if (couponId) {
-      const coupon = await couponModel.findById(couponId);
-      discountAmount = coupon ? +coupon.discountAmount : 0;
+      discountAmount = await couponModel.findById(couponId);
+      discountAmount = discountAmount ? discountAmount.discountAmount : 0;
     }
     const products = orders[0].products;
-    const finalPrice = +subTotalPrice - Math.min(subTotalPrice, discountAmount);
-
+    let finalPrice = +subTotalPrice - discountAmount;
 
     // Create order details
     const details = {
