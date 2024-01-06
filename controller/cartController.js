@@ -197,13 +197,14 @@ const userCheckoutPost = async (req, res) => {
     user.address.forEach((item) => {
       if (item._id.toString() == address) addressdetail = item;
     });
-    let discountAmount = 100;
+    const fixedDiscountAmount = 100;
+    let discountAmount = 0;
     if (couponId) {
       discountAmount = await couponModel.findById(couponId);
       discountAmount = discountAmount ? discountAmount.discountAmount : 0;
     }
     const products = orders[0].products;
-    let finalPrice = +subTotalPrice - discountAmount;
+    let finalPrice = +subTotalPrice - fixedDiscountAmount;
 
     // Create order details
     const details = {
