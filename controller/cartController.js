@@ -204,7 +204,7 @@ const userCheckoutPost = async (req, res) => {
     }
     
     const products = orders[0].products;
-    let finalPrice = +subTotalPrice - 60;
+    let finalPrice = +subTotalPrice - discountAmount;
 
     // Create order details
     const details = {
@@ -218,8 +218,8 @@ const userCheckoutPost = async (req, res) => {
       address: addressdetail,
     };
 
-    // Loop through the products in the order and update their quantities
-    for (const product of products) {
+    
+    for (const product of products) {       // Loop through the products in the order and update their quantities
       const { product: productId, quantity } = product;
       console.log(`Product ID: ${productId}, Quantity: ${quantity}`)
       await updateProductAfterOrder(productId, quantity);
@@ -228,8 +228,8 @@ const userCheckoutPost = async (req, res) => {
     const response = await orderModel.create(details);
     console.log('Order creation response:', response);
 
-    // Update the cart to remove items
-    await cartModel.findOneAndUpdate({ user }, { products: [] });
+    
+    await cartModel.findOneAndUpdate({ user }, { products: [] });  // Update the cart to remove items
 
     if (paymentMethod === "cashondelivery") {
       console.log("payment method is cod",)
