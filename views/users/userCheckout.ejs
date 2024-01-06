@@ -206,25 +206,7 @@
       </div>
     </header>
 
-    <!-- Start Banner Area -->
-
-    <!-- Start Banner Area -->
-    <!-- <section class="banner-area organic-breadcrumb">
-      <div class="container">
-        <div
-          class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end"
-        >
-          <div class="col-first">
-            <h1>Checkout</h1>
-            <nav class="d-flex align-items-center">
-              <a href="/home">Home<span class="lnr lnr-arrow-right"></span></a>
-              <a href="/checkout">Checkout</a>
-            </nav>
-          </div>
-        </div>
-      </div>
-    </section> -->
-    <!-- End Banner Area -->
+  
 
     <!--================Checkout Area =================-->
 
@@ -307,80 +289,51 @@
             <h5 class="section-title position-relative text-uppercase mb-3">
               <span class="">Add Alternate Shipping Address</span>
             </h5>
-            <div class="bg-light p-30">
-              <div class="row">
-                <div class="col-md-8">
-                  <div class="mt-4 mb-4">
-                    <form id="addAddressForm">
-                      <div class="row mt-3">
-                        <div class="col-md-6">
-                          <div class="inputbox mt-3 mr-2">
-                            <input
-                              type="text"
-                              name="address"
-                              class="form-control"
-                              required="required"
-                              placeholder="Address"
-                            />
+            <div class="collapse mb-5" id="shipping-address" style="background-color: #f8f9fa; padding: 20px; border-radius: 10px;">
+              <h5 class="section-title position-relative text-uppercase mb-3" style="font-size: 1.5rem; font-weight: bold;">Add Alternate Shipping Address</h5>
+              <div class="bg-light p-30">
+                  <div class="row">
+                      <div class="col-md-8">
+                          <div class="mt-4 mb-4">
+                              <form action="/addnewaddress" method="POST" id="addaddressform">
+                                  <div class="row mt-3">
+                                      <div class="col-md-6">
+                                          <div class="inputbox mt-3 mr-2">
+                                              <input type="text" name="address" class="form-control" placeholder="Address" style="border: 1px solid #ccc; border-radius: 5px; padding: 5px;">
+                                              <span class="error-message" id="address-error"></span>
+                                          </div>
+                                      </div>
+                                      <div class="col-md-6">
+                                          <div class="inputbox mt-3 mr-2">
+                                              <input type="text" name="city" class="form-control" placeholder="City" style="border: 1px solid #ccc; border-radius: 5px; padding: 5px;">
+                                              <span class="error-message" id="city-error"></span>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="row mt-2">
+                                      <div class="col-md-6">
+                                          <div class="inputbox mt-3 mr-2">
+                                              <input type="text" name="state" class="form-control" placeholder="State" style="border: 1px solid #ccc; border-radius: 5px; padding: 5px;">
+                                              <span class="error-message" id="state-error"></span>
+                                          </div>
+                                      </div>
+                                      <div class="col-md-6">
+                                          <div class="inputbox mt-3 mr-2">
+                                              <input type="text" name="pincode" class="form-control" placeholder="Pincode" style="border: 1px solid #ccc; border-radius: 5px; padding: 5px;">
+                                              <span class="error-message" id="pincode-error"></span>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <br>
+                                  <button class="btn btn-success" type="submit" style="background-color: #161616; color: #fff; border: none; border-radius: 5px; padding: 5px;">SUBMIT</button>
+                                  <span class="error-message" id="submit-error"></span>
+                              </form>
                           </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="inputbox mt-3 mr-2">
-                            <input
-                              type="text"
-                              name="city"
-                              class="form-control"
-                              required="required"
-                              placeholder="City"
-                            />
-                          </div>
-                        </div>
                       </div>
-
-                      <div class="row mt-2">
-                        <div class="col-md-6">
-                          <div class="inputbox mt-3 mr-2">
-                            <input
-                              type="text"
-                              name="state"
-                              class="form-control"
-                              required="required"
-                              placeholder="State"
-                            />
-                          </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="inputbox mt-3 mr-2">
-                            <input
-                              type="text"
-                              name="pincode"
-                              class="form-control"
-                              required="required"
-                              placeholder="Pincode"
-                            />
-                          </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="inputbox mt-3 mr-2">
-                            <input
-                              type="text"
-                              name="mobile"
-                              class="form-control"
-                              required="required"
-                              placeholder="Mobile"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <br />
-                      <a href=""
-                        ><button class="btn btn-success">ADD ADDRESS</button></a
-                      >
-                    </form>
                   </div>
-                </div>
               </div>
-            </div>
+          </div>
+          
           </div>
         </div>
 
@@ -643,6 +596,66 @@
         </div>
       </div>
     </footer>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          const form = document.getElementById("addaddressform");
+          const addressInput = document.getElementsByName("address")[0];
+          const cityInput = document.getElementsByName("city")[0];
+          const stateInput = document.getElementsByName("state")[0];
+          const pincodeInput = document.getElementsByName("pincode")[0];
+  
+          form.addEventListener("submit", function (event) {
+              if (
+                  !validateField(addressInput, "address-error", "Address field can't be empty") ||
+                  !validateField(cityInput, "city-error", "City field can't be empty") ||
+                  !validateField(stateInput, "state-error", "State field can't be empty") ||
+                  !validatePincode()
+              ) {
+                  event.preventDefault();
+              }
+          });
+  
+          addressInput.addEventListener("blur", function () {
+              validateField(addressInput, "address-error", "Address field can't be empty");
+          });
+          cityInput.addEventListener("blur", function () {
+              validateField(cityInput, "city-error", "City field can't be empty");
+          });
+          stateInput.addEventListener("blur", function () {
+              validateField(stateInput, "state-error", "State field can't be empty");
+          });
+          pincodeInput.addEventListener("blur", validatePincode);
+  
+          function validateField(input, errorId, errorMessage) {
+              const value = input.value.trim();
+              const errorElement = document.getElementById(errorId);
+  
+              if (value === "") {
+                  errorElement.textContent = errorMessage;
+                  errorElement.style.color = "red";
+                  return false;
+              }
+  
+              errorElement.textContent = "";
+              return true;
+          }
+  
+          function validatePincode() {
+              const pincodeValue = pincodeInput.value.trim();
+              const pincodeError = document.getElementById("pincode-error");
+  
+              if (pincodeValue === "" || isNaN(pincodeValue) || pincodeValue.length !== 6) {
+                  pincodeError.textContent = "Pincode must be a 6-digit number";
+                  pincodeError.style.color = "red";
+                  return false;
+              }
+  
+              pincodeError.textContent = "";
+              return true;
+          }
+      });
+  </script>
+  
   </body>
   
 
@@ -706,21 +719,35 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
-  $("#addAddressForm").submit((e) => {
+ $("#addAddressForm").submit((e) => {
     e.preventDefault();
     $.ajax({
-      url: "/addaddress",
-      method: "post",
-      data: $("#addAddressForm").serialize(),
-      success: (response) => {
-        if (response.status) {
-          window.location.reload();
-        } else {
-          alert("Address ~ added");
-        }
-      },
+        url: "/addaddress",
+        method: "post",
+        data: $("#addAddressForm").serialize(),
+        success: (response) => {
+            if (response.status) {
+                // Show SweetAlert for success
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Address Added',
+                    text: 'Your address has been added successfully!',
+                }).then(() => {
+                    // Redirect or perform any other action if needed
+                    // window.location.href = '/redirect-url';
+                });
+            } else {
+                // Show SweetAlert for failure
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Failed to add address. Please try again.',
+                });
+            }
+        },
     });
-  });
+});
+
 
   function handlePlaceOrder() {
     let contactDetails = $('#addressForm').serialize();
