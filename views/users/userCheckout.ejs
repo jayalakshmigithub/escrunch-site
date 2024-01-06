@@ -216,70 +216,70 @@
 
         <!-- trying a new code for the above,,cg -->
         <div>
-          <div class="container mt-5">
-            <h2 class="content-title card-title" style="margin-left: 400px; margin-bottom: 30px; color: #ff1493;">Checkout</h2>
-            <hr style="border-color: #000; margin-top: 50px;">
-            <div class="row">
-              <div class="col-lg-8">
-                <h5 class="section-title position-relative text-uppercase mb-3 mt-4">
-                  <span class="">Select the Shipping Address</span>
-                </h5>
-                <% if(user.address.length >0) { %>
+          <div class="row">
+            <div class="col-lg-8">
+              <h5 class="section-title position-relative text-uppercase mb-3 mt-4">
+                <span class="">Select the Shipping Address</span>
+              </h5>
+              <% if(user.address.length > 0) { %>
                 <form id="addressForm">
-                <div class="bg-light p-3 mb-5">
-                  <div class="row">
-                    <% for(let i = 0; i < user.address.length; i++) { %>
-                    <div class="col-md-6 mb-3">
-                      <div class="border p-3">
-                        <% item = user.address[i] %>
-                          <label>
-                            <input
-                            type="radio"
-                            id="address"
-                            name="address"
-                            value="<%=item._id%>"
-                            data-address="<%= item._id %>"
-                            />
-                          <strong><%= item.name %></strong>
-                        </label>
-                        <p>
-                          <%= item.phonenumber %><br />
-                          <%= item.address %>,<br />
-                          <%= item.city %>, <%= item.state %>, <%= item.pincode
-                          %>
-                        </p>
-                        <!-- Adding an "Edit" button  -->
-                        <div class="edit-button">
-                          <!-- <a href="/editaddress?name=<%= item.name %>&phonenumber=<%= item.phonenumber %>&email=<%= item.email %>&address=<%= item.address %>&city=<%= item.city %>&state=<%= item.state %>&pincode=<%= item.pincode %>&addressId=<%= item._id %>">
-                                          <button class="btn btn-primary btn-sm genric-btn info">Edit</button>
-                                      </a> -->mn    
+                  <div class="bg-light p-3 mb-5">
+                    <div class="row">
+                      <% for(let i = 0; i < user.address.length; i++) { %>
+                        <div class="col-md-6 mb-3">
+                          <div class="border p-3">
+                            <% item = user.address[i] %>
+                            <label>
+                              <input
+                                type="radio"
+                                id="address_<%= i %>"
+                                name="selectedAddress"
+                                value="<%= item._id %>"
+                                data-address="<%= item._id %>"
+                              />
+                              <strong><%= item.name %></strong>
+                            </label>
+                            <!-- Rest of the address display -->
+                            <p>
+                              <%= item.phonenumber %><br />
+                              <%= item.address %>,<br />
+                              <%= item.city %>, <%= item.state %>, <%= item.pincode %>
+                            </p>
+                          </div>
                         </div>
-                      </div>
+                      <% } %>
                     </div>
-                  </form>
-                    <% } %>
                   </div>
-                </div>
-                <% } %> <% if(user.address.length === 0) { %>
-                <span> No Address found. Add new address here </span>
-                <% } %>
-                <div class="col-md-12">
-                  <div class="custom-control custom-checkbox mt-3">
-                    <input
-                      type="checkbox"
-                      class="custom-control-input"
-                      id="shipto"
-                    />
-                    <label
-                      class="custom-control-label"
-                      for="shipto"
-                      data-toggle="collapse"
-                      data-target="#shipping-address"
-                      >Ship to a different address</label
-                    >
+                  <!-- Placeholder for the rest of the form, including checkbox for a different address -->
+                  <div class="col-md-12">
+                    <div class="custom-control custom-checkbox mt-3">
+                      <input
+                        type="checkbox"
+                        class="custom-control-input"
+                        id="shipto"
+                      />
+                      <label
+                        class="custom-control-label"
+                        for="shipto"
+                        data-toggle="collapse"
+                        data-target="#shipping-address"
+                      >
+                        Ship to a different address
+                      </label>
+                    </div>
                   </div>
-                </div>
-              </div>
+                  <!-- Add more form elements as needed -->
+                  <!-- Example placeholder for additional input -->
+                  <div class="form-group">
+                    <label for="newAddress">New Address:</label>
+                    <input type="text" class="form-control" id="newAddress" name="newAddress" placeholder="Enter new address">
+                  </div>
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+              <% } %>
+            </div>
+          </div>
+          
             </div>
           </div>
 
@@ -289,49 +289,80 @@
             <h5 class="section-title position-relative text-uppercase mb-3">
               <span class="">Add Alternate Shipping Address</span>
             </h5>
-            <div class="collapse mb-5" id="shipping-address" style="background-color: #f8f9fa; padding: 20px; border-radius: 10px;">
-              <h5 class="section-title position-relative text-uppercase mb-3" style="font-size: 1.5rem; font-weight: bold;">Add Alternate Shipping Address</h5>
-              <div class="bg-light p-30">
-                  <div class="row">
-                      <div class="col-md-8">
-                          <div class="mt-4 mb-4">
-                           <form id="addaddressform" onsubmit="return validateForm()">
-                    <div class="form-group">
-                        <label for="address">Address</label>
-                        <input type="text" name="address" class="form-control" required="required" id="address" placeholder="Enter your address">
-                        <div id="address-error" class="error-message"></div>
-                    </div>
-                    
-                    <div class="form-row">
+            <div class="bg-light p-30">
+              <div class="row">
+                <div class="col-md-8">
+                  <div class="mt-4 mb-4">
+                    <form id="addAddressForm">
+                      <div class="row mt-3">
                         <div class="col-md-6">
-                            <label for="city">City</label>
-                            <input type="text" name="city" class="form-control" required="required" id="city" placeholder="Enter your city">
-                            <div id="city-error" class="error-message"></div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <label for="state">State</label>
-                            <input type="text" name="state" class="form-control" required="required" id="state" placeholder="Enter your state">
-                            <div id="state-error" class="error-message"></div>
-                        </div>
-                    </div>
-
-                    <div class="form-group mt-2">
-                        <label for="pincode">Pincode</label>
-                        <input type="text" name="pincode" class="form-control" required="required" id="pincode" placeholder="Enter your pincode">
-                        <div id="pincode-error" class="error-message"></div>
-                    </div>
-
-                    <div class="text-center mt-3">
-                        <button class="btn btn-primary" type="submit">SUBMIT</button>
-                    </div>
-                </form>
+                          <div class="inputbox mt-3 mr-2">
+                            <input
+                              type="text"
+                              name="address"
+                              class="form-control"
+                              required="required"
+                              placeholder="Address"
+                            />
                           </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="inputbox mt-3 mr-2">
+                            <input
+                              type="text"
+                              name="city"
+                              class="form-control"
+                              required="required"
+                              placeholder="City"
+                            />
+                          </div>
+                        </div>
                       </div>
+
+                      <div class="row mt-2">
+                        <div class="col-md-6">
+                          <div class="inputbox mt-3 mr-2">
+                            <input
+                              type="text"
+                              name="state"
+                              class="form-control"
+                              required="required"
+                              placeholder="State"
+                            />
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="inputbox mt-3 mr-2">
+                            <input
+                              type="text"
+                              name="pincode"
+                              class="form-control"
+                              required="required"
+                              placeholder="Pincode"
+                            />
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="inputbox mt-3 mr-2">
+                            <input
+                              type="text"
+                              name="mobile"
+                              class="form-control"
+                              required="required"
+                              placeholder="Mobile"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <br />
+                      <a href=""
+                        ><button class="btn btn-success">ADD ADDRESS</button></a
+                      >
+                    </form>
                   </div>
+                </div>
               </div>
-          </div>
-          
+            </div>
           </div>
         </div>
 
@@ -594,66 +625,6 @@
         </div>
       </div>
     </footer>
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-          const form = document.getElementById("addaddressform");
-          const addressInput = document.getElementsByName("address")[0];
-          const cityInput = document.getElementsByName("city")[0];
-          const stateInput = document.getElementsByName("state")[0];
-          const pincodeInput = document.getElementsByName("pincode")[0];
-  
-          form.addEventListener("submit", function (event) {
-              if (
-                  !validateField(addressInput, "address-error", "Address field can't be empty") ||
-                  !validateField(cityInput, "city-error", "City field can't be empty") ||
-                  !validateField(stateInput, "state-error", "State field can't be empty") ||
-                  !validatePincode()
-              ) {
-                  event.preventDefault();
-              }
-          });
-  
-          addressInput.addEventListener("blur", function () {
-              validateField(addressInput, "address-error", "Address field can't be empty");
-          });
-          cityInput.addEventListener("blur", function () {
-              validateField(cityInput, "city-error", "City field can't be empty");
-          });
-          stateInput.addEventListener("blur", function () {
-              validateField(stateInput, "state-error", "State field can't be empty");
-          });
-          pincodeInput.addEventListener("blur", validatePincode);
-  
-          function validateField(input, errorId, errorMessage) {
-              const value = input.value.trim();
-              const errorElement = document.getElementById(errorId);
-  
-              if (value === "") {
-                  errorElement.textContent = errorMessage;
-                  errorElement.style.color = "red";
-                  return false;
-              }
-  
-              errorElement.textContent = "";
-              return true;
-          }
-  
-          function validatePincode() {
-              const pincodeValue = pincodeInput.value.trim();
-              const pincodeError = document.getElementById("pincode-error");
-  
-              if (pincodeValue === "" || isNaN(pincodeValue) || pincodeValue.length !== 6) {
-                  pincodeError.textContent = "Pincode must be a 6-digit number";
-                  pincodeError.style.color = "red";
-                  return false;
-              }
-  
-              pincodeError.textContent = "";
-              return true;
-          }
-      });
-  </script>
-  
   </body>
   
 
