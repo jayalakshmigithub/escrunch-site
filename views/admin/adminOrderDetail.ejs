@@ -228,40 +228,52 @@
                                 </tr>
                             </thead>
                             <% order.items.forEach(function(items) { %>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <a class="itemside d-flex" href="/admin/order/edit?_id=<%= item._id %>">
-                                                <div class="left">
-                                                    <% if (item.product && item.product.image && item.product.image[0]) { %>
-                                                        <img src="/uploadProductImages/<%= item.product.image[0] %>" width="40" height="40" class="img-xs" alt="Item">
-                                                    <% } %>
-                                                </div>
-                                                <div class="info">
-                                                    <% if (item.product) { %>
-                                                        <%= item.product.productname %>
-                                                    <% } %>
-                                                </div>
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <% if (item.price) { %>
-                                                <%= item.price %>
-                                            <% } %>
-                                        </td>
-                                        <td>
-                                            <% if (item.quantity) { %>
-                                                <%= item.quantity %>
-                                            <% } %>
-                                        </td>
-                                        <td class="text-end">
-                                            <% if (item.price && item.quantity) { %>
-                                                <%= item.price * item.quantity %>
-                                            <% } %>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                                <% }) %>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <a class="itemside d-flex" href="/admin/order/edit?_id=<%= item._id %>">
+                                            <div class="left">
+                                                <% if (item.product && item.product.image && item.product.image[0]) { %>
+                                                    <img src="/uploadProductImages/<%= item.product.image[0] %>" width="30" height="30" class="img-xs" alt="Item">
+                                                <% } %>
+                                            </div>
+                                            <div class="info">
+                                                <% if (item.product) { %>
+                                                    <%= item.product.productname %>
+                                                <% } %>
+                                            </div>
+                                        </a>
+                                    </td>
+                                    
+                                    <td> <%= items.price %> </td>
+                                    <td> <%= items.quantity %> </td>
+                                    <td class="text-end"> <%= items.price %> </td>
+                                </tr>
+                                <% }) %>  
+                                
+                                
+                                <tr>
+                                    <td colspan="4">
+                                        <article class="float-end">
+                                            <dl class="dlist">
+                                                <dt>Subtotal:</dt>
+                                                <dd>₹<%= order.totalAmount %></dd>
+                                            </dl>
+                                           <!-- discount area -->
+                                            <dl class="dlist">
+                                                <dt>Grand total:</dt>
+                                                <dd> <b class="h5">₹<%= order.finalPrice %></b> </dd>
+                                            </dl>
+                                            <dl class="dlist">
+                                                <dt class="text-muted">Status:</dt>
+                                                <dd>
+                                                    <span class="badge rounded-pill alert-success text-success text-capitalize"><%= order.orderStatus %></span>
+                                                </dd>
+                                            </dl>
+                                        </article>
+                                    </td>
+                                </tr>
+                            </tbody>
                         </table>
                     </div> <!-- table-responsive// -->
                 </div> <!-- col// -->
