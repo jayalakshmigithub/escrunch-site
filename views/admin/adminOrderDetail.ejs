@@ -178,13 +178,18 @@
                         <span class="icon icon-sm rounded-circle bg-primary-light">
                             <i class="text-primary material-icons md-person"></i>
                         </span>
-                        <div class="text">
-                            <h6 class="mb-1">Customer</h6>
-                            <p class="mb-1">
-                                <%= order.user.name %> <br> <template class="__cf_email__" data-cfemail="e2838e879aa2879a838f928e87cc818d8f">[email&#160;protected]</template> <br> <%= order.user.phonenumber %>
+                        <div class="customer-details">
+                            <h6 class="customer-title" style="font-size: 18px; margin-bottom: 5px;">Customer</h6>
+                            <p class="customer-name" style="margin: 0;">
+                              <%= order.user.name %>
                             </p>
-                            <!-- <a href="#">View profile</a> -->
-                        </div>
+                            <p class="customer-email" style="margin: 0;">
+                              <%= order.user.email %>
+                            </p>
+                            <p class="customer-phone" style="margin: 0;">
+                              <%= order.user.phonenumber %>
+                            </p>
+                          </div>
                     </article>
                 </div> <!-- col// -->
                 <!-- <div class="col-md-4">
@@ -208,23 +213,15 @@
                         </span>
                         <div class="delivery-details">
                             <h6 class="delivery-title" style="font-size: 18px; margin-bottom: 5px;">Deliver to</h6>
-                            
-                            <% if (order.user && order.user.address) { %>
-                                <p class="delivery-address" style="margin: 0;">
-                                    City: <%= order.user.address.city %>, State: <%= order.user.address.state %>
-                                </p>
-                                <p class="delivery-address" style="margin: 0;">
-                                    <%= order.user.address.address %>
-                                </p>
-                                <p class="delivery-pincode" style="margin: 0;">
-                                    <%= order.user.address.pincode %>
-                                </p>
-                            <% } else { %>
-                                <p class="delivery-address" style="margin: 0;">
-                                    Address information not available
-                                </p>
-                            <% } %>
-                        </div>
+                            <p class="delivery-address" style="margin: 0;">City: <%= order.address.city %>, <%= order.address.state %>
+                            </p>
+                            <p class="delivery-address" style="margin: 0;">
+                              <%= order.address.address %>
+                            </p>
+                            <p class="delivery-pincode" style="margin: 0;">
+                              <%= order.address.pincode %>
+                            </p>
+                          </div>
                         
 
                         
