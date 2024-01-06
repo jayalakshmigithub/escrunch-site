@@ -246,11 +246,15 @@
                                     <td>
                                         <a class="itemside" href="#">
                                             <div class="left">
-                                                <img src="/uploadProductImages/<%= items.product.image[0]%>" width="40" height="40" class="img-xs" alt="Item">
+                                                <% if (item.product && item.product.image && item.product.image[0]) { %>
+                                                    <img src="/uploadProductImages/<%= item.product.image[0] %>" width="40" height="40" class="img-xs" alt="Item">
+                                                <% } %>
                                             </div>
-                                            <div class="info"> <p class="product-name" style="margin: 0;">
-                                                <%= item.productId.productname %>
-                                              </p> </div>
+                                            <div class="info">
+                                                <% if (item.product) { %>
+                                                    <%= item.product.productname %>
+                                                <% } %>
+                                            </div>
                                         </a>
                                     </td>
                                     <td> <%= items.price %> </td>
