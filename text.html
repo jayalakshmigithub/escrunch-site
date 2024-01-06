@@ -1752,3 +1752,158 @@ usercheckout <tbody> IMPORTANT</tbody>------------------------------------------
                                     </td>
                                 </tr>
                             </tbody>
+
+
+
+
+							// const editOrderDetails = async (req, res) => {
+//   try {
+//     const orderId = req.params.id;
+//     const action = req.query.action;
+//     console.log(orderId);
+
+//     const order = await orderModel
+//       .findById(orderId)
+//       .populate('user items.product');
+//     const orderStatus = await orderModel
+//       .findById(orderId)
+//       .populate('orderStatus');
+
+//     if (action === 'cancel') {
+//       // Assuming you have a function to update order details based on cancellations
+//       await updateOrderDetailsAfterCancellation(orderId);
+
+//       // Update the order status to 'Cancelled'
+//       await orderModel.findByIdAndUpdate(orderId, { orderStatus: 'Cancelled' });
+//     }
+//     // else if (action === 'return') {
+//     //   await orderModel.findByIdAndUpdate(orderId, { orderStatus: "Returned" });
+//     // }
+
+//     res.render('users/userOrderDetails', { order, orderStatus });
+//   } catch (error) {
+//     console.log(error.message);
+//   }
+// };
+
+
+// const cancelProduct = async (req, res) => {
+//   console.log('enterd in the function cancel')
+//   const orderId = req.params.orderId;
+//   const productIdToCancel = req.params.productId;
+
+
+//   // Validate productIdToCancel
+//   if (!mongoose.Types.ObjectId.isValid(productIdToCancel)) {
+//     return res.status(400).send({ error: 'Invalid productIdToCancel' });
+//   }
+
+//   try {
+//     // Find the order by ID
+//     const order = await orderModel.findById(orderId);
+
+//     console.log('Order:', order);
+
+//     if (!order) {
+//       return res.status(404).send({ error: 'Order not found' });
+//     }
+
+//     // Check if the order is already cancelled
+//     if (order.orderStatus === 'cancelled') {
+//       return res.status(400).send({ error: 'Order is already cancelled' });
+//     }
+
+//     // Ensure that the items array exists in the order
+//     if (!order.items || !Array.isArray(order.items)) {
+//       return res.status(400).send({ error: 'No items found in the order' });
+//     }
+
+//     console.log('Items:', order.items);
+
+//     // Find the item to cancel in the order's items array
+//     const itemToCancel = order.items.find(item =>
+//       item._id.equals(mongoose.Types.ObjectId(productIdToCancel))
+//     );
+
+//     console.log('Item to Cancel:', itemToCancel);
+
+//     if (!itemToCancel) {
+//       return res.status(404).send({ error: 'Item not found in the order' });
+//     }
+
+//     // Update the trackOrder status to 'Cancelled' for the specific item
+//     itemToCancel.trackOrder = 'Cancelled';
+
+//     // Fetch the user by ID
+//     const userId = order.user._id;
+//     const user = await userModel.findById(userId);
+
+//     if (!user) {
+//       return res.status(404).send({ error: 'User not found' });
+//     }
+
+//     // Add the cancelled item's total price to the user's wallet
+//     const transactionType = 'credit';
+//     user.wallet.balance += itemToCancel.totalPrice;
+
+//     // Add a new transaction to the wallet
+//     user.wallet.transactions.push({
+//       ID: itemToCancel._id,
+//       type: transactionType,
+//       amount: itemToCancel.totalPrice,
+//     });
+
+//     // Save changes to the database
+//     await Promise.all([order.save(), user.save()]);
+
+//     res.redirect('/myorders',{productId});
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).send({ error: 'Internal Server Error' });
+//   }
+// };
+
+
+
+// const returnedOrder = await orderModel.findByIdAndUpdate(
+
+//   orderId,
+//   { $set: { orderStatus: 'Returned' } },
+//   { new: true }
+// );
+// try{
+
+// if (!returnedOrder) {
+//   return res.status(404).send({ error: 'Order not found' });
+// }
+
+// // Perform additional logic for crediting payment, if needed
+// const userId = returnedOrder.user._id;
+// const user = await userModel.findById(userId);
+
+// if (!user) {
+//   return res.status(404).send({ error: 'User not found' });
+// }
+
+// const transactionType = 'credit';
+
+// // Assuming you have a function to calculate the refund amount
+// const refundAmount = calculateRefundAmount(returnedOrder.items);
+
+// user.wallet.balance += refundAmount;
+
+// const returnID = returnedOrder._id.toString(); // Convert ObjectId to string
+// // Push a new transaction to the wallet.transactions array
+// user.wallet.transactions.push({
+//   ID: returnID,
+//   type: transactionType,
+//   amount: refundAmount,
+// });
+
+// await user.save();
+
+// res.status(200).json({ success: true, message: 'Order returned successfully' });
+// } catch (error) {
+// console.error(error);
+// res.status(500).json({ success: false, message: 'Internal Server Error' });
+// }
