@@ -221,71 +221,65 @@
             <hr style="border-color: #000; margin-top: 50px;">
             <div class="row">
               <div class="col-lg-8">
-                <h5 class="section-title position-relative text-uppercase mb-3"
-                    style="font-size: 1.5rem; font-weight: bold; margin-bottom: 1rem;">
-                    Select Address
+                <h5 class="section-title position-relative text-uppercase mb-3 mt-4">
+                  <span class="">Select the Shipping Address</span>
                 </h5>
-                <% if(user.address.length> 0) { %>
-                    <div class="bg-light p-3 mb-5"
-                        style="background-color: #f8f9fa; padding: 20px; border-radius: 10px;">
-                        <div class="row">
-                            <% for(let i=0; i < user.address.length; i++) { %>
-                                <div class="col-md-6 mb-3">
-                                    <div class="border p-3"
-                                        style="border: 1px solid #ccc; border-radius: 10px;">
-                                        <% item=user.address[i] %>
-                                            <label>
-                                                <input type="radio" class="address-radio"
-                                                    id="defaultaddress" name="defaultaddress"
-                                                    value="defaultaddress"
-                                                    data-address="<%= item._id %>"
-                                                    style="margin-right: 10px;">
-                                                <strong style="font-weight: bold;">
-                                                    <%= item.name %>
-                                                </strong>
-                                            </label>
-                                            <p>
-                                                <%= item.phonenumber %><br>
-                                                    <%= item.address %>,<br>
-                                                        <%= item.city %>, <%= item.state %>, <%=
-                                                                    item.pincode %>
-                                            </p>
-                                            <!-- Adding an "Edit" button -->
-                                            <!-- <div class="edit-button"
-                                                style="text-align: center; margin-top: 10px; display: none;">
-                                                <a href="/editaddress/<%= item._id %>">
-                                                    <button
-                                                        class="btn btn-primary btn-sm genric-btn info"
-                                                        style="background-color: #151616; color: #fff; border: none; border-radius: 5px;">Edit
-                                                        Address</button>
-                                                </a>
-                                            </div> -->
-                                    </div>
-                                </div>
-                                <% } %>
+                <% if(user.address.length >0) { %>
+                <form id="addressForm">
+                <div class="bg-light p-3 mb-5">
+                  <div class="row">
+                    <% for(let i = 0; i < user.address.length; i++) { %>
+                    <div class="col-md-6 mb-3">
+                      <div class="border p-3">
+                        <% item = user.address[i] %>
+                          <label>
+                            <input
+                            type="radio"
+                            id="address"
+                            name="address"
+                            value="<%=item._id%>"
+                            data-address="<%= item._id %>"
+                            />
+                          <strong><%= item.name %></strong>
+                        </label>
+                        <p>
+                          <%= item.phonenumber %><br />
+                          <%= item.address %>,<br />
+                          <%= item.city %>, <%= item.state %>, <%= item.pincode
+                          %>
+                        </p>
+                        <!-- Adding an "Edit" button  -->
+                        <div class="edit-button">
+                          <!-- <a href="/editaddress?name=<%= item.name %>&phonenumber=<%= item.phonenumber %>&email=<%= item.email %>&address=<%= item.address %>&city=<%= item.city %>&state=<%= item.state %>&pincode=<%= item.pincode %>&addressId=<%= item._id %>">
+                                          <button class="btn btn-primary btn-sm genric-btn info">Edit</button>
+                                      </a> -->mn    
                         </div>
+                      </div>
                     </div>
+                  </form>
                     <% } %>
-
-
-
-
-                        <% if(user.address.length===0) { %>
-                            <span style="font-weight: bold; font-size: 1.2rem;"> Add Delivery
-                                Address
-                            </span>
-                            <% } %>
-                                <div class="col-md-12">
-                                    <div class="custom-control custom-checkbox mt-3">
-                                        <input type="checkbox" class="custom-control-input"
-                                            id="shipto">
-                                        <label class="custom-control-label" for="shipto"
-                                            data-toggle="collapse"
-                                            data-target="#shipping-address"
-                                            style="font-weight: bold; cursor: pointer; font-size: 1.2rem;">ADD A NEW ADDRESS</label>
-                                    </div>
-                                </div>
-            </div>
+                  </div>
+                </div>
+                <% } %> <% if(user.address.length === 0) { %>
+                <span> No Address found. Add new address here </span>
+                <% } %>
+                <div class="col-md-12">
+                  <div class="custom-control custom-checkbox mt-3">
+                    <input
+                      type="checkbox"
+                      class="custom-control-input"
+                      id="shipto"
+                    />
+                    <label
+                      class="custom-control-label"
+                      for="shipto"
+                      data-toggle="collapse"
+                      data-target="#shipping-address"
+                      >Ship to a different address</label
+                    >
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -362,7 +356,7 @@
                       </div>
                       <br />
                       <a href=""
-                        ><button class="btn btn-success">USE THIS ADDRESS</button></a
+                        ><button class="btn btn-success">ADD ADDRESS</button></a
                       >
                     </form>
                   </div>
@@ -633,87 +627,7 @@
     </footer>
   </body>
   
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const form = document.getElementById("addAddressForm");
-      const addressInput = document.getElementById("address");
-      const cityInput = document.getElementById("city");
-      const stateInput = document.getElementById("state");
-      const pincodeInput = document.getElementById("pincode");
-  
-      form.addEventListener("submit", function (event) {
-        if (
-          !validateAddress() ||
-          !validateCity() ||
-          !validateState() ||
-          !validatePincode()
-        ) {
-          event.preventDefault();
-        }
-      });
-  
-      addressInput.addEventListener("blur", validateAddress);
-      cityInput.addEventListener("blur", validateCity);
-      stateInput.addEventListener("blur", validateState);
-      pincodeInput.addEventListener("blur", validatePincode);
-  
-      function validateAddress() {
-        const addressValue = addressInput.value.trim();
-        const addressError = document.getElementById("address-error");
-  
-        if (addressValue === "") {
-          addressError.textContent = "Address field can't be empty";
-          addressError.style.color = "red";
-          return false;
-        }
-  
-        addressError.textContent = "";
-        return true;
-      }
-  
-      function validateCity() {
-        const cityValue = cityInput.value.trim();
-        const cityError = document.getElementById("city-error");
-  
-        if (cityValue === "") {
-          cityError.textContent = "City field can't be empty";
-          cityError.style.color = "red";
-          return false;
-        }
-  
-        cityError.textContent = "";
-        return true;
-      }
-  
-      function validateState() {
-        const stateValue = stateInput.value.trim();
-        const stateError = document.getElementById("state-error");
-  
-        if (stateValue === "") {
-          stateError.textContent = "State field can't be empty";
-          stateError.style.color = "red";
-          return false;
-        }
-  
-        stateError.textContent = "";
-        return true;
-      }
-  
-      function validatePincode() {
-        const pincodeValue = pincodeInput.value.trim();
-        const pincodeError = document.getElementById("pincode-error");
-  
-        if (pincodeValue === "" || isNaN(pincodeValue)) {
-          pincodeError.textContent = "Pincode must be a number";
-          pincodeError.style.color = "red";
-          return false;
-        }
-  
-        pincodeError.textContent = "";
-        return true;
-      }
-    });
-  </script>
+
 
   <script>
     const totalpricesum = document.querySelector('.total-price-sum');
@@ -774,57 +688,34 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
- 
-<script>
-    // Add an event listener to the submit button
-    document.addEventListener('DOMContentLoaded', function () {
-        const submitButton = document.getElementById('submitForm');
-        const addressForm = document.getElementById('addAddressForm');
-
-        submitButton.addEventListener('click', async function () {
-            // Serialize the form data
-            const formData = new FormData(addressForm);
-            console.log('before the call')
-
-            try {
-                const response = await fetch('/addaddress', {
-                    method: 'POST',
-                    body: formData,
+ $("#addAddressForm").submit((e) => {
+    e.preventDefault();
+    $.ajax({
+        url: "/addaddress",
+        method: "post",
+        data: $("#addAddressForm").serialize(),
+        success: (response) => {
+            if (response.status) {
+                // Show SweetAlert for success
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Address Added',
+                    text: 'Your address has been added successfully!',
+                }).then(() => {
+                    // Redirect or perform any other action if needed
+                    // window.location.href = '/redirect-url';
                 });
-                console.log('after the call')
-
-                if (response.ok) {
-                    // If the response is successful, show a SweetAlert
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Address Added',
-                        text: 'Your address has been successfully added!',
-                    });
-
-                    // Update the page content (e.g., clear the form fields)
-                    addressForm.reset();
-                } else {
-                    // Handle server validation errors if needed
-                    const errorResponse = await response.json();
-                    // Handle the error and display a SweetAlert or update the page accordingly
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: errorResponse.error,
-                    });
-                }
-            } catch (error) {
-                // Handle other network or server-related errors
-                console.error(error);
+            } else {
+                // Show SweetAlert for failure
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'An error occurred while adding your address. Please try again later.',
+                    text: 'Failed to add address. Please try again.',
                 });
             }
-        });
+        },
     });
-</script>
+});
 
 
   function handlePlaceOrder() {
