@@ -41,80 +41,67 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-          const form = document.getElementById("addAddressForm");
-          const addressInput = document.getElementsByName("address")[0];
-          const cityInput = document.getElementsByName("city")[0];
-          const stateInput = document.getElementsByName("state")[0];
+        const form = document.getElementById("addAddressForm");
+    
+        form.addEventListener("submit", function (event) {
+          if (
+            !validateField("address", "Address field can't be empty") ||
+            !validateField("city", "City field can't be empty") ||
+            !validateField("state", "State field can't be empty") ||
+            !validatePincode() ||
+            !validateMobile()
+          ) {
+            event.preventDefault();
+          }
+        });
+    
+        function validateField(fieldName, errorMessage) {
+          const input = document.getElementsByName(fieldName)[0];
+          const value = input.value.trim();
+          const errorElement = document.getElementById(`${fieldName}-error`);
+    
+          if (value === "") {
+            errorElement.textContent = errorMessage;
+            errorElement.style.color = "red";
+            return false;
+          }
+    
+          errorElement.textContent = "";
+          return true;
+        }
+    
+        function validatePincode() {
           const pincodeInput = document.getElementsByName("pincode")[0];
+          const pincodeValue = pincodeInput.value.trim();
+          const pincodeError = document.getElementById("pincode-error");
+    
+          if (pincodeValue === "" || isNaN(pincodeValue) || pincodeValue.length !== 6) {
+            pincodeError.textContent = "Pincode must be a 6-digit number";
+            pincodeError.style.color = "red";
+            return false;
+          }
+    
+          pincodeError.textContent = "";
+          return true;
+        }
+    
+        function validateMobile() {
           const mobileInput = document.getElementsByName("mobile")[0];
-  
-          form.addEventListener("submit", function (event) {
-              if (
-                  !validateField(addressInput, "address-error", "Address field can't be empty") ||
-                  !validateField(cityInput, "city-error", "City field can't be empty") ||
-                  !validateField(stateInput, "state-error", "State field can't be empty") ||
-                  !validatePincode() ||
-                  !validateMobile()
-              ) {
-                  event.preventDefault();
-              }
-          });
-  
-          addressInput.addEventListener("blur", function () {
-              validateField(addressInput, "address-error", "Address field can't be empty");
-          });
-          cityInput.addEventListener("blur", function () {
-              validateField(cityInput, "city-error", "City field can't be empty");
-          });
-          stateInput.addEventListener("blur", function () {
-              validateField(stateInput, "state-error", "State field can't be empty");
-          });
-          pincodeInput.addEventListener("blur", validatePincode);
-          mobileInput.addEventListener("blur", validateMobile);
-  
-          function validateField(input, errorId, errorMessage) {
-              const value = input.value.trim();
-              const errorElement = document.getElementById(errorId);
-  
-              if (value === "") {
-                  errorElement.textContent = errorMessage;
-                  errorElement.style.color = "red";
-                  return false;
-              }
-  
-              errorElement.textContent = "";
-              return true;
+          const mobileValue = mobileInput.value.trim();
+          const mobileError = document.getElementById("mobile-error");
+    
+          if (mobileValue === "" || isNaN(mobileValue) || mobileValue.length !== 10) {
+            mobileError.textContent = "Mobile must be a 10-digit number";
+            mobileError.style.color = "red";
+            return false;
           }
-  
-          function validatePincode() {
-              const pincodeValue = pincodeInput.value.trim();
-              const pincodeError = document.getElementById("pincode-error");
-  
-              if (pincodeValue === "" || isNaN(pincodeValue) || pincodeValue.length !== 6) {
-                  pincodeError.textContent = "Pincode must be a 6-digit number";
-                  pincodeError.style.color = "red";
-                  return false;
-              }
-  
-              pincodeError.textContent = "";
-              return true;
-          }
-  
-          function validateMobile() {
-              const mobileValue = mobileInput.value.trim();
-              const mobileError = document.getElementById("mobile-error");
-  
-              if (mobileValue === "" || isNaN(mobileValue) || mobileValue.length !== 10) {
-                  mobileError.textContent = "Mobile must be a 10-digit number";
-                  mobileError.style.color = "red";
-                  return false;
-              }
-  
-              mobileError.textContent = "";
-              return true;
-          }
+    
+          mobileError.textContent = "";
+          return true;
+        }
       });
-  </script>
+    </script>
+    
   </head>
 
   <body>
