@@ -184,7 +184,7 @@ const userCheckoutPost = async (req, res) => {
   try {
     const userId = req.session.user_id;
     const user = await userModel.findById(userId).exec();
-    const { address, paymentMethod, couponId } = req.body;
+    const { address, paymentMethod, couponId, subTotalPrice } = req.body;
     const validatedCouponId = couponId === "" ? null : couponId;
 
     if (!user) {
@@ -202,12 +202,9 @@ const userCheckoutPost = async (req, res) => {
       discountAmount = await couponModel.findById(couponId);
       discountAmount = discountAmount ? discountAmount.discountAmount : 0;
     }
-     subTotalPrice = 0;
-    cart.products.forEach((item) => {
-      subTotalPrice += item.product.price * item.quantity;
-    });
+    
     const products = orders[0].products;
-    let finalPrice = +subTotalPrice - discountAmount;
+    let finalPrice = +subTotalPrice - 60;
 
     // Create order details
     const details = {
