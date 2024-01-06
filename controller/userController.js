@@ -856,7 +856,7 @@ const userUpdatedAddress = async (req, res) => {
 };
 const addNewAddress = async (req, res) => {
   try {
-    const userId = req.session.user._id;
+    const userId = req.session.user_id;
     const address = req.body.address;
     const city = req.body.city;
     const state = req.body.state;
