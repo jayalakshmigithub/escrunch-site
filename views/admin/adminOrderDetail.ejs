@@ -191,21 +191,8 @@
                             </p>
                           </div>
                     </article>
-                </div> <!-- col// -->
-                <!-- <div class="col-md-4">
-                    <article class="icontext align-items-start">
-                        <span class="icon icon-sm rounded-circle bg-primary-light">
-                            <i class="text-primary material-icons md-local_shipping"></i>
-                        </span>
-                        <div class="text">
-                            <h6 class="mb-1">Order info</h6>
-                            <p class="mb-1">
-                                Shipping: Fargo express <br> Pay method: card <br> Status: new
-                            </p>
-                            <a href="#">Download info</a>
-                        </div>
-                    </article>
-                </div> col// -->
+                </div> 
+                
                 <div class="col-md-4">
                     <article class="icontext align-items-start">
                         <span class="icon icon-sm rounded-circle bg-primary-light">
@@ -245,11 +232,13 @@
                                 <tr>
                                     <td>
                                         <a class="itemside" href="#">
-                                            <div class="left">
-                                                <% if (item.product && item.product.image && item.product.image[0]) { %>
-                                                    <img src="/uploadProductImages/<%= item.product.image[0] %>" width="40" height="40" class="img-xs" alt="Item">
-                                                <% } %>
-                                            </div>
+                                            <td class="product-info" style="display: flex; align-items: center;">
+                                                <img src="/uploadProductImages/<%= item.productId.image[0] %>" width="40" height="40"
+                                                  class="product-image" style="width: 40px; height: 40px; margin-right: 10px;">
+                                                <p class="product-name" style="margin: 0;">
+                                                  <%= item.productId.productname %>
+                                                </p>
+                                              </td>
                                             <div class="info">
                                                 <% if (item.product) { %>
                                                     <%= item.product.productname %>
