@@ -216,70 +216,64 @@
 
         <!-- trying a new code for the above,,cg -->
         <div>
-          <div class="row">
-            <div class="col-lg-8">
-              <h5 class="section-title position-relative text-uppercase mb-3 mt-4">
-                <span class="">Select the Shipping Address</span>
-              </h5>
-              <% if(user.address.length > 0) { %>
-                <form id="addressForm">
-                  <div class="bg-light p-3 mb-5">
-                    <div class="row">
-                      <% for(let i = 0; i < user.address.length; i++) { %>
-                        <div class="col-md-6 mb-3">
-                          <div class="border p-3">
-                            <% item = user.address[i] %>
-                            <label>
-                              <input
-                                type="radio"
-                                id="address_<%= i %>"
-                                name="selectedAddress"
-                                value="<%= item._id %>"
-                                data-address="<%= item._id %>"
-                              />
-                              <strong><%= item.name %></strong>
-                            </label>
-                            <!-- Rest of the address display -->
-                            <p>
-                              <%= item.phonenumber %><br />
-                              <%= item.address %>,<br />
-                              <%= item.city %>, <%= item.state %>, <%= item.pincode %>
-                            </p>
+          <div class="container mt-5">
+            <h2 class="content-title card-title" style="margin-left: 400px; margin-bottom: 30px; color: #ff1493;">Checkout</h2>
+            <hr style="border-color: #000; margin-top: 50px;">
+            <div class="row">
+              <div class="col-lg-8">
+                <h5 class="section-title position-relative text-uppercase mb-3 mt-4">
+                  <span class="">Select the Shipping Address</span>
+                </h5>
+                <% if(user.address.length > 0) { %>
+                  <form id="addressForm">
+                    <div class="bg-light p-3 mb-5">
+                      <div class="row">
+                        <% for(let i = 0; i < user.address.length; i++) { %>
+                          <div class="col-md-6 mb-3">
+                            <div class="border p-3">
+                              <% item = user.address[i] %>
+                              <label>
+                                <input
+                                  type="radio"
+                                  id="address_<%= i %>"
+                                  name="selectedAddress"
+                                  value="<%= item._id %>"
+                                  data-address="<%= item._id %>"
+                                />
+                                <strong><%= item.name %></strong>
+                              </label>
+                              <p>
+                                <%= item.phonenumber %><br />
+                                <%= item.address %>,<br />
+                                <%= item.city %>, <%= item.state %>, <%= item.pincode %>
+                              </p>
+                            </div>
                           </div>
-                        </div>
-                      <% } %>
+                        <% } %>
+                      </div>
                     </div>
-                  </div>
-                  <!-- Placeholder for the rest of the form, including checkbox for a different address -->
-                  <div class="col-md-12">
-                    <div class="custom-control custom-checkbox mt-3">
-                      <input
-                        type="checkbox"
-                        class="custom-control-input"
-                        id="shipto"
-                      />
-                      <label
-                        class="custom-control-label"
-                        for="shipto"
-                        data-toggle="collapse"
-                        data-target="#shipping-address"
-                      >
-                        Ship to a different address
-                      </label>
-                    </div>
-                  </div>
-                  <!-- Add more form elements as needed -->
-                  <!-- Example placeholder for additional input -->
-                  <div class="form-group">
-                    <label for="newAddress">New Address:</label>
-                    <input type="text" class="form-control" id="newAddress" name="newAddress" placeholder="Enter new address">
-                  </div>
-                  <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
-              <% } %>
+                  </form>
+                <% } %>
+              </div>
             </div>
-          </div>
-          
+            
+                <div class="col-md-12">
+                  <div class="custom-control custom-checkbox mt-3">
+                    <input
+                      type="checkbox"
+                      class="custom-control-input"
+                      id="shipto"
+                    />
+                    <label
+                      class="custom-control-label"
+                      for="shipto"
+                      data-toggle="collapse"
+                      data-target="#shipping-address"
+                      >Ship to a different address</label
+                    >
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
