@@ -610,19 +610,18 @@ const adminEditOrderLists = async (req, res) => {
   try { 
     console.log('In adminEditOrderLists page');
     const orderId = req.query._id;
-    const order = await orderModel.findById(orderId).populate('user items.product').populate("coupon")
+    
+    const order = await orderModel.findById(orderId)
+      .populate('user items.product coupon user.address');
 
-    // Populate  user.address field
-    await order.populate({
-      path: 'user.address',
-      model: 'users',
-    });
-
-    res.render('admin/adminOrderDetail', { order ,coupon:order.coupon});
+    res.render('admin/adminOrderDetail', { order, coupon: order.coupon });
   } catch (error) {
     console.log(error.message);
+    // Handle the error appropriately, perhaps by sending an error response
+    res.status(500).send('Internal Server Error');
   }
 };
+
 
 
 
