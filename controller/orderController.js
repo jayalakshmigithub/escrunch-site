@@ -31,7 +31,7 @@ const orderDetail = async (req, res) => {
 
     const order = await orderModel
       .findById(orderId)
-      .populate('user items.product')
+      .populate('user items.product').populate("coupon")
       .select('items user quantity orderStatus paymentMode totalAmount finalPrice');
 
     // Manually populate user.address
@@ -42,7 +42,7 @@ const orderDetail = async (req, res) => {
 
     console.log('order details', order);
 
-    res.render("users/userOrderDetails", { order });
+    res.render("users/userOrderDetails", { order ,user,coupon:order.coupon});
   } catch (error) {
     console.log(error.message);
   }

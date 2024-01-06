@@ -285,18 +285,26 @@
                 </tbody>
                 <% }) %>
                 <tr>
-                    <td colspan="4">
-                        <article class="float-end">
+                  <td colspan="4">
+                    <article class="float-end">
+                        <dl class="dlist d-flex">
+                            <dt>Subtotal:</dt>
+                            <dd>₹<%= order.totalAmount %></dd>
+                        </dl>
+                        <dl class="dlist d-flex">
+                            <dt>Grand total:</dt>
+                            <dd> <b class="h5">₹<%= order.finalPrice %></b> </dd>
+                        </dl>
+                        
+                        <% if (order.coupon && order.totalAmount >= order.coupon.minimumAmount) { %>
                             <dl class="dlist d-flex">
-                                <dt>Subtotal:</dt>
-                                <dd>₹<%= order.totalAmount %></dd>
+                                <dt class="text-dark">Discount:</dt>
+                                <dd class="text-success">₹<%= order.discountAmount %></dd>
                             </dl>
-                            <dl class="dlist d-flex">
-                                <dt>Grand total:</dt>
-                                <dd> <b class="h5">₹<%= order.finalPrice %></b> </dd>
-                            </dl>
-                        </article>
-                    </td>
+                        <% } %>
+                    </article>
+                </td>
+                
                 </tr>
             </table>
         </div> <!-- table-responsive// -->

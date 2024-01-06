@@ -60,30 +60,7 @@ const userSignup = async (req, res) => {
 };
 
 
-// const insertUser = async (req, res) => {
-//   try {
-//     const hashedPassword = await hashPassword(req.body.password);
-//     const usermodel = new userModel({
-//       name: req.body.name,
-//       email: req.body.email,
-//       mobile: req.body.mobile,
-//       password: hashedPassword,
-//       isVerified: true,
-//     });
 
-//     const count = await userModel.find({ mobile: req.body.mobile });
-
-//     const result = await usermodel.save();
-//     if (result) {
-//       await sendOTP(req.body.mobile);
-//       res.render("users/otpValidation", { mobile: req.body.mobile });
-//     } else {
-//       res.render("users/userSignup");
-//     }
-//   } catch (err) {
-//     console.log(err.message);
-//   }
-// };
 
 
 const insertUser = async (req, res) => {
