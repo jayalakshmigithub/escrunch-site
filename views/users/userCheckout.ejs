@@ -221,66 +221,72 @@
             <hr style="border-color: #000; margin-top: 50px;">
             <div class="row">
               <div class="col-lg-8">
-                <h5 class="section-title position-relative text-uppercase mb-3 mt-4">
-                  <span class="">Select the Shipping Address</span>
+                <h5 class="section-title position-relative text-uppercase mb-3"
+                    style="font-size: 1.5rem; font-weight: bold; margin-bottom: 1rem;">
+                    Select Address
                 </h5>
-                <% if(user.address.length >0) { %>
-                <form id="addressForm">
-                <div class="bg-light p-3 mb-5">
-                  <div class="row">
-                    <% for(let i = 0; i < user.address.length; i++) { %>
-                      <div class="col-md-6 mb-3">
-                        <div class="border p-3">
-                          <% item = user.address[i] %>
-                          <form>
-                            <label>
-                              <input
-                                type="radio"
-                                id="address_<%= i %>"
-                                name="selectedAddress"
-                                value="<%= item._id %>"
-                                data-address="<%= item._id %>"
-                              />
-                              <strong><%= item.name %></strong>
-                            </label>
-                            <p>
-                              <%= item.phonenumber %><br />
-                              <%= item.address %>,<br />
-                              <%= item.city %>, <%= item.state %>, <%= item.pincode %>
-                            </p>
-                            <!-- Adding an "Edit" button  -->
-                            <div class="edit-button">
-                              <!-- <a href="/editaddress?name=<%= item.name %>&phonenumber=<%= item.phonenumber %>&email=<%= item.email %>&address=<%= item.address %>&city=<%= item.city %>&state=<%= item.state %>&pincode=<%= item.pincode %>&addressId=<%= item._id %>">
-                                  <button class="btn btn-primary btn-sm genric-btn info">Edit</button>
-                              </a> -->
-                            </div>
-                          </form>
+                <% if(user.address.length> 0) { %>
+                    <div class="bg-light p-3 mb-5"
+                        style="background-color: #f8f9fa; padding: 20px; border-radius: 10px;">
+                        <div class="row">
+                            <% for(let i=0; i < user.address.length; i++) { %>
+                                <div class="col-md-6 mb-3">
+                                    <div class="border p-3"
+                                        style="border: 1px solid #ccc; border-radius: 10px;">
+                                        <% item=user.address[i] %>
+                                            <label>
+                                                <input type="radio" class="address-radio"
+                                                    id="defaultaddress" name="defaultaddress"
+                                                    value="defaultaddress"
+                                                    data-address="<%= item._id %>"
+                                                    style="margin-right: 10px;">
+                                                <strong style="font-weight: bold;">
+                                                    <%= item.name %>
+                                                </strong>
+                                            </label>
+                                            <p>
+                                                <%= item.phonenumber %><br>
+                                                    <%= item.address %>,<br>
+                                                        <%= item.city %>, <%= item.state %>, <%=
+                                                                    item.pincode %>
+                                            </p>
+                                            <!-- Adding an "Edit" button -->
+                                            <div class="edit-button"
+                                                style="text-align: center; margin-top: 10px; display: none;">
+                                                <a href="/editaddress/<%= item._id %>">
+                                                    <button
+                                                        class="btn btn-primary btn-sm genric-btn info"
+                                                        style="background-color: #151616; color: #fff; border: none; border-radius: 5px;">Edit
+                                                        Address</button>
+                                                </a>
+                                            </div>
+                                    </div>
+                                </div>
+                                <% } %>
                         </div>
-                      </div>
+                    </div>
                     <% } %>
-                    
-                  </div>
-                </div>
-                <% } %> <% if(user.address.length === 0) { %>
-                <span> No Address found. Add new address here </span>
-                <% } %>
-                <div class="col-md-12">
-                  <div class="custom-control custom-checkbox mt-3">
-                    <input
-                      type="checkbox"
-                      class="custom-control-input"
-                      id="shipto"
-                    />
-                    <label
-                      class="custom-control-label"
-                      for="shipto"
-                      data-toggle="collapse"
-                      data-target="#shipping-address"
-                      >Ship to a different address</label
-                    >
-                  </div>
-                </div>
-              </div>
+
+
+
+
+                        <% if(user.address.length===0) { %>
+                            <span style="font-weight: bold; font-size: 1.2rem;"> Add Delivery
+                                Address
+                            </span>
+                            <% } %>
+                                <div class="col-md-12">
+                                    <div class="custom-control custom-checkbox mt-3">
+                                        <input type="checkbox" class="custom-control-input"
+                                            id="shipto">
+                                        <label class="custom-control-label" for="shipto"
+                                            data-toggle="collapse"
+                                            data-target="#shipping-address"
+                                            style="font-weight: bold; cursor: pointer; font-size: 1.2rem;">ADD
+                                            A NEW DELIVERY ADDRESS</label>
+                                    </div>
+                                </div>
+            </div>
             </div>
           </div>
 
