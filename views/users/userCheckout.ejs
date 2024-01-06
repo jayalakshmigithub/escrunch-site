@@ -251,7 +251,7 @@
                                                                     item.pincode %>
                                             </p>
                                             <!-- Adding an "Edit" button -->
-                                            <div class="edit-button"
+                                            <!-- <div class="edit-button"
                                                 style="text-align: center; margin-top: 10px; display: none;">
                                                 <a href="/editaddress/<%= item._id %>">
                                                     <button
@@ -259,7 +259,7 @@
                                                         style="background-color: #151616; color: #fff; border: none; border-radius: 5px;">Edit
                                                         Address</button>
                                                 </a>
-                                            </div>
+                                            </div> -->
                                     </div>
                                 </div>
                                 <% } %>
@@ -282,8 +282,7 @@
                                         <label class="custom-control-label" for="shipto"
                                             data-toggle="collapse"
                                             data-target="#shipping-address"
-                                            style="font-weight: bold; cursor: pointer; font-size: 1.2rem;">ADD
-                                            A NEW DELIVERY ADDRESS</label>
+                                            style="font-weight: bold; cursor: pointer; font-size: 1.2rem;">ADD A NEW ADDRESS</label>
                                     </div>
                                 </div>
             </div>
@@ -363,7 +362,7 @@
                       </div>
                       <br />
                       <a href=""
-                        ><button class="btn btn-success">ADD ADDRESS</button></a
+                        ><button class="btn btn-success">USE THIS ADDRESS</button></a
                       >
                     </form>
                   </div>
@@ -634,7 +633,87 @@
     </footer>
   </body>
   
-
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const form = document.getElementById("addAddressForm");
+      const addressInput = document.getElementById("address");
+      const cityInput = document.getElementById("city");
+      const stateInput = document.getElementById("state");
+      const pincodeInput = document.getElementById("pincode");
+  
+      form.addEventListener("submit", function (event) {
+        if (
+          !validateAddress() ||
+          !validateCity() ||
+          !validateState() ||
+          !validatePincode()
+        ) {
+          event.preventDefault();
+        }
+      });
+  
+      addressInput.addEventListener("blur", validateAddress);
+      cityInput.addEventListener("blur", validateCity);
+      stateInput.addEventListener("blur", validateState);
+      pincodeInput.addEventListener("blur", validatePincode);
+  
+      function validateAddress() {
+        const addressValue = addressInput.value.trim();
+        const addressError = document.getElementById("address-error");
+  
+        if (addressValue === "") {
+          addressError.textContent = "Address field can't be empty";
+          addressError.style.color = "red";
+          return false;
+        }
+  
+        addressError.textContent = "";
+        return true;
+      }
+  
+      function validateCity() {
+        const cityValue = cityInput.value.trim();
+        const cityError = document.getElementById("city-error");
+  
+        if (cityValue === "") {
+          cityError.textContent = "City field can't be empty";
+          cityError.style.color = "red";
+          return false;
+        }
+  
+        cityError.textContent = "";
+        return true;
+      }
+  
+      function validateState() {
+        const stateValue = stateInput.value.trim();
+        const stateError = document.getElementById("state-error");
+  
+        if (stateValue === "") {
+          stateError.textContent = "State field can't be empty";
+          stateError.style.color = "red";
+          return false;
+        }
+  
+        stateError.textContent = "";
+        return true;
+      }
+  
+      function validatePincode() {
+        const pincodeValue = pincodeInput.value.trim();
+        const pincodeError = document.getElementById("pincode-error");
+  
+        if (pincodeValue === "" || isNaN(pincodeValue)) {
+          pincodeError.textContent = "Pincode must be a number";
+          pincodeError.style.color = "red";
+          return false;
+        }
+  
+        pincodeError.textContent = "";
+        return true;
+      }
+    });
+  </script>
 
   <script>
     const totalpricesum = document.querySelector('.total-price-sum');
@@ -695,34 +774,57 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
- $("#addAddressForm").submit((e) => {
-    e.preventDefault();
-    $.ajax({
-        url: "/addaddress",
-        method: "post",
-        data: $("#addAddressForm").serialize(),
-        success: (response) => {
-            if (response.status) {
-                // Show SweetAlert for success
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Address Added',
-                    text: 'Your address has been added successfully!',
-                }).then(() => {
-                    // Redirect or perform any other action if needed
-                    // window.location.href = '/redirect-url';
+ 
+<script>
+    // Add an event listener to the submit button
+    document.addEventListener('DOMContentLoaded', function () {
+        const submitButton = document.getElementById('submitForm');
+        const addressForm = document.getElementById('addAddressForm');
+
+        submitButton.addEventListener('click', async function () {
+            // Serialize the form data
+            const formData = new FormData(addressForm);
+            console.log('before the call')
+
+            try {
+                const response = await fetch('/addaddress', {
+                    method: 'POST',
+                    body: formData,
                 });
-            } else {
-                // Show SweetAlert for failure
+                console.log('after the call')
+
+                if (response.ok) {
+                    // If the response is successful, show a SweetAlert
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Address Added',
+                        text: 'Your address has been successfully added!',
+                    });
+
+                    // Update the page content (e.g., clear the form fields)
+                    addressForm.reset();
+                } else {
+                    // Handle server validation errors if needed
+                    const errorResponse = await response.json();
+                    // Handle the error and display a SweetAlert or update the page accordingly
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: errorResponse.error,
+                    });
+                }
+            } catch (error) {
+                // Handle other network or server-related errors
+                console.error(error);
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'Failed to add address. Please try again.',
+                    text: 'An error occurred while adding your address. Please try again later.',
                 });
             }
-        },
+        });
     });
-});
+</script>
 
 
   function handlePlaceOrder() {
