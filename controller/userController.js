@@ -3,7 +3,7 @@ const otpVerificationHelper = require("../helper/otpVerificationHelper");
 const bcrypt = require("bcrypt");
 const productModel = require("../model/productModel");
 const categoryModel = require("../model/categoryModel");
-const wishlistModel = require('../model/wishlistModel');
+const wishlistModel = require("../model/wishlistModel");
 const couponModel = require("../model/couponModel");
 const accountSid = process.env.ACCOUNT_SID;
 const authToken = process.env.AUTH_TOKEN;
@@ -11,12 +11,9 @@ const client = require("twilio")(accountSid, authToken);
 const session = require("express-session");
 const mongoose = require("mongoose");
 const cacheControl = require("../middleware/cacheControlMiddleware");
-const cropImage = require('../multer/productImageCrop');
-const product = require('../multer/product');
-const catImgCrop = require('../multer/catImgCrop');
-
-
-
+const cropImage = require("../multer/productImageCrop");
+const product = require("../multer/product");
+const catImgCrop = require("../multer/catImgCrop");
 
 //<------------------ Password Hashing --------------------->
 async function hashPassword(plainPassword) {
@@ -59,10 +56,6 @@ const userSignup = async (req, res) => {
   }
 };
 
-
-
-
-
 const insertUser = async (req, res) => {
   try {
     const hashedPassword = await hashPassword(req.body.password);
@@ -85,7 +78,9 @@ const insertUser = async (req, res) => {
   } catch (err) {
     if (err.code === 11000) {
       // Duplicate key error (mobile number already exists)
-      res.render("users/userSignup", { error: "User with this mobile number already exists." });
+      res.render("users/userSignup", {
+        error: "User with this mobile number already exists.",
+      });
     } else {
       console.log(err.message);
       res.render("users/userSignup", { error: "An error occurred." });
@@ -121,7 +116,7 @@ const userLandingPage = async (req, res) => {
 
 const userLogin = async (req, res) => {
   try {
-    console.log("in loginn")
+    console.log("in loginn");
     if (req.session.user_id) {
       res.redirect("/home");
     } else {
@@ -151,12 +146,11 @@ const userLogout = async (req, res) => {
   }
 };
 
-
 const loginLoad = async (req, res) => {
   try {
     if (req.session.user_id) {
       console.log("hah", req.session.user_id);
-      console.log("in login loaadddd")
+      console.log("in login loaadddd");
       res.redirect("/home");
     } else {
       res.render("users/userLogin");
@@ -170,7 +164,7 @@ const loginLoad = async (req, res) => {
 
 const verifyLogin = async (req, res) => {
   try {
-    console.log("in verify login")
+    console.log("in verify login");
     const email = req.body.email;
     const password = req.body.password;
     console.log("Email:", email);
@@ -183,7 +177,7 @@ const verifyLogin = async (req, res) => {
       if (!userData.isVerified) {
         res.render("users/userLogin", { msg: "user not verified" });
       }
-      if(userData.isBlocked){
+      if (userData.isBlocked) {
         res.render("users/userLogin", { msg: "user is blocked" });
       }
       const passwordMatch = await bcrypt.compare(password, userData.password);
@@ -209,8 +203,6 @@ const verifyLogin = async (req, res) => {
   }
 };
 //login user methods started
-
-
 
 const otpVerificaton = async (req, res) => {
   try {
@@ -239,11 +231,8 @@ const otpVerificaton = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-
   }
 };
-
-
 
 const viewOtpPage = async (req, res) => {
   try {
@@ -256,7 +245,7 @@ const viewOtpPage = async (req, res) => {
 
 const userHome = async (req, res) => {
   try {
-    let products = await productModel.find({status:'Listed'});
+    let products = await productModel.find({ status: "Listed" });
     // res.render("users/userHome", { products });
     // res.setHeader('Cache-Control','no-cache, no-store, must-revalidate')
     // res.setHeader('Pragma','no-cache')
@@ -269,7 +258,7 @@ const userHome = async (req, res) => {
 
 const userProductLists = async (req, res) => {
   try {
-    console.log('enterd in this productlist')
+    console.log("enterd in this productlist");
     const results = await productModel.aggregate([
       {
         $group: {
@@ -278,7 +267,7 @@ const userProductLists = async (req, res) => {
         },
       },
     ]);
-    console.log('results in product list',results)
+    console.log("results in product list", results);
     const categoriesWithCounts = await Promise.all(
       results.map(async (result) => {
         const category = await categoryModel.findOne({
@@ -317,7 +306,13 @@ const userProductLists = async (req, res) => {
       .limit(ITEMS_PER_PAGE);
 
     if (products)
-      res.render("users/userProductLists", { products,currentPage: page,totalPages: totalPages,category: categoriesWithCounts,  sortOption: req.query.sortOption || '1'});
+      res.render("users/userProductLists", {
+        products,
+        currentPage: page,
+        totalPages: totalPages,
+        category: categoriesWithCounts,
+        sortOption: req.query.sortOption || "1",
+      });
   } catch (error) {
     console.log(error.message);
   }
@@ -393,13 +388,14 @@ const userProductLists = async (req, res) => {
 //   }
 // };
 
-
 const userCategory = async (req, res) => {
   try {
     const catId = req.params.id;
-    const category = await categoryModel.findOne({ _id: catId })
-    const categoryname = category.categoryname
-    const products = await productModel.find({ categoryname: catId }).populate("categoryname")
+    const category = await categoryModel.findOne({ _id: catId });
+    const categoryname = category.categoryname;
+    const products = await productModel
+      .find({ categoryname: catId })
+      .populate("categoryname");
 
     const ITEMS_PER_PAGE = 3;
     const page = parseInt(req.query.page) || 1;
@@ -411,11 +407,16 @@ const userCategory = async (req, res) => {
       .populate("categoryname")
       .skip(skipItems)
       .limit(ITEMS_PER_PAGE);
-      console.log('prods in category',prods)
+    console.log("prods in category", prods);
 
     if (prods)
-      res.render("users/userCategory", {products,currentPage: page,totalPages: totalPages,catId,categoryname});
-
+      res.render("users/userCategory", {
+        products,
+        currentPage: page,
+        totalPages: totalPages,
+        catId,
+        categoryname,
+      });
   } catch (error) {
     console.log(error.message);
   }
@@ -467,7 +468,6 @@ const userCategory = async (req, res) => {
 //       sortCriteria = { price: -1 };    // Sort by Price: High to Low
 //     }
 
-
 //     const ITEMS_PER_PAGE = 3;
 //     const page = parseInt(req.query.page) || 1;
 //     const skipItems = (page - 1) * ITEMS_PER_PAGE;
@@ -504,10 +504,10 @@ const userCategory = async (req, res) => {
 
 const userSortPrice = async (req, res) => {
   try {
-    console.log('entered here in sort');
+    console.log("entered here in sort");
     const results = await productModel.aggregate([
       {
-        $match: { status: 'Listed' } // consider only  'Listed' products
+        $match: { status: "Listed" }, // consider only  'Listed' products
       },
       {
         $group: {
@@ -516,7 +516,7 @@ const userSortPrice = async (req, res) => {
         },
       },
     ]);
-    const sortOptions = req.query.sortOption || '1'; 
+    const sortOptions = req.query.sortOption || "1";
 
     const categoriesWithCounts = await Promise.all(
       results.map(async (result) => {
@@ -535,21 +535,21 @@ const userSortPrice = async (req, res) => {
     const { sortOption } = req.query;
     let sortCriteria = {};
 
-    if (sortOption === '2') {
+    if (sortOption === "2") {
       sortCriteria = { price: 1 }; // Sort by Price: Low to High
-    } else if (sortOption === '3') {
+    } else if (sortOption === "3") {
       sortCriteria = { price: -1 }; // Sort by Price: High to Low
     }
 
     const ITEMS_PER_PAGE = 3;
     const page = parseInt(req.query.page) || 1;
     const skipItems = (page - 1) * ITEMS_PER_PAGE;
-    const totalCount = await productModel.countDocuments({ status: 'Listed' });
+    const totalCount = await productModel.countDocuments({ status: "Listed" });
     const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
 
     const sortedProducts = await productModel
-      .find({ status: 'Listed' })
-      .populate('categoryname')
+      .find({ status: "Listed" })
+      .populate("categoryname")
       .sort(sortCriteria)
       .skip(skipItems)
       .limit(ITEMS_PER_PAGE);
@@ -560,22 +560,17 @@ const userSortPrice = async (req, res) => {
         currentPage: page,
         totalPages: totalPages,
         category: categoriesWithCounts,
-        sortOption:sortOptions,
-       
+        sortOption: sortOptions,
 
         calculateMRP: (product) => {
           return product.mrp;
         },
       });
     }
-
   } catch (error) {
     console.log(error.message);
   }
 };
-
-
-
 
 const userProductDetails = async (req, res) => {
   try {
@@ -602,47 +597,52 @@ const userProfile = async (req, res) => {
     const userId = req.session.user_id;
     const user = await userModel.findById(userId);
 
-    res.render("users/userProfile", { user, category});
+    res.render("users/userProfile", { user, category });
   } catch (error) {
     console.log(error.message);
   }
 };
 
-
 // Your route or controller function for changing the password
 const changePassword = async (req, res) => {
   try {
-    
     // You can directly render the page without any checks or input validation
-    res.render('users/changePassword');
+    res.render("users/changePassword");
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal server error');
+    res.status(500).send("Internal server error");
   }
 };
 
-const updatePassword = async(req,res)=>{
-  try{
+const updatePassword = async (req, res) => {
+  try {
     const userId = req.session.user_id._id;
-    console.log(userId,'hiiii hlooo')
-   const userdetails = await userModel.findOne({_id:userId});
-   console.log(userdetails)
-   console.log(req.body,'req,body')
-   const oldPassword = req.body.oldPassword;
-   const newPassword = req.body.newPassword;
-   const checkPassword = await bcrypt.compare(oldPassword,userdetails.password)
-   if(checkPassword){
-    const newPass = await bcrypt.hash(newPassword,10);
-    await userModel.updateOne({_id:userId},{$set:{password:newPass}})
-    res.status(201).json({status:true,message:'password updated successfully'})
-   }else{
-    res.json({status:false,message:'password does not match'})
-   }
-
-  }catch(err){
-    console.log(err)
+    console.log(userId, "hiiii hlooo");
+    const userdetails = await userModel.findOne({ _id: userId });
+    console.log(userdetails);
+    console.log(req.body, "req,body");
+    const oldPassword = req.body.oldPassword;
+    const newPassword = req.body.newPassword;
+    const checkPassword = await bcrypt.compare(
+      oldPassword,
+      userdetails.password
+    );
+    if (checkPassword) {
+      const newPass = await bcrypt.hash(newPassword, 10);
+      await userModel.updateOne(
+        { _id: userId },
+        { $set: { password: newPass } }
+      );
+      res
+        .status(201)
+        .json({ status: true, message: "password updated successfully" });
+    } else {
+      res.json({ status: false, message: "password does not match" });
+    }
+  } catch (err) {
+    console.log(err);
   }
-}
+};
 
 const userProfileUpdated = async (req, res) => {
   try {
@@ -657,8 +657,6 @@ const userProfileUpdated = async (req, res) => {
     //     error: "Phone number is required",
     //   });
     // }
-
-
 
     const user = await userModel.findByIdAndUpdate(
       userId,
@@ -751,11 +749,11 @@ const userAddAddressPost = async (req, res) => {
         { new: true }
       );
       // res.status(201).json({status:true});
-      res.redirect('/userProfile')
+      res.redirect("/userProfile");
     } else {
       // Handle validation errors here
-      res.json({status:false})
-        }
+      res.json({ status: false });
+    }
   } catch (error) {
     console.log(error.message);
   }
@@ -855,8 +853,6 @@ const userUpdatedAddress = async (req, res) => {
   }
 };
 
-
-
 const removeAddress = async (req, res) => {
   try {
     const userId = req.session.user_id; // Corrected to match your schema
@@ -881,59 +877,59 @@ const removeAddress = async (req, res) => {
   }
 };
 
-const updateStatus = async(req,res)=>{
+const updateStatus = async (req, res) => {
   try {
     const userId = req.body.id;
     const status = req.body.status;
-    const response = await userModel.updateOne({_id:userId},{$set:{isBlocked:status}});
+    const response = await userModel.updateOne(
+      { _id: userId },
+      { $set: { isBlocked: status } }
+    );
     res.status(200).json(response);
-    
   } catch (error) {
-    console.log(error)
-    
+    console.log(error);
   }
-}
+};
 
 const userWallet = async (req, res) => {
   try {
-    console.log('entered in wallets function')
+    console.log("entered in wallets function");
 
-    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
-    res.setHeader('Pragma', 'no-cache');
-    res.setHeader('Expires', '0');
-    res.setHeader('Surrogate-Control', 'no-store');
-    console.log('before checking session')
+    res.setHeader(
+      "Cache-Control",
+      "no-store, no-cache, must-revalidate, proxy-revalidate"
+    );
+    res.setHeader("Pragma", "no-cache");
+    res.setHeader("Expires", "0");
+    res.setHeader("Surrogate-Control", "no-store");
+    console.log("before checking session");
 
     // Check if the user is authenticated
     if (!req.session.user_id) {
-      console.log('session')
-      return res.redirect('/login'); // Redirect to the login page or handle it as per your authentication flow
+      console.log("session");
+      return res.redirect("/login"); // Redirect to the login page or handle it as per your authentication flow
     }
-    console.log('user in wallet')
+    console.log("user in wallet");
 
     // Fetch the user by ID
     const userId = req.session.user_id; // Assuming you have a user session
     const user = await userModel.findById(userId);
-    console.log('userId in wallet',userId);
+    console.log("userId in wallet", userId);
 
     if (!user) {
-      return res.status(404).send('User not found'); // Handle this case appropriately
+      return res.status(404).send("User not found"); // Handle this case appropriately
     }
 
     // Fetch the user's transactions
     const userTransactions = user.wallet.transactions;
-    console.log('userTransactions ?',userTransactions)
+    console.log("userTransactions ?", userTransactions);
 
-    res.render('users/userWallet', { user, userTransactions });
+    res.render("users/userWallet", { user, userTransactions });
   } catch (error) {
     console.log(error.message);
-    res.status(500).send('Internal Server Error'); // Handle this error appropriately
-}
+    res.status(500).send("Internal Server Error"); // Handle this error appropriately
+  }
 };
-
-
-
-
 
 const userAddCoupon = async (req, res) => {
   try {
@@ -943,15 +939,12 @@ const userAddCoupon = async (req, res) => {
     const coupons = await couponModel.find({
       // minimumAmount: { $lte: totalAmountInCheckout },
       expirationDate: { $gt: currentDate },
-
     });
     res.render("users/userCoupons", { coupons, category });
   } catch (error) {
     console.log(error.message);
   }
 };
-
-
 
 //////////////////adding coupon to the checkout
 const userAddCouponpost = async (req, res) => {
@@ -963,14 +956,9 @@ const userAddCouponpost = async (req, res) => {
   }
 };
 
-
 const contactUsController = (req, res) => {
-  res.render('users/contactUs');
+  res.render("users/contactUs");
 };
-
-
-
-
 
 module.exports = {
   userLandingPage,
@@ -1003,5 +991,4 @@ module.exports = {
   userAddCoupon,
   userAddCouponpost,
   contactUsController,
-
 };

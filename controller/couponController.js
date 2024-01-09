@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 const orderModel = require("../model/orderModel");
 const couponModel = require("../model/couponModel");
 
-
 const adminCoupons = async (req, res) => {
   try {
     const ITEMS_PER_PAGE = 10;
@@ -11,16 +10,20 @@ const adminCoupons = async (req, res) => {
     const totalCount = await couponModel.countDocuments();
     const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
 
-    const coupon = await couponModel.find().skip(skipItems).limit(ITEMS_PER_PAGE);
+    const coupon = await couponModel
+      .find()
+      .skip(skipItems)
+      .limit(ITEMS_PER_PAGE);
 
-    res.render("admin/adminCoupons", { coupon, currentPage: page, totalPages: totalPages });
+    res.render("admin/adminCoupons", {
+      coupon,
+      currentPage: page,
+      totalPages: totalPages,
+    });
   } catch (error) {
     console.log(error.message);
   }
-}
-
-
-
+};
 
 //////////////////////to show admin create coupon page
 const adminAddCoupon = async (req, res) => {
@@ -29,10 +32,7 @@ const adminAddCoupon = async (req, res) => {
   } catch (error) {
     console.log(error.message);
   }
-}
-
-
-
+};
 
 ////////////////////to create new coupon from admin side
 const adminAddCouponPost = async (req, res) => {
@@ -44,10 +44,7 @@ const adminAddCouponPost = async (req, res) => {
   } catch (error) {
     console.log(error.message);
   }
-}
-
-
-
+};
 
 ////////////////////to show edit coupon page
 const adminEditCoupon = async (req, res) => {
@@ -58,9 +55,7 @@ const adminEditCoupon = async (req, res) => {
   } catch (error) {
     console.log(error.message);
   }
-}
-
-
+};
 
 /////////////////to edit the existing coupon
 const adminEditCouponPost = async (req, res) => {
@@ -82,9 +77,7 @@ const adminEditCouponPost = async (req, res) => {
   } catch (error) {
     console.log(error.message);
   }
-}
-
-
+};
 
 /////////////////to delete coupon
 const deleteCoupon = async (req, res) => {
@@ -94,16 +87,12 @@ const deleteCoupon = async (req, res) => {
     // Delete the category with the specified ID
     await couponModel.deleteOne({ _id: couponId });
 
-    res.redirect('/admin/coupons');
+    res.redirect("/admin/coupons");
   } catch (error) {
     console.error(error.message);
-    res.status(500).send('Internal Server Error');
+    res.status(500).send("Internal Server Error");
   }
-}
-
-
-
-
+};
 
 module.exports = {
   adminCoupons,
@@ -112,4 +101,4 @@ module.exports = {
   adminEditCoupon,
   adminEditCouponPost,
   deleteCoupon,
-}
+};
