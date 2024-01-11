@@ -70,7 +70,7 @@ const adminEditCouponPost = async (req, res) => {
     updatedCoupon.minimumAmount = req.body.minimumAmount;
     updatedCoupon.expirationDate = req.body.expirationDate;
     updatedCoupon.maxRedemptions = req.body.maxRedemptions;
-    updatedCoupon.isReferral = req.body.isReferral;
+  
 
     await updatedCoupon.save();
     res.redirect("/admin/coupons");

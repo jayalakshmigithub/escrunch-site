@@ -226,8 +226,9 @@
                         <label class="form-label" for="discountType">Choose Discount Type</label>
                         <div class="col-12">
                           <select class="select form-control-lg" name="discountType">
-                            <option value="Fixed" <%=coupon.discountType==='Fixed' ? 'selected' : '' %> >Fixed Amount
-                            </option>
+                            <option value="Fixed" <%=coupon.discountType==='Fixed' ? 'selected' : '' %>>Fixed Amount</option>
+                            <option value="Percentage" <%= coupon.discountType === "Percentage" ? "selected": " " %>>Percentage</option>
+                           
                           </select>
                         </div>
                       </div>

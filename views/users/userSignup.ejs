@@ -93,6 +93,27 @@
                   />
                   <p id="password_error" style="color: red"></p>
                 </div>
+                <button
+                type="submit"
+                value="submit"
+                class="primary-btn"
+                onclick="return validation()"
+              >
+                Enter Otp
+              </button>
+              <div class="col-md-12 form-group">
+                <input
+                  type="otp"
+                  class="form-control"
+                  id="password-field"
+                  placeholder="otp"
+                  name="otp"
+                  onfocus="this.placeholder = ''"
+                  onblur="this.placeholder = 'otp'"
+                  required
+                />
+                <p id="password_error" style="color: red"></p>
+              </div>
                 <div class="col-md-12 form-group"></div>
                 <div class="col-md-12 form-group">
                   <button
