@@ -12,12 +12,15 @@ const { userLandingPage, userLogin, userSignup, viewOtpPage } = userController;
 router.get("/", userLandingPage); //Render the landing page
 router.get("/login", userLogin); //Render the login page
 router.get("/signup", userSignup); //Render the signup page
+router.post('/sendotp',userController.userSendOtp)
+router.post('/verifyotp',userController.userSignedup)
+router.post('/signup',userController.userSignedup)
 router.post("/signup", userController.insertUser); //Inserting a new user into your database
 router.get("/verify/:mobile", viewOtpPage); //Render otpvalidation page
 
-router.post("/sendotp", userController.userSendOtp); //To send Otp
-router.get("/otpValidation", userController.viewOtpPage); //Render otpvalidation page
-router.post("/otpVerification", userController.otpVerificaton); //Verify Otp
+// router.post("/sendotp", userController.userSendOtp); //To send Otp
+// router.get("/otpValidation", userController.viewOtpPage); //Render otpvalidation page
+// router.post("/otpVerification", userController.otpVerificaton); //Verify Otp
 
 router.get("/login", userController.loginLoad);
 router.post("/login", userController.verifyLogin);
