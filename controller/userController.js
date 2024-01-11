@@ -77,7 +77,7 @@ const userSendOtp = async (req, res) => {
     const otp = Math.floor(100000 + Math.random() * 900000);
 
     const mailOptions = {
-      from: 'aswathysivarajan217@gmail.com',
+      from: 'lakshmijaya2912@gmail.com',
       to: email,
       subject: 'OTP Verification',
       text: `Your OTP is: ${otp}`,
