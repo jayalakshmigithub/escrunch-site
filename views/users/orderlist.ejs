@@ -254,19 +254,22 @@
               <div class="border border-2 p-3 mb-4">
                 <a href="/orderdetails/<%= item._id %>"></a>
                 <div class="order-details">
-                  <% var product = item.items[0].product; %>
-                  <div class="row">
-                    <div class="col-2">
-                      <img
-                        src="/uploadProductImages/<%= product.image[0] %>"
-                        class="img-thumbnail"
-                        alt="Item"
-                      />
+                  <% item.items.forEach(function(product) { %>
+                    <div class="row">
+                      <div class="col-2">
+                        <img
+                          src="/uploadProductImages/<%= product.product.image[0] %>"
+                          class="img-thumbnail"
+                          alt="Item"
+                        />
+                      </div>
+                      <div class="col-3"><%= product.product.productname %></div>
+                      <div class="col-2 text-right"><%= product.quantity %></div>
+                      <div class="col-2 text-right"><%= product.price %></div>
                     </div>
-                    <div class="col-3"><%= product.productname %></div>
-                    <div class="col-2 text-right"><%= item.items[0].quantity %></div>
-                    <div class="col-2 text-right"><%= item.items[0].price %></div>
-                    <div class="col-3 text-right">
+                  <% }); %>
+                  <div class="row">
+                    <div class="col-12 text-right">
                       <a
                         href="/orderdetails/<%= item._id %>"
                         class="btn btn-primary btn-sm"
@@ -282,6 +285,7 @@
           <% }); %>
         </div>
       </div>
+      
       
       <!-- End Your order details section -->
     </div>
