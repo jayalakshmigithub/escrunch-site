@@ -235,6 +235,18 @@
     </header>
 
     <div class="container">
+      <div>
+        <h2
+          class="content-title card-title"
+          style="
+            margin-left: 320px;
+            margin-bottom: 30px;
+            color: #ff1493;
+          "
+        >
+          Orders
+        </h2>
+      </div>
       <table class="table mt-4">
         <thead>
           <tr>
@@ -269,7 +281,7 @@
                     </div>
                   <% }); %>
                   <div class="row">
-                    <div class="col-12" style="text-align: center;">
+                    <div class="col-12 text-right" style="text-align: center;">
                       <a
                         href="/orderdetails/<%= item._id %>"
                         class="btn btn-primary btn-sm"
