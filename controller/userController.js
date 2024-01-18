@@ -27,25 +27,25 @@ async function hashPassword(plainPassword) {
     throw err;
   }
 }
-//twilio otp
-// const userSendOtp = async (req, res) => {
-//   try {
-//     console.log("In SendOtp function");
-//     const phone = "+91" + req.body.phonenumber;
 
-//     otpVerificationHelper.sendotp(phone, (status) => {
-//       //otp for twilio
-//       if (status === "pending") {
-//         res.json({ status: "OTP_SEND" });
-//         console.log(
-//           "Otp sent,, now in userSendOtp Controller function- otpVerificationHelper.sendotp(phone, (status) functional block"
-//         );
-//       } else res.json({ status: "ERROR_SENDING_OTP" });
-//     });
-//   } catch (error) {
-//     console.log(error.message);
-//   }
-// };
+const userSendOtp = async (req, res) => {
+  try {
+    console.log("In SendOtp function");
+    const phone = "+91" + req.body.phonenumber;
+
+    otpVerificationHelper.sendotp(phone, (status) => {
+      //otp for twilio
+      if (status === "pending") {
+        res.json({ status: "OTP_SEND" });
+        console.log(
+          "Otp sent,, now in userSendOtp Controller function- otpVerificationHelper.sendotp(phone, (status) functional block"
+        );
+      } else res.json({ status: "ERROR_SENDING_OTP" });
+    });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
 
 //usersignup------------------------
 //signup user verify------------------------
@@ -57,205 +57,44 @@ const userSignup = async (req, res) => {
   }
 };
 
-const userSendOtp = async (req, res) => {
-  try {
-    console.log("in send otp function");
-    const email = req.body.email;
-
-    const nodemailer = require('nodemailer');
-
-    // Create a Nodemailer transporter
-    const transporter = nodemailer.createTransport({
-      service: 'Gmail',
-      auth: {
-        user: 'lakshmijaya2912@gmail.com',
-        pass: 'gfbbcyczzptwlfnc',
-      },
-    });
-
-    // Generate a random OTP (6-digit number)
-    const otp = Math.floor(100000 + Math.random() * 900000);
-
-    const mailOptions = {
-      from: 'lakshmijaya2912@gmail.com',
-      to: email,
-      subject: 'OTP Verification',
-      text: `Your OTP is: ${otp}`,
-    };
-    
-    req.session.signupData = {
-      email: email,
-      otp: otp.toString()
-    };
-
-    // Send the email
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        console.error('Error sending email:', error);
-        res.status(500).json({ status: 'ERROR', message: 'Failed to send OTP' });
-      } else {
-        console.log('Email sent:', info.response);
-        res.status(200).json({ status: 'OTP_SEND', message: 'OTP sent successfully' });
-      }
-    });
-  } catch (error) {
-    console.log(error.message);
-  }
-};
-
-const userSignedup = async (req, res) => {
-  try {
-    const enteredOtp = req.body.otp;
-
-    if (!req.session.signupData || !req.session.signupData.otp) {
-      const error = "No OTP data in session. Redirecting to signup with error.";
-      return res.render('users/userSignup', { error });
-    }
-
-    const storedOtp = req.session.signupData.otp;
-
-    if (enteredOtp === storedOtp) {
-      const existingUser = await userModel.findOne({ email: req.session.signupData.email });
-
-      if (existingUser) {
-        const error = 'Email address is already registered.';
-        return res.render('users/userSignup', { error });
-      }
-
-      const { name, phonenumber, email, password } = req.body;
-      let data = {
-        name: name,
-        phonenumber: phonenumber,
-        email: email,
-        password: password,
-      };
-
-      // Proceed with user registration
-      userHelper.addUser(data, (stat) => {
-        if (stat == "DONE") {
-          res.redirect("/");
-        } else {
-          const error = "User registration failed";
-          res.render('users/userSignup', { error });
-        }
-      });
-    } else {
-      const error = "OTP does not match!";
-      return res.render('users/userSignup', { error });
-    }
-  } catch (error) {
-    console.log(error.message);
-  }
-};
-
 const insertUser = async (req, res) => {
   try {
     const hashedPassword = await hashPassword(req.body.password);
     const usermodel = new userModel({
       name: req.body.name,
       email: req.body.email,
+      mobile: req.body.mobile,
       password: hashedPassword,
-      isVerified: false, // Mark user as not verified initially
+      isVerified: true,
     });
 
     const result = await usermodel.save();
 
     if (result) {
-      await sendOTPByEmail(req.body.email);
-      res.json({ status: 'OTP_SEND', message: 'OTP sent successfully' });
+      await sendOTP(req.body.mobile);
+      res.render("users/otpValidation", { mobile: req.body.mobile });
     } else {
-      res.json({ status: 'ERROR', message: 'Error creating user.' });
+      res.render("users/userSignup", { error: "Error creating user." });
     }
   } catch (err) {
     if (err.code === 11000) {
-      // Duplicate key error (email already exists)
-      res.json({ status: 'ERROR', message: 'User with this email already exists.' });
+      // Duplicate key error (mobile number already exists)
+      res.render("users/userSignup", {
+        error: "User with this mobile number already exists.",
+      });
     } else {
       console.log(err.message);
-      res.json({ status: 'ERROR', message: 'An error occurred.' });
+      res.render("users/userSignup", { error: "An error occurred." });
     }
   }
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// twilio otp
-// const insertUser = async (req, res) => {
-//   try {
-//     const hashedPassword = await hashPassword(req.body.password);
-//     const usermodel = new userModel({
-//       name: req.body.name,
-//       email: req.body.email,
-//       mobile: req.body.mobile,
-//       password: hashedPassword,
-//       isVerified: true,
-//     });
-
-//     const result = await usermodel.save();
-
-//     if (result) {
-//       await sendOTP(req.body.mobile);
-//       res.render("users/otpValidation", { mobile: req.body.mobile });
-//     } else {
-//       res.render("users/userSignup", { error: "Error creating user." });
-//     }
-//   } catch (err) {
-//     if (err.code === 11000) {
-//       // Duplicate key error (mobile number already exists)
-//       res.render("users/userSignup", {
-//         error: "User with this mobile number already exists.",
-//       });
-//     } else {
-//       console.log(err.message);
-//       res.render("users/userSignup", { error: "An error occurred." });
-//     }
-//   }
-// };
-
-// const sendOTP = async (mobileNumber) => {
-//   await client.verify.v2
-//     .services(process.env.VERIFY_SID)
-//     .verifications.create({ to: `+91${mobileNumber}`, channel: "whatsapp" })
-//     .then((verification) => console.log(verification.accountSid));
-// };
+const sendOTP = async (mobileNumber) => {
+  await client.verify.v2
+    .services(process.env.VERIFY_SID)
+    .verifications.create({ to: `+91${mobileNumber}`, channel: "whatsapp" })
+    .then((verification) => console.log(verification.accountSid));
+};
 
 const userLandingPage = async (req, res) => {
   try {
@@ -366,44 +205,44 @@ const verifyLogin = async (req, res) => {
 };
 //login user methods started
 
-// const otpVerificaton = async (req, res) => {
-//   try {
-//     const otp = req.body.OTP;
-//     const mobile = req.body.mobileNumber;
+const otpVerificaton = async (req, res) => {
+  try {
+    const otp = req.body.OTP;
+    const mobile = req.body.mobileNumber;
 
-//     const verificationCheck = await client.verify
-//       .services(process.env.VERIFY_SID)
-//       .verificationChecks.create({
-//         to: `+91${mobile}`,
-//         code: otp,
-//       });
+    const verificationCheck = await client.verify
+      .services(process.env.VERIFY_SID)
+      .verificationChecks.create({
+        to: `+91${mobile}`,
+        code: otp,
+      });
 
-//     console.log(verificationCheck);
+    console.log(verificationCheck);
 
-//     if (verificationCheck.status === "approved") {
-//       await userModel.updateOne(
-//         { mobile: mobile },
-//         { $set: { isVerified: true } }
-//       );
+    if (verificationCheck.status === "approved") {
+      await userModel.updateOne(
+        { mobile: mobile },
+        { $set: { isVerified: true } }
+      );
 
-//       console.log("Verified");
-//       res.redirect("/login");
-//     } else {
-//       res.redirect("/otpVerification");
-//     }
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };
+      console.log("Verified");
+      res.redirect("/login");
+    } else {
+      res.redirect("/otpVerification");
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
 
-// const viewOtpPage = async (req, res) => {
-//   try {
-//     res.status(200).render("./users/otpValidation");
-//   } catch (error) {
-//     console.log(error);
-//     res.status(404).send("Page not found", error);
-//   }
-// };
+const viewOtpPage = async (req, res) => {
+  try {
+    res.status(200).render("./users/otpValidation");
+  } catch (error) {
+    console.log(error);
+    res.status(404).send("Page not found", error);
+  }
+};
 
 const userHome = async (req, res) => {
   try {
@@ -1128,13 +967,12 @@ module.exports = {
   userLogout,
   userSignup,
   userSendOtp,
-  userSignedup,
   insertUser,
   hashPassword,
   loginLoad,
   verifyLogin,
-  // otpVerificaton,
-  // viewOtpPage,
+  otpVerificaton,
+  viewOtpPage,
   userHome,
   userProductDetails,
   userProfile,
