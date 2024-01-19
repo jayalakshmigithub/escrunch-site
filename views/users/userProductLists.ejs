@@ -157,16 +157,17 @@
   </header>
 
 
+
   <div class="container" style="margin-top: 100px;">
     <div class="row">
       <div class="col-xl-3 col-lg-4 col-md-5"
         style="background: #fff; padding: 15px; border: 1px solid #e0e0e0; border-radius: 7px; box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1);">
-        <!-- Browse Categories -->
         <div class="sidebar-categories">
           <div class="head"
             style="font-size: 18px; color: #333; margin-bottom: 10px; background-color: #ff1493; border-radius: 7px; color: white;">
             Browse Categories
           </div>
+
           <ul class="main-categories" style="list-style: none; padding: 0;">
             <% category.forEach(function(item) { %>
               <li class="main-nav-list"
@@ -176,62 +177,101 @@
                   <%= item.catname %>
                 </a>
               </li>
-            <% }) %>
+              <% }) %>
           </ul>
+
         </div>
       </div>
-  
       <div class="col-xl-9 col-lg-8 col-md-7">
-        <!-- Dynamic Category Heading -->
-        <div class="category-heading" style="font-size: 24px; color: #333; margin-bottom: 20px;">
-          <%= categoryHeading %>
+        <!-- Start Filter Bar -->
+        <div class="filter-bar d-flex flex-wrap align-items-center"
+          style="justify-content: space-between; background: #fff; padding: 15px;  border: 1px solid #e0e0e0; border-radius: 7px; box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1);">
+          <form id="sortForm">
+            <div class="sorting">
+              <select id="sortOption" name="sortOption"
+                style="border: 1px solid #e0e0e0; border: 1px solid #e0e0e0; border: 1px solid #e0e0e0; border-radius: 7px; box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1); padding: 5px; background: #f9f9f9;">
+                <option value="1">Sort by Price</option>
+                <option value="2" <%=sortOption==='2' ? 'selected' : '' %>>Price: Low to High</option>
+                <option value="3" <%=sortOption==='3' ? 'selected' : '' %>>Price: High to Low</option>
+              </select>
+            </div>
+          </form>
         </div>
-  
+        <!-- End Filter Bar -->
+
         <!-- Start Best Seller -->
         <section class="lattest-product-area pb-40 category-list">
           <div class="row">
             <% products.forEach(function(product) { %>
-              <% if (product.status === 'Listed') { %>
+              <% if (product.status==='Listed' ) { %>
                 <div class="col-lg-4 col-md-6">
                   <div class="single-product"
                     style="background: #fff;  border: 1px solid #e0e0e0; border: 1px solid #e0e0e0; border-radius: 7px; box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1);">
-                    <!-- ... (Product details) ... -->
+                    <img class="img-fluid" src="/uploadProductImages/<%= product.image[0] %>" alt=""
+                      style="width: 100%;">
+                    <div class="product-details">
+                      <h6 style="font-size: 16px; color: #333; margin: 10px 0;">
+                        <%= product.productname %>
+                      </h6>
+                      <div class="price" style="font-size: 16px; color: #333; margin: 10px 0;">
+                        <h6>
+                          MRP ₹<%= product.mrp.toLocaleString('en-IN', { minimumFractionDigits: 2,
+                            maximumFractionDigits: 2 }) %>
+                        </h6>
+                        <h6 class="l-through">
+                          MRP ₹<%= product.mrp.toLocaleString('en-IN', { minimumFractionDigits: 2,
+                            maximumFractionDigits: 2 }) %>
+                        </h6>
+                      </div>
+                      <div class="prd-bottom">
+                        <!-- Add your product actions here -->
+                        <!-- <a href="" class="social-info">
+                                                    <span class="lnr lnr-heart"></span>
+                                                    <p class="hover-text">Wishlist</p>
+                                                </a> -->
+                        <a href="/productdetails/<%= product._id %>" class="social-info">
+                          <span class="ti-layers"></span>
+                          <p class="hover-text">compare</p>
+                        </a>
+                        <a href="/productdetails/<%= product._id %>?timestamp=<%= Date.now() %>" class="social-info">
+                          <span class="ti-more-alt"></span>
+                          <p class="hover-text">view more</p>
+                        </a>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              <% } %>
-            <% }); %>
+                <% } %>
+                  <% }); %>
           </div>
         </section>
-  
+
         <!-- Start Pagination -->
         <div class="pagination-area mt-30 mb-50" style="display: flex; justify-content: center; align-items: center;">
           <nav aria-label="Page navigation example">
             <ul class="pagination" style="list-style: none; display: flex; align-items: center;">
-              <% for (let i=1; i <= totalPages; i++) { %>
-                <% if (i === currentPage) { %>
+              <% for (let i=1; i <=totalPages; i++) { %>
+                <% if (i===currentPage) { %>
                   <li class="page-item active"
                     style="background: #007bff; color: #fff; padding: 5px 10px; margin: 0 5px; border-radius: 5px;">
                     <a class="page-link" href="#" style="text-decoration: none;">
                       <%= i %>
                     </a>
                   </li>
-                <% } else { %>
-                  <li class="page-item"
-                    style="background: #f0f0f0; color: #333; padding: 5px 10px; margin: 0 5px; border-radius: 5px;">
-                    <a class="page-link" href="/sortedproducts?sortOption=<%= sortOption %>&page=<%= i %>"
-                      style="text-decoration: none;">
-                      <%= i %>
-                    </a>
-                  </li>
-                <% } %>
-              <% } %>
+                  <% } else { %>
+
+                    <li class="page-item"
+                      style="background: #f0f0f0; color: #333; padding: 5px 10px; margin: 0 5px; border-radius: 5px;">
+                      <a class="page-link" href="/sortedproducts?sortOption=<%= sortOption %>&page=<%= i %>"
+                        style="text-decoration: none;">
+                        <%= i %>
+                      </a>
+                    </li>
+                    <% } %>
+                      <% } %>
             </ul>
           </nav>
         </div>
-      </div>
-    </div>
-  </div>
-  
 
 
         <!-- End Pagination -->
