@@ -185,7 +185,7 @@
         if (data.exists) {
           // Category name already exists, show alert with OK button
           const alertMessage = 'Category name already exists.';
-          if (!window.confirm(alertMessage)) {
+          if (!confirm(alertMessage)) {
             event.preventDefault();
             return;
           }
@@ -235,6 +235,7 @@
     }
   });
 </script>
+
 
 
 
