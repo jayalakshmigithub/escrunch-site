@@ -213,21 +213,20 @@ const userCheckoutPost = async (req, res) => {
     user.address.forEach((item) => {
       if (item._id.toString() == address) addressdetail = item;
     });
-   let discountAmount = 0;
-
-if (couponId) {
-  const coupon = await couponModel.findById(couponId);
-
-  // Assuming the coupon always has a discountType of 'Percentage'
-  discountAmount = (coupon?.discountAmount / 100) * +subTotalPrice || 0;
-}
-
-const finalPrice = +subTotalPrice - discountAmount;
+    let discountAmount = 0;
+    if (couponId) {
+      const coupon = await couponModel.findById(couponId);
     
+      if (coupon) {
+        if (coupon.discountType === 'Percentage') {
+          discountAmount = Math.round((coupon?.discountAmount / 100) * +subTotalPrice) || 0;
+        } else {
+          discountAmount = coupon.discountAmount || 0;
+        }
+      }
+    }
+    const finalPrice = +subTotalPrice - discountAmount;
     const products = orders[0].products;
-    
-
-
     // const products = orders[0].products;
     // let finalPrice = +subTotalPrice - discountAmount;
 
@@ -252,7 +251,6 @@ const finalPrice = +subTotalPrice - discountAmount;
     // order creation
     const response = await orderModel.create(details);
     console.log("Order creation response:", response);
-
     await cartModel.findOneAndUpdate({ user }, { products: [] }); // Update the cart to remove items
 
     if (paymentMethod === "cashondelivery") {
@@ -268,7 +266,7 @@ const finalPrice = +subTotalPrice - discountAmount;
     } else if (paymentMethod === "onlinepayment") {
       console.log("processing online payment");
       const options = {
-        amount: orders.finalPrice * 100,
+        amount: finalPrice * 100,
         currency: "INR",
         receipt: "12344",
       };
@@ -316,7 +314,6 @@ const updateProductAfterOrder = async (productId, quantity) => {
   try {
     const product = await productModel.findById(productId).exec();
     console.log("entered in new fn", product);
-
     if (!product) {
       console.error(`Product with ID ${productId} not found`);
       return;

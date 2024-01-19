@@ -665,7 +665,7 @@ const userProfileUpdated = async (req, res) => {
       { new: true }
     );
 
-    // Set a flag to indicate the update was successful
+    // flag : update was successful
     const isUpdated = true;
 
     // Pass the flag and the updated user data to the template
@@ -752,7 +752,6 @@ const userAddAddressPost = async (req, res) => {
       // res.status(201).json({status:true});
       res.redirect("/userProfile");
     } else {
-      // Handle validation errors here
       res.json({ status: false });
     }
   } catch (error) {
@@ -774,7 +773,6 @@ const userEditAddress = async (req, res) => {
     );
 
     if (!addressData) {
-      // Handle the case where the address is not found
       return res.status(404).send("Address not found");
     }
 
@@ -856,21 +854,16 @@ const userUpdatedAddress = async (req, res) => {
 
 const removeAddress = async (req, res) => {
   try {
-    const userId = req.session.user_id; // Corrected to match your schema
+    const userId = req.session.user_id;
     const addressIdToRemove = req.query.addressId;
-
     const user = await userModel.findById(userId);
-
     if (!user) {
       return res.status(404).send("User not found");
     }
-
     user.address = user.address.filter(
       (address) => address._id.toString() !== addressIdToRemove
     );
-
     await user.save();
-
     res.redirect("/userprofile");
   } catch (error) {
     console.error(error.message);
@@ -895,7 +888,6 @@ const updateStatus = async (req, res) => {
 const userWallet = async (req, res) => {
   try {
     console.log("entered in wallets function");
-
     res.setHeader(
       "Cache-Control",
       "no-store, no-cache, must-revalidate, proxy-revalidate"
@@ -904,27 +896,20 @@ const userWallet = async (req, res) => {
     res.setHeader("Expires", "0");
     res.setHeader("Surrogate-Control", "no-store");
     console.log("before checking session");
-
     // Check if the user is authenticated
     if (!req.session.user_id) {
       console.log("session");
-      return res.redirect("/login"); // Redirect to the login page or handle it as per your authentication flow
+      return res.redirect("/login");
     }
-    console.log("user in wallet");
-
     // Fetch the user by ID
-    const userId = req.session.user_id; // Assuming you have a user session
+    const userId = req.session.user_id;
     const user = await userModel.findById(userId);
-    console.log("userId in wallet", userId);
-
     if (!user) {
-      return res.status(404).send("User not found"); // Handle this case appropriately
+      return res.status(404).send("User not found");
     }
-
-    // Fetch the user's transactions
+    // Fetch user's transactions
     const userTransactions = user.wallet.transactions;
     console.log("userTransactions ?", userTransactions);
-
     res.render("users/userWallet", { user, userTransactions });
   } catch (error) {
     console.log(error.message);
@@ -949,39 +934,28 @@ const userWallet = async (req, res) => {
 
 // //////////////////adding coupon to the checkout
 
-
 const contactUsController = (req, res) => {
   res.render("users/contactUs");
 };
-
-
-
 
 const userAddCoupon = async (req, res) => {
   try {
     const totalAmountInCheckout = req.query.total;
     const currentDate = new Date();
     const category = await categoryModel.find();
-
-    // Fetch only valid coupons based on minimum amount, expiration date, and discount type
     const coupons = await couponModel.find({
       minimumAmount: { $lte: totalAmountInCheckout },
       expirationDate: { $gt: currentDate },
-      discountType: 'Percentage', // Only fetch coupons with Percentage type
+      discountType: "Percentage",
     });
-
-    // Convert the percentage discount to an absolute value for display in the UI
-    const formattedCoupons = coupons.map(coupon => {
-      // Calculate the reduced amount as a percentage of the total
-      const displayDiscountAmount = (coupon.discountAmount / 100) * totalAmountInCheckout;
-
+    // percentage discount display in the UI
+    const formattedCoupons = coupons.map((coupon) => {
+      const displayDiscountAmount =
+        (coupon.discountAmount / 100) * totalAmountInCheckout;
       return {
-        // Include other coupon properties
-        // ...
         displayDiscountAmount: displayDiscountAmount,
       };
     });
-
     res.render("users/userCoupons", { coupons: formattedCoupons, category });
   } catch (error) {
     console.log(error.message);
@@ -991,16 +965,15 @@ const userAddCoupon = async (req, res) => {
 const userAddCouponpost = async (req, res) => {
   try {
     const couponData = req.body;
-
-    // Convert the discount amount to a percentage value
     couponData.discountAmount = parseFloat(couponData.discountAmount);
-    if (isNaN(couponData.discountAmount) || couponData.discountAmount < 0 || couponData.discountAmount > 100) {
-      // Handle invalid percentage values
+    if (
+      isNaN(couponData.discountAmount) ||
+      couponData.discountAmount < 0 ||
+      couponData.discountAmount > 100
+    ) {
       console.log("Invalid percentage value");
       return res.json({ redirect: false });
     }
-
-    // Implement your logic to check whether the coupon should redirect or not
     const shouldRedirect = true;
     if (shouldRedirect) {
       res.json({ redirect: true });
@@ -1011,9 +984,6 @@ const userAddCouponpost = async (req, res) => {
     console.log(error.message);
   }
 };
-
-
-
 
 module.exports = {
   userLandingPage,
