@@ -213,16 +213,16 @@ const userCheckoutPost = async (req, res) => {
     user.address.forEach((item) => {
       if (item._id.toString() == address) addressdetail = item;
     });
-    let discountAmount = 0;
+   let discountAmount = 0;
 
-    if (couponId) {
-      const coupon = await couponModel.findById(couponId);
-    
-      //  'Percentage'
-      discountAmount = (coupon?.discountAmount / 100) * +subTotalPrice || 0;
-    }
-    
-    const finalPrice = +subTotalPrice - discountAmount;
+if (couponId) {
+  const coupon = await couponModel.findById(couponId);
+
+  // Assuming the coupon always has a discountType of 'Percentage'
+  discountAmount = (coupon?.discountAmount / 100) * +subTotalPrice || 0;
+}
+
+const finalPrice = +subTotalPrice - discountAmount;
     
     const products = orders[0].products;
     
@@ -268,7 +268,7 @@ const userCheckoutPost = async (req, res) => {
     } else if (paymentMethod === "onlinepayment") {
       console.log("processing online payment");
       const options = {
-        amount: finalPrice * 100,
+        amount: orders.finalPrice * 100,
         currency: "INR",
         receipt: "12344",
       };
