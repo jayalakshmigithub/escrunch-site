@@ -182,9 +182,9 @@
       }
     });
 
-    categoryNameInput.addEventListener("blur", async function () {
+    categoryNameInput.addEventListener("blur", function () {
       categoryNameError.textContent = ""; // Clear previous error message
-      await validateCategoryName();
+      validateCategoryName();
     });
 
     categoryDescription.addEventListener("blur", function () {
@@ -239,6 +239,7 @@
     }
   });
 </script>
+
 
 
 
