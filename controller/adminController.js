@@ -298,10 +298,13 @@ const adminHome = async (req, res) => {
 
     // Render the adminHome view and pass the data to the template
     res.render('admin/adminHome', {
-      data,
-      totalSalesAmount,
-      todaySalesAmount,
-      lastWeekSalesAmount,
+      locals: {
+        data,
+        totalSalesAmount,
+        todaySalesAmount,
+        lastWeekSalesAmount,
+        /* other variables if any */
+      }
     });
   } catch (error) {
     console.error(error.message);
