@@ -314,104 +314,87 @@
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script>
     ///////////////////////////////////script for graph data and sales data////////////////////////////////////////////////////
-      // Sample data for total sales per month
-     const data = <%- JSON.stringify(data) %>;
-  
-  
-      // Extracting the months and sales values from the data
-      const date = data.map(item => {
-          const date = new Date(item.date);
-          return date.getDate();
-      });
-      const amount = data.map(item => item.amount);
-      const count = data.map(item => item.count);
-  
-      let sum = 0
-      for(const it in amount) sum+= it
-       //sum = amounts.reduce((acc, curr) => acc + curr, 0);
-  
-       const totalSalesAmount = amount.reduce((acc, current) => acc + current, 0);
+    // Initialize data variable
+    <% if (typeof data !== 'undefined') { %>
+        const data = <%- JSON.stringify(data) %>;
+    <% } else { %>
+        const data = [];
+    <% } %>
+
+    // Check if data is defined
+    if (typeof data !== 'undefined') {
+        // Sample data for total sales per month
+        const date = data.map(item => {
+            const date = new Date(item.date);
+            return date.getDate();
+        });
+        const amount = data.map(item => item.amount);
+        const count = data.map(item => item.count);
+
+        // Calculate total sales amount using reduce
+        const totalSalesAmount = amount.reduce((acc, current) => acc + current, 0);
         document.getElementById('totalSalesAmount').textContent = `INR ${totalSalesAmount}`;
-  
-        // Calculate today's sales report
-        const today = new Date();
-        const todayDate = today.getDate();
-        const todaySales = amount[date.indexOf(todayDate)] || 0;
-        document.getElementById('todaysSalesReport').textContent = `INR ${todaySales}`;
-        document.getElementById('todaysSalesDate').textContent = `Date: ${today.toLocaleDateString()}`;
-  
-        // Calculate last week's sales report
-        const lastWeekStart = new Date();
-        lastWeekStart.setDate(today.getDate() - 7);
-        const lastWeekEnd = new Date();
-        lastWeekEnd.setDate(today.getDate() - 1);
-        const lastWeekRange = `${lastWeekStart.toLocaleDateString()} - ${lastWeekEnd.toLocaleDateString()}`;
-        let lastWeekSales = 0;
-        for (let i = 0; i < 7; i++) {
-          const index = date.indexOf(lastWeekStart.getDate());
-          if (index !== -1) {
-            lastWeekSales += amount[index];
-          }
-          lastWeekStart.setDate(lastWeekStart.getDate() + 1);
-        }
-        document.getElementById('lastWeekSalesReport').textContent = `INR ${lastWeekSales}`;
-        document.getElementById('lastWeekSalesDate').textContent = `Date Range: ${lastWeekRange}`;
-      
-  
-      Highcharts.chart('chartContainer', {
-          chart: {
-              type: 'line'
-          },
-          title: {
-              text: ''
-          },
-          xAxis: {
-              categories: date
-          },
-          yAxis: {
-              title: {
-                  text: 'Sales'
-              }
-          },
-          legend: {
-              enabled: false
-          },
-          series: [{
-              name: 'Total Sales',
-              data: amount,
-          }]
-      });
-  
-      Highcharts.chart('chartContainer2', {
-          chart: {
-              type: 'column'
-          },
-          title: {
-              text: ''
-          },
-          xAxis: {
-              categories: date
-          },
-          yAxis: {
-              title: {
-                  text: 'Sales'
-              }
-          },
-          legend: {
-              enabled: false
-          },
-          series: [{
-              name: 'Total Sales',
-              data: amount,
-          }],
-          plotOptions: {
-              column: {
-              pointWidth: 10,
-              }
-    },
-      });
-  
-          </script>
+
+        // ... rest of your script
+
+        Highcharts.chart('chartContainer', {
+            chart: {
+                type: 'line'
+            },
+            title: {
+                text: ''
+            },
+            xAxis: {
+                categories: date
+            },
+            yAxis: {
+                title: {
+                    text: 'Sales'
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            series: [{
+                name: 'Total Sales',
+                data: amount,
+            }]
+        });
+
+        Highcharts.chart('chartContainer2', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: ''
+            },
+            xAxis: {
+                categories: date
+            },
+            yAxis: {
+                title: {
+                    text: 'Sales'
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            series: [{
+                name: 'Total Sales',
+                data: amount,
+            }],
+            plotOptions: {
+                column: {
+                    pointWidth: 10,
+                }
+            },
+        });
+    } else {
+        console.error("Data is not defined!"); // Log an error if data is not defined
+    }
+</script>
+
+
 
 <!-- Add this where you want the chart to appear -->
 <canvas id="salesChart" width="400" height="200"></canvas>
