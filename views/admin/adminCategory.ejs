@@ -399,33 +399,47 @@
 
 
     <script>
-    function CategoryForm() {
-        
-        var categoryName = document.getElementById('categoryName').value.trim();
-        var categoryDescription = document.getElementById('categoryDescription').value.trim();
-
-        // Check if any field is empty
-        if (categoryName === '' || categoryDescription === '') {
-            alert('All fields are required.');
-            return false; // Prevent form submission
+        async function checkCategoryNameExists(categoryName) {
+            // Perform an asynchronous request to the server to check category name existence
+            const response = await fetch(`/checkCategoryNameExists?categoryName=${encodeURIComponent(categoryName)}`);
+            const data = await response.json();
+            return data.exists;
         }
-
-        // Check if Category Name contains only letters
-        if (!/^[A-Za-z]+$/.test(categoryName)) {
-            alert('Category Name should contain only letters.');
-            return false; // Prevent form submission
+    
+        async function CategoryForm() {
+            var categoryName = document.getElementById('categoryName').value.trim();
+            var categoryDescription = document.getElementById('categoryDescription').value.trim();
+    
+            // Check if any field is empty
+            if (categoryName === '' || categoryDescription === '') {
+                alert('All fields are required.');
+                return false; // Prevent form submission
+            }
+    
+            // Check if Category Name contains only letters
+            if (!/^[A-Za-z]+$/.test(categoryName)) {
+                alert('Category Name should contain only letters.');
+                return false; // Prevent form submission
+            }
+    
+            // Check if Category Description contains only letters
+            if (!/^[A-Za-z]+$/.test(categoryDescription)) {
+                alert('Category Description should contain only letters.');
+                return false; // Prevent form submission
+            }
+    
+            // Check if the category name already exists
+            const categoryExists = await checkCategoryNameExists(categoryName);
+            if (categoryExists) {
+                alert('Category Name already exists.');
+                return false; // Prevent form submission
+            }
+    
+            // If all validation passes, allow form submission
+            return true;
         }
-
-        // Check if Category Description contains only letters
-        if (!/^[A-Za-z]+$/.test(categoryDescription)) {
-            alert('Category Description should contain only letters.');
-            return false; // Prevent form submission
-        }
-
-        // If all validation passes, allow form submission
-        return true;
-    }
-</script>
+    </script>
+    
 
 </body>
 
