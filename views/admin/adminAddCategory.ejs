@@ -164,84 +164,63 @@
 
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const form = document.getElementById("categoryform");
-    const categoryNameInput = document.getElementById("categoryname");
-    const categoryDescriptionInput = document.getElementById("description");
+  document.addEventListener("DOMContentLoaded",function(){
 
-    form.addEventListener("submit", async function (event) {
+    const form = document.getElementById('categoryform');
+    const categoryNameInput = document.getElementById('categoryname');
+    const categoryDescription = document.getElementById('description')
+  
+
+  form.addEventListener('submit',function(){
+    if(!validateCategoryName()||!validateDescription()){
       event.preventDefault();
+    }
+  })
+  categoryName.addEventListener("blur",validateCategoryName);
+  categoryDescription.addEventListener("blur",validateDescription);
 
-      if (
-        !validateCategoryName() ||
-        !validateDescription()
-      ) {
-        return;
-      }
+  function validateCategoryName(){
+    const categoryName = categoryNameInput.value.trim()
+    const categoryNameError = document.getElementById("categoryNameError")
 
-      const categoryName = categoryNameInput.value.trim();
-      const categoryDescription = categoryDescriptionInput.value.trim();
-
-      try {
-        // Perform an asynchronous request to the server to check category name existence
-        const response = await fetch(`/checkCategoryNameExists?categoryName=${encodeURIComponent(categoryName)}`);
-        const data = await response.json();
-
-        if (data.exists) {
-          // Category name already exists, display the error message
-          const categoryNameError = document.getElementById("categoryNameError");
-          categoryNameError.textContent = "Category name already exists.";
-          return;
-        }
-
-        // If category name is unique, proceed with form submission
-        form.submit();
-      } catch (error) {
-        console.error("Error checking category name existence:", error);
-      }
-    });
-
-    categoryNameInput.addEventListener("blur", validateCategoryName);
-    categoryDescriptionInput.addEventListener("blur", validateDescription);
-
-    function validateCategoryName() {
-      const categoryName = categoryNameInput.value.trim();
-      const categoryNameError = document.getElementById("categoryNameError");
-
-      if (categoryName === "") {
-        categoryNameError.textContent = "Category name cannot be empty";
-        return false;
-      }
-
-      if (!/^[a-zA-Z]+$/.test(categoryName)) {
-        categoryNameError.textContent = "Only letters are allowed in category name";
-        return false;
-      }
-
-      categoryNameError.textContent = "";
-      return true;
+    if(categoryName===""){
+      categoryNameError.textContent ="Category name cannot be empty"
+      return false;
     }
 
-    function validateDescription() {
-      const description = categoryDescriptionInput.value.trim();
-      const descriptionError = document.getElementById("descriptionError");
-
-      if (description === "") {
-        descriptionError.textContent = "Category description cannot be empty";
-        return false;
-      }
-
-      if (!/^[a-zA-Z]+$/.test(description)) {
-        descriptionError.textContent = "Only letters are allowed in category description";
-        return false;
-      }
-
-      descriptionError.textContent = "";
-      return true;
+    if(!/^[a-zA-Z]+$/.test(categoryName)){
+      categoryNameError.textContent= 'Only letters are allowed in category name'
+      return false;
     }
-  });
+
+    categoryNameError.textContent="";
+    return true;
+  }
+
+  
+
+  function validateDescription(){
+    const description = categoryDescription.value.trim()
+    const descriptionError = document.getElementById('descriptionError')
+
+    if(categoryDescription===""){
+      descriptionError.textContent='Category description cannot be empty'
+      return false
+    }
+
+    if( !/[a-zA-Z]+$/.test(categoryDescription)){
+      descriptionError.textContent ='Only letters are allowed '
+      return false;
+
+    }
+    descriptionError.textContent =" ";
+    return true;
+  
+  }
+});
+
+
 </script>
-
 
 
 
