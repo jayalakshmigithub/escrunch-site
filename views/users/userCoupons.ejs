@@ -272,17 +272,17 @@
                               </p>
                               <!-- Added section for displaying discount amount based on the coupon's discount type -->
                               <p class="discountAmount" style="font-size: 16px; color: #000">
-                                  <% if (item.discountType === 'Percentage' && item.displayDiscountAmount !== undefined) { %>
-                                      Discount Amount: <%= (item.displayDiscountAmount * 100).toLocaleString('en-US', {
-                                          minimumFractionDigits: 2, maximumFractionDigits: 2 }) %>%
-                                  <% } else if (item.displayDiscountAmount !== undefined) { %>
-                                      Discount Amount: Rs.<span class="discountAmount1"><%= item.displayDiscountAmount.toLocaleString('en-US', {
-                                          minimumFractionDigits: 2, maximumFractionDigits: 2 }) %></span>
-                                  <% } else { %>
-                                      <!-- Handle the case where displayDiscountAmount is undefined -->
-                                      Discount Amount: N/A
-                                  <% } %>
-                              </p>
+                                <% if (item.discountType === 'Percentage' && item.discountAmount !== undefined) { %>
+                                    Discount Amount: <%= (item.discountAmount ).toLocaleString('en-US', {
+                                        minimumFractionDigits: 2, maximumFractionDigits: 2 }) %>%
+                                <% } else if (item.discountAmount !== undefined) { %>
+                                    <!-- You can keep this block empty if you don't want to display anything for fixed discounts -->
+                                <% } else { %>
+                                    <!-- Handle the case where discountAmount is undefined -->
+                                    Discount Amount: N/A
+                                <% } %>
+                            </p>
+                            
                               <!-- End of added section -->
                               <p class="expire" style="font-size: 14px; color: #000">
                                   Coupon Expiry: <%= new Date(item.expirationDate).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) %>

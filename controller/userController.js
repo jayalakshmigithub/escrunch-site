@@ -963,21 +963,23 @@ const userAddCoupon = async (req, res) => {
     const currentDate = new Date();
     const category = await categoryModel.find();
 
-    // Fetch only valid coupons based on minimum amount and expiration date
+    // Fetch only valid coupons based on minimum amount, expiration date, and discount type
     const coupons = await couponModel.find({
       minimumAmount: { $lte: totalAmountInCheckout },
       expirationDate: { $gt: currentDate },
+      discountType: 'Percentage', // Only fetch coupons with Percentage type
     });
 
     // Convert the percentage discount to an absolute value for display in the UI
     const formattedCoupons = coupons.map(coupon => {
-      if (coupon.discountType === 'Percentage') {
-        // Convert the percentage value to an absolute value for display
-        coupon.displayDiscountAmount = coupon.discountAmount * totalAmountInCheckout;
-      } else {
-        coupon.displayDiscountAmount = coupon.discountAmount;
-      }
-      return coupon;
+      // Convert the percentage value to an absolute value for display
+      const displayDiscountAmount = coupon.discountAmount * totalAmountInCheckout;
+
+      return {
+        // Include other coupon properties
+        // ...
+        displayDiscountAmount: displayDiscountAmount,
+      };
     });
 
     res.render("users/userCoupons", { coupons: formattedCoupons, category });
@@ -986,15 +988,30 @@ const userAddCoupon = async (req, res) => {
   }
 };
 
-
 const userAddCouponpost = async (req, res) => {
-  const shouldRedirect = true;
-  if (shouldRedirect) {
-    res.json({ redirect: true });
-  } else {
-    res.json({ redirect: false });
+  try {
+    const couponData = req.body;
+
+    // Convert the discount amount to a percentage value
+    couponData.discountAmount = parseFloat(couponData.discountAmount);
+    if (isNaN(couponData.discountAmount) || couponData.discountAmount < 0 || couponData.discountAmount > 100) {
+      // Handle invalid percentage values
+      console.log("Invalid percentage value");
+      return res.json({ redirect: false });
+    }
+
+    // Implement your logic to check whether the coupon should redirect or not
+    const shouldRedirect = true;
+    if (shouldRedirect) {
+      res.json({ redirect: true });
+    } else {
+      res.json({ redirect: false });
+    }
+  } catch (error) {
+    console.log(error.message);
   }
 };
+
 
 
 module.exports = {

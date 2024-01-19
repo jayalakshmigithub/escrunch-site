@@ -85,20 +85,18 @@ const adminAddCouponPost = async (req, res) => {
   try {
     const couponData = req.body;
 
-    // If the discount type is percentage, convert the discount amount to a percentage value
-    if (couponData.discountType === 'Percentage') {
-      couponData.discountAmount = parseFloat(couponData.discountAmount);
-      if (isNaN(couponData.discountAmount) || couponData.discountAmount < 0 || couponData.discountAmount > 100) {
-        // Handle invalid percentage values
-        console.log("Invalid percentage value");
-        return res.redirect("/admin/coupons");
-      }
-
-      // Convert the percentage value to a decimal
-      couponData.discountAmount /= 100;
-      // Calculate and set the absolute discount amount for display
-      couponData.displayDiscountAmount = couponData.discountAmount * 100;
+    // Convert the discount amount to a percentage value
+    couponData.discountAmount = parseFloat(couponData.discountAmount);
+    if (isNaN(couponData.discountAmount) || couponData.discountAmount < 0 || couponData.discountAmount > 100) {
+      // Handle invalid percentage values
+      console.log("Invalid percentage value");
+      return res.redirect("/admin/coupons");
     }
+
+    // Convert the percentage value to a decimal
+    couponData.discountAmount /= 100;
+    // Calculate and set the absolute discount amount for display
+    couponData.displayDiscountAmount = couponData.discountAmount * 100;
 
     await couponModel.create(couponData);
     res.redirect("/admin/coupons");
@@ -107,7 +105,6 @@ const adminAddCouponPost = async (req, res) => {
   }
 }
 
-// To edit the existing coupon
 const adminEditCouponPost = async (req, res) => {
   try {
     const couponId = req.body.id;
@@ -115,27 +112,19 @@ const adminEditCouponPost = async (req, res) => {
 
     updatedCoupon.code = req.body.code;
     updatedCoupon.description = req.body.description;
-    updatedCoupon.discountType = req.body.discountType;
 
-    // If the discount type is percentage, convert the discount amount to a percentage value
-    if (updatedCoupon.discountType === 'Percentage') {
-      updatedCoupon.discountAmount = parseFloat(req.body.discountAmount);
-      if (isNaN(updatedCoupon.discountAmount) || updatedCoupon.discountAmount < 0 || updatedCoupon.discountAmount > 100) {
-        // Handle invalid percentage values
-        console.log("Invalid percentage value");
-        return res.redirect("/admin/coupons");
-      }
-
-      // Convert the percentage value to a decimal
-      updatedCoupon.discountAmount /= 100;
-      // Calculate and set the absolute discount amount for display
-      updatedCoupon.displayDiscountAmount = updatedCoupon.discountAmount * 100;
-    } else {
-      // If the discount type is not percentage, use the provided discount amount as is
-      updatedCoupon.discountAmount = req.body.discountAmount;
-      // Set displayDiscountAmount to the same value for fixed discounts
-      updatedCoupon.displayDiscountAmount = updatedCoupon.discountAmount;
+    // Convert the discount amount to a percentage value
+    updatedCoupon.discountAmount = parseFloat(req.body.discountAmount);
+    if (isNaN(updatedCoupon.discountAmount) || updatedCoupon.discountAmount < 0 || updatedCoupon.discountAmount > 100) {
+      // Handle invalid percentage values
+      console.log("Invalid percentage value");
+      return res.redirect("/admin/coupons");
     }
+
+    // Convert the percentage value to a decimal
+    updatedCoupon.discountAmount /= 100;
+    // Calculate and set the absolute discount amount for display
+    updatedCoupon.displayDiscountAmount = updatedCoupon.discountAmount * 100;
 
     updatedCoupon.minimumAmount = req.body.minimumAmount;
     updatedCoupon.expirationDate = req.body.expirationDate;
@@ -147,6 +136,7 @@ const adminEditCouponPost = async (req, res) => {
     console.log(error.message);
   }
 }
+
 
 
 
