@@ -218,6 +218,33 @@ const verifyAdmin = async (req, res) => {
 // };
 
 
+// const adminHome = async (req, res) => {
+//   try {
+//     if (!req.session.admin) {
+//       // If the user is not authenticated as an admin, redirect them to the admin login page
+//       return res.redirect('/admin/login');
+//     }
+
+//     const orders = await orderModel.aggregate([
+//       { $match: { orderStatus: 'Delivered' } },
+//       {
+//         $group: {
+//           _id: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } },
+//           total: { $sum: '$totalAmount' },
+//           count: { $sum: 1 },
+//         },
+//       },
+//       { $sort: { _id: 1 } },
+//     ]);
+
+//     const data = orders.map(({ _id, total, count }) => ({ date: _id, amount: total, count }));
+//     res.render('admin/adminHome', { data });
+//   } catch (error) {
+//     console.error(error.message); // Use console.error for error messages
+//   }
+// };
+
+
 const adminHome = async (req, res) => {
   try {
     if (!req.session.admin) {
@@ -238,11 +265,16 @@ const adminHome = async (req, res) => {
     ]);
 
     const data = orders.map(({ _id, total, count }) => ({ date: _id, amount: total, count }));
-    res.render('admin/adminHome', { data });
+    const totalSalesAmount = data.reduce((acc, current) => acc + current.amount, 0);
+
+    // Render the adminHome view and pass the data to the template
+    res.render('admin/adminHome', { data, totalSalesAmount });
   } catch (error) {
-    console.error(error.message); // Use console.error for error messages
+    console.error(error.message);
+    res.status(500).send('Internal Server Error');
   }
 };
+
 
 const adminUsersList = async (req, res) => {
   try {
