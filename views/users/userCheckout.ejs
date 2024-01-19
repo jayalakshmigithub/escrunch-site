@@ -718,7 +718,7 @@
 });
 
 
-function handlePlaceOrder() {
+ function handlePlaceOrder() {
     let contactDetails = $('#addressForm').serialize();
     contactDetails = contactDetails.split("=")[1];
 
@@ -777,7 +777,7 @@ function handlePlaceOrder() {
 
     var options = {
         "key": order.key_id,
-        "amount": order.amount,
+        "amount": order.finalPrice*100,
         "currency": "INR",
         "name": "E-Scrunch",
         "description": "Test Transaction",

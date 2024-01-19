@@ -218,7 +218,7 @@ const userCheckoutPost = async (req, res) => {
     if (couponId) {
       const coupon = await couponModel.findById(couponId);
     
-      // Assuming the coupon always has a discountType of 'Percentage'
+      //  'Percentage'
       discountAmount = (coupon?.discountAmount / 100) * +subTotalPrice || 0;
     }
     
