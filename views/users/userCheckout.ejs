@@ -421,24 +421,24 @@
                             </tr>
                             <!-- Coupon Section -->
                             <tr>
-                                <td>
-                                    <span id="coupon" data-coupon="<%= coupon.couponId %>"></span>
-                                    <h4>Coupon Discount</h4>
-                                </td>
-                                <td>
-                                    <p><%= coupon.couponCode %></p>
-                                </td>
-                                <td id="couponDiscount">
-                                    <% if (coupon && discountAmount !== undefined) { %>
-                                        <p><%= discountAmount %></p>
-                                        <% priceaftercoupon = totalPriceSum - discountAmount %>
-                                    <% } else { %>
-                                        <% discountAmount = 0 %>
-                                        <p><%= discountAmount %></p>
-                                        <% priceaftercoupon = totalPriceSum %>
-                                    <% } %>
-                                </td>
-                            </tr>
+                              <td>
+                                  <span id="coupon" data-coupon="<%= coupon.couponId %>"></span>
+                                  <h4>Coupon Discount</h4>
+                              </td>
+                              <td>
+                                  <p><%= coupon.couponCode %></p>
+                              </td>
+                              <td id="couponDiscount">
+                                  <% if (coupon && discountAmount !== undefined) { %>
+                                      <p><%= discountAmount %></p>
+                                      <% priceaftercoupon = totalPriceSum - (discountAmount / 100) * totalPriceSum; %>
+                                  <% } else { %>
+                                      <% discountAmount = 0 %>
+                                      <p><%= discountAmount %></p>
+                                      <% priceaftercoupon = totalPriceSum; %>
+                                  <% } %>
+                              </td>
+                          </tr>
                             <!-- End Coupon Section -->
                             <tr>
                                 <td>
