@@ -972,8 +972,8 @@ const userAddCoupon = async (req, res) => {
 
     // Convert the percentage discount to an absolute value for display in the UI
     const formattedCoupons = coupons.map(coupon => {
-      // Convert the percentage value to an absolute value for display
-      const displayDiscountAmount = coupon.discountAmount * totalAmountInCheckout;
+      // Calculate the reduced amount as a percentage of the total
+      const displayDiscountAmount = (coupon.discountAmount / 100) * totalAmountInCheckout;
 
       return {
         // Include other coupon properties
@@ -1011,6 +1011,7 @@ const userAddCouponpost = async (req, res) => {
     console.log(error.message);
   }
 };
+
 
 
 

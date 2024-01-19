@@ -215,8 +215,12 @@ const userCheckoutPost = async (req, res) => {
     });
     let discountAmount = 0;
     if (couponId) {
-      discountAmount = await couponModel.findById(couponId);
-      discountAmount = discountAmount ? discountAmount.discountAmount : 0;
+      const coupon = await couponModel.findById(couponId);
+      if (coupon && coupon.discountType === 'Percentage') {
+        discountAmount = (coupon.discountAmount / 100) * +subTotalPrice;
+      } else {
+        discountAmount = coupon ? coupon.discountAmount : 0;
+      }
     }
 
     const products = orders[0].products;
