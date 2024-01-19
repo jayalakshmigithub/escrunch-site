@@ -215,21 +215,24 @@ const userCheckoutPost = async (req, res) => {
     });
     let discountAmount = 0;
 
-if (couponId) {
-  const coupon = await couponModel.findById(couponId);
-
-  if (coupon && coupon.discountType === 'Percentage') {
-    // Convert the percentage value to a decimal and calculate the reduced amount
-    discountAmount = (coupon.discountAmount / 100) * +subTotalPrice;
-  } else {
-    // If the discount type is not 'Percentage', use the absolute discount amount
-    discountAmount = coupon.discountAmount || 0;
-  }
-}
-
-const finalPrice = +subTotalPrice - discountAmount;
-
-const products = orders[0].products;
+    if (couponId) {
+      const coupon = await couponModel.findById(couponId);
+    
+      if (coupon) {
+        if (coupon.discountType === 'Percentage') {
+          // Convert the percentage value to a decimal and calculate the reduced amount
+          discountAmount = (coupon.discountAmount / 100) * +subTotalPrice;
+        } else {
+          // If the discount type is not 'Percentage', use the absolute discount amount
+          discountAmount = coupon.discountAmount || 0;
+        }
+      }
+    }
+    
+    const finalPrice = +subTotalPrice - discountAmount;
+    
+    const products = orders[0].products;
+    
 
 
     // const products = orders[0].products;
