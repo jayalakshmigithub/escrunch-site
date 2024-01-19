@@ -167,30 +167,33 @@
   document.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById('categoryform');
     const categoryNameInput = document.getElementById('categoryname');
-    const categoryDescription = document.getElementById('description')
+    const categoryDescription = document.getElementById('description');
     const categoryNameError = document.getElementById("categoryNameError");
     const descriptionError = document.getElementById('descriptionError');
 
-    form.addEventListener('submit', async function () {
+    form.addEventListener('submit', async function (event) {
+      event.preventDefault(); // Prevent default form submission
       categoryNameError.textContent = ""; // Clear previous error messages
       descriptionError.textContent = "";
 
-      if (!await validateCategoryName() || !validateDescription()) {
-        event.preventDefault();
+      if (await validateCategoryName() && validateDescription()) {
+        // If validation passes, you can submit the form here
+        form.submit();
       }
-    })
+    });
 
     categoryNameInput.addEventListener("blur", async function () {
       categoryNameError.textContent = ""; // Clear previous error message
       await validateCategoryName();
     });
+
     categoryDescription.addEventListener("blur", function () {
       descriptionError.textContent = ""; // Clear previous error message
       validateDescription();
     });
 
     async function validateCategoryName() {
-      const categoryName = categoryNameInput.value.trim()
+      const categoryName = categoryNameInput.value.trim();
 
       if (categoryName === "") {
         categoryNameError.textContent = "Category name cannot be empty";
@@ -213,7 +216,7 @@
     }
 
     function validateDescription() {
-      const description = categoryDescription.value.trim()
+      const description = categoryDescription.value.trim();
 
       if (description === "") {
         descriptionError.textContent = 'Category description cannot be empty';
@@ -236,6 +239,7 @@
     }
   });
 </script>
+
 
 
 
