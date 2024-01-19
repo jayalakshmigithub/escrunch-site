@@ -33,7 +33,7 @@ const adminAddCategory = async (req, res) => {
     });
     if (existingCategory) {
       // Category already exists, handle the error
-      return res.status(400).send();
+      return res.status(400).send("Category already exists");
     }
     // Add the category to the database if it doesn't exist
     await categoryHelper.addCategory(newCategory);
