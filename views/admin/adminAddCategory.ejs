@@ -164,83 +164,63 @@
 
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
+  document.addEventListener("DOMContentLoaded",function(){
+
     const form = document.getElementById('categoryform');
     const categoryNameInput = document.getElementById('categoryname');
-    const categoryDescription = document.getElementById('description');
-    const categoryNameError = document.getElementById("categoryNameError");
-    const descriptionError = document.getElementById('descriptionError');
+    const categoryDescription = document.getElementById('description')
+  
 
-    form.addEventListener('submit', async function (event) {
-      categoryNameError.textContent = ""; // Clear previous error messages
-      descriptionError.textContent = "";
+  form.addEventListener('submit',function(){
+    if(!validateCategoryName()||!validateDescription()){
+      event.preventDefault();
+    }
+  })
+  categoryName.addEventListener("blur",validateCategoryName);
+  categoryDescription.addEventListener("blur",validateDescription);
 
-      if (!(await validateCategoryName()) || !validateDescription()) {
-        event.preventDefault(); // Prevent form submission if validation fails
-      }
-    });
+  function validateCategoryName(){
+    const categoryName = categoryNameInput.value.trim()
+    const categoryNameError = document.getElementById("categoryNameError")
 
-    categoryNameInput.addEventListener("blur", async function () {
-      categoryNameError.textContent = ""; // Clear previous error message
-      await validateCategoryName();
-    });
-
-    categoryDescription.addEventListener("blur", function () {
-      descriptionError.textContent = ""; // Clear previous error message
-      validateDescription();
-    });
-
-    async function validateCategoryName() {
-      const categoryName = categoryNameInput.value.trim();
-
-      if (categoryName === "") {
-        categoryNameError.textContent = "Category name cannot be empty";
-        return false;
-      }
-
-      if (!/^[a-zA-Z]+$/.test(categoryName)) {
-        categoryNameError.textContent = 'Only letters are allowed in category name';
-        return false;
-      }
-
-      // Check if the category name already exists
-      const categoryExists = await checkCategoryNameExists(categoryName);
-      if (categoryExists) {
-        categoryNameError.textContent = 'Category name already exists';
-        return false;
-      }
-
-      return true;
+    if(categoryName===""){
+      categoryNameError.textContent ="Category name cannot be empty"
+      return false;
     }
 
-    function validateDescription() {
-      const description = categoryDescription.value.trim();
-
-      if (description === "") {
-        descriptionError.textContent = 'Category description cannot be empty';
-        return false;
-      }
-
-      if (!/[a-zA-Z]+$/.test(description)) {
-        descriptionError.textContent = 'Only letters are allowed in category description';
-        return false;
-      }
-
-      return true;
+    if(!/^[a-zA-Z]+$/.test(categoryName)){
+      categoryNameError.textContent= 'Only letters are allowed in category name'
+      return false;
     }
 
-    async function checkCategoryNameExists(categoryName) {
-      // Perform an asynchronous request to the server to check category name existence
-      const response = await fetch(`/checkCategoryNameExists?categoryName=${encodeURIComponent(categoryName)}`);
-      const data = await response.json();
-      return data.exists;
+    categoryNameError.textContent="";
+    return true;
+  }
+
+  
+
+  function validateDescription(){
+    const description = categoryDescription.value.trim()
+    const descriptionError = document.getElementById('descriptionError')
+
+    if(categoryDescription===""){
+      descriptionError.textContent='Category description cannot be empty'
+      return false
     }
-  });
+
+    if( !/[a-zA-Z]+$/.test(categoryDescription)){
+      descriptionError.textContent ='Only letters are allowed '
+      return false;
+
+    }
+    descriptionError.textContent =" ";
+    return true;
+  
+  }
+});
+
+
 </script>
-
-
-
-
 
 
 
