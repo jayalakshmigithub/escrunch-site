@@ -188,93 +188,81 @@
             </div>
         </header>
 
-    <section class="content-main">
-        <div class="content-header">
-            <div>
-                <h2 class="content-title card-title">Coupons</h2>
-                <p>Add Coupons</p>
+        <section class="content-main">
+            <div class="content-header">
+                <div>
+                    <h2 class="content-title card-title">Coupons</h2>
+                    <p>Add Coupons</p>
+                </div>
+                <div>
+                    <a href="/admin/addcoupon" class="btn btn-primary btn-sm rounded">Create Coupon</a>
+                </div>
             </div>
-            <div>
-                <a href="/admin/addcoupon" class="btn btn-primary btn-sm rounded">Create Coupon</a>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-body">
-                <div class="row">
-
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-
-                            <thead>
-
-                                <tr>
-                                    <th style="width: 18%;">Coupon Name</th>
-                                    <th style="width: 18%;">Discount Amount</th>
-                                    <th style="width: 18%;">Expiration Date</th>
-                                    
-                                    <!-- <th style="width: 18%;">Action</th>
-                                    <th style="width: 18%;">Remove</th> -->
-                                </tr>
-
-                            </thead>
-
-                            <tbody>
-                                <% coupon.forEach(function(item) { %>
+        
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
                                     <tr>
-                                        <td><b>
-                                                <%= item.code %>
-                                            </b></td>
-                                        <td>
-                                            <%=item.discountAmount %>
-                                        </td>
-                                        
-                                        <td>
-                                            <%= item.expirationDate.toLocaleDateString('en-US', { year: 'numeric' ,
-                                                month: 'long' , day: 'numeric' }) %>
-                                        </td>
-                                        
-                                        <td class="text-end">
-                                            <a href="/admin/coupon/edit?_id=<%= item._id %>">
-                                                <button class="btn btn-primary">Edit</button>
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <a href="/admin/deletecoupon?_id=<%= item._id %>">
-                                                <button class="btn btn-primary"
-                                                    style="background-color: red;">Delete</button>
-                                            </a>
-                                        </td>
+                                        <th style="width: 18%;">Coupon Name</th>
+                                        <th style="width: 18%;">Discount Amount</th>
+                                        <th style="width: 18%;">Expiration Date</th>
+                                        <th style="width: 18%;">Action</th>
+                                        <th style="width: 18%;">Remove</th>
                                     </tr>
+                                </thead>
+                                <tbody>
+                                    <% coupon.forEach(function(item) { %>
+                                        <tr>
+                                            <td><b><%= item.code %></b></td>
+                                            <!-- Modify this part to display discount amount based on discount type -->
+                                            <td>
+                                                <% if (item.discountType === 'Percentage') { %>
+                                                    <%= (item.discountAmount * 100).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %>% 
+                                                <% } else { %>
+                                                    Rs.<%= item.discountAmount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %>
+                                                <% } %>
+                                            </td>
+                                            <!-- End of modification -->
+                                            <td>
+                                                <%= item.expirationDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %>
+                                            </td>
+                                            <td class="text-end">
+                                                <a href="/admin/coupon/edit?_id=<%= item._id %>">
+                                                    <button class="btn btn-primary">Edit</button>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="/admin/deletecoupon?_id=<%= item._id %>">
+                                                    <button class="btn btn-primary" style="background-color: red;">Delete</button>
+                                                </a>
+                                            </td>
+                                        </tr>
                                     <% }); %>
-
-                            </tbody>
-
-                        </table>
-
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="pagination-area mt-15 mb-50">
-            <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-start">
-                    <% for(let i=1; i<=totalPages;i++) { %>
-                        <% if(i===currentPage){ %>
-                            <li class="page-item active"><a class="page-link" href="#">
-                                    <%= i %>
-                                </a></li>
+        
+            <div class="pagination-area mt-15 mb-50">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-start">
+                        <% for(let i=1; i<=totalPages;i++) { %>
+                            <% if(i===currentPage){ %>
+                                <li class="page-item active"><a class="page-link" href="#"><%= i %></a></li>
                             <% } else { %>
-                                <li class="page-item"><a class="page-link" href="/admin/coupons?page=<%= i %>">
-                                        <%= i %>
-                                    </a></li>
-                                <% } %>
-                                    <% } %>
-                </ul>
-            </nav>
-        </div>
-    </section>
+                                <li class="page-item"><a class="page-link" href="/admin/coupons?page=<%= i %>"><%= i %></a></li>
+                            <% } %>
+                        <% } %>
+                    </ul>
+                </nav>
+            </div>
+        </section>
+        
 
     <footer class="main-footer font-xs">
         <div class="row pb-30 pt-15">

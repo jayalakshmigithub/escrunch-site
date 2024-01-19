@@ -931,23 +931,23 @@ const userWallet = async (req, res) => {
     res.status(500).send("Internal Server Error"); // Handle this error appropriately
   }
 };
+// the Ogs
+// const userAddCoupon = async (req, res) => {
+//   try {
+//     const totalAmountInCheckout = req.query.total;
+//     const currentDate = new Date();
+//     const category = await categoryModel.find();
+//     const coupons = await couponModel.find({
+//       // minimumAmount: { $lte: totalAmountInCheckout },
+//       expirationDate: { $gt: currentDate },
+//     });
+//     res.render("users/userCoupons", { coupons, category });
+//   } catch (error) {
+//     console.log(error.message);
+//   }
+// };
 
-const userAddCoupon = async (req, res) => {
-  try {
-    const totalAmountInCheckout = req.query.total;
-    const currentDate = new Date();
-    const category = await categoryModel.find();
-    const coupons = await couponModel.find({
-      // minimumAmount: { $lte: totalAmountInCheckout },
-      expirationDate: { $gt: currentDate },
-    });
-    res.render("users/userCoupons", { coupons, category });
-  } catch (error) {
-    console.log(error.message);
-  }
-};
-
-//////////////////adding coupon to the checkout
+// //////////////////adding coupon to the checkout
 const userAddCouponpost = async (req, res) => {
   const shouldRedirect = true;
   if (shouldRedirect) {
@@ -960,6 +960,39 @@ const userAddCouponpost = async (req, res) => {
 const contactUsController = (req, res) => {
   res.render("users/contactUs");
 };
+
+
+
+
+const userAddCoupon = async (req, res) => {
+  try {
+    const totalAmountInCheckout = req.query.total;
+    const currentDate = new Date();
+    const category = await categoryModel.find();
+
+    // Fetch only valid coupons based on minimum amount and expiration date
+    const coupons = await couponModel.find({
+      minimumAmount: { $lte: totalAmountInCheckout },
+      expirationDate: { $gt: currentDate },
+    });
+
+    // Convert the percentage discount to an absolute value for display in the UI
+    const formattedCoupons = coupons.map(coupon => {
+      if (coupon.discountType === 'Percentage') {
+        // Convert the percentage value to an absolute value for display
+        coupon.displayDiscountAmount = coupon.discountAmount * totalAmountInCheckout;
+      } else {
+        coupon.displayDiscountAmount = coupon.discountAmount;
+      }
+      return coupon;
+    });
+
+    res.render("users/userCoupons", { coupons: formattedCoupons, category });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 
 module.exports = {
   userLandingPage,
