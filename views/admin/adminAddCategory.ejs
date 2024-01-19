@@ -168,29 +168,37 @@
     const form = document.getElementById('categoryform');
     const categoryNameInput = document.getElementById('categoryname');
     const categoryDescription = document.getElementById('description')
+    const categoryNameError = document.getElementById("categoryNameError");
+    const descriptionError = document.getElementById('descriptionError');
 
     form.addEventListener('submit', async function () {
+      categoryNameError.textContent = ""; // Clear previous error messages
+      descriptionError.textContent = "";
+
       if (!await validateCategoryName() || !validateDescription()) {
         event.preventDefault();
       }
     })
 
     categoryNameInput.addEventListener("blur", async function () {
+      categoryNameError.textContent = ""; // Clear previous error message
       await validateCategoryName();
     });
-    categoryDescription.addEventListener("blur", validateDescription);
+    categoryDescription.addEventListener("blur", function () {
+      descriptionError.textContent = ""; // Clear previous error message
+      validateDescription();
+    });
 
     async function validateCategoryName() {
       const categoryName = categoryNameInput.value.trim()
-      const categoryNameError = document.getElementById("categoryNameError")
 
       if (categoryName === "") {
-        categoryNameError.textContent = "Category name cannot be empty"
+        categoryNameError.textContent = "Category name cannot be empty";
         return false;
       }
 
       if (!/^[a-zA-Z]+$/.test(categoryName)) {
-        categoryNameError.textContent = 'Only letters are allowed in category name'
+        categoryNameError.textContent = 'Only letters are allowed in category name';
         return false;
       }
 
@@ -201,25 +209,22 @@
         return false;
       }
 
-      categoryNameError.textContent = "";
       return true;
     }
 
     function validateDescription() {
       const description = categoryDescription.value.trim()
-      const descriptionError = document.getElementById('descriptionError')
 
       if (description === "") {
-        descriptionError.textContent = 'Category description cannot be empty'
-        return false
-      }
-
-      if (!/[a-zA-Z]+$/.test(description)) {
-        descriptionError.textContent = 'Only letters are allowed in category description'
+        descriptionError.textContent = 'Category description cannot be empty';
         return false;
       }
 
-      descriptionError.textContent = "";
+      if (!/[a-zA-Z]+$/.test(description)) {
+        descriptionError.textContent = 'Only letters are allowed in category description';
+        return false;
+      }
+
       return true;
     }
 
