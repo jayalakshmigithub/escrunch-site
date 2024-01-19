@@ -213,9 +213,10 @@
           </section>
           
           <!-- Display Selected Category Heading -->
-          <div class="selected-category-heading" style="font-size: 24px; font-weight: bold; margin-top: 20px;">
-              <%= selectedCategoryHeading %>
-          </div>
+<div class="selected-category-heading" style="font-size: 24px; font-weight: bold; margin-top: 20px;">
+  <%= selectedCategoryHeading || 'Category Heading Not Available' %>
+</div>
+
           
           <!-- Pagination -->
           <div class="pagination-area mt-30 mb-50" style="display: flex; justify-content: center; align-items: center;">
