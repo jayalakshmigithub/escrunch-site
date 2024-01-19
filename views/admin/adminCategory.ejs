@@ -399,7 +399,14 @@
 
 
     <script>
-    async function CategoryForm() {
+    async function checkCategoryNameExists(categoryName) {
+    // Perform an asynchronous request to the server to check category name existence
+    const response = await fetch(`/checkCategoryNameExists?categoryName=${encodeURIComponent(categoryName)}`);
+    const data = await response.json();
+    return data.exists;
+}
+
+function CategoryForm() {
     var categoryName = document.getElementById('categoryName').value.trim();
     var categoryDescription = document.getElementById('categoryDescription').value.trim();
 
@@ -419,7 +426,7 @@
     }
 
     // Check if Category Name already exists
-    const categoryExists = await checkCategoryNameExists(categoryName);
+    const categoryExists = checkCategoryNameExists(categoryName);
     if (categoryExists) {
         displayError('Category Name already exists.', 'categoryName');
         return false; // Prevent form submission
