@@ -461,10 +461,7 @@ const userCategory = async (req, res) => {
   }
 };
 
-module.exports = {
-  userCategory,
-  // other controller methods...
-};
+
 
 
 // const userSortPrice = async (req, res) => {
