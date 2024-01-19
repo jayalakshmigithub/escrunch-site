@@ -397,7 +397,6 @@
     <!-- Main Script -->
     <script src="/assets/js/main.js" type="text/javascript"></script>
 
-
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const categoryForm = document.getElementById("categoryForm");
@@ -426,16 +425,16 @@
                     return;
                 }
     
-                // Check if Category Description contains only letters
-                if (!/^[A-Za-z]+$/.test(categoryDescription)) {
-                    displayErrorMessage('categoryDescriptionError', 'Category Description should contain only letters.');
-                    return;
-                }
-    
                 // Check if the category name already exists
                 const categoryExists = await checkCategoryNameExists(categoryName);
                 if (categoryExists) {
                     displayErrorMessage('categoryNameError', 'Category Name already exists.');
+                    return;
+                }
+    
+                // Check if Category Description contains only letters
+                if (!/^[A-Za-z]+$/.test(categoryDescription)) {
+                    displayErrorMessage('categoryDescriptionError', 'Category Description should contain only letters.');
                     return;
                 }
     
