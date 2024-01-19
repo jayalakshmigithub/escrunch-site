@@ -948,14 +948,7 @@ const userWallet = async (req, res) => {
 // };
 
 // //////////////////adding coupon to the checkout
-const userAddCouponpost = async (req, res) => {
-  const shouldRedirect = true;
-  if (shouldRedirect) {
-    res.json({ redirect: true });
-  } else {
-    res.json({ redirect: false });
-  }
-};
+
 
 const contactUsController = (req, res) => {
   res.render("users/contactUs");
@@ -990,6 +983,16 @@ const userAddCoupon = async (req, res) => {
     res.render("users/userCoupons", { coupons: formattedCoupons, category });
   } catch (error) {
     console.log(error.message);
+  }
+};
+
+
+const userAddCouponpost = async (req, res) => {
+  const shouldRedirect = true;
+  if (shouldRedirect) {
+    res.json({ redirect: true });
+  } else {
+    res.json({ redirect: false });
   }
 };
 

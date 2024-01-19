@@ -237,66 +237,70 @@
 
     <div class="container" style="margin-top: 150px">
       <h2 class="content-title card-title" style="margin-left: 500px; margin-bottom: 30px; color: #ff1493">
-        COUPON
+          COUPON
       </h2>
       <hr style="border-color: #000; margin-top: 50px" />
-    
+  
       <% if (!coupons || coupons.length === 0 ){ %>
-        <div class="container-fluid mt-100">
-          <div class="row">
-            <div class="col-md-12 text-center">
-              <div class="card" style="background-color: #f2f2f2; border: none; border-radius: 10px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
-                <div class="card-body text-center">
-                  <h3 style="color: #1c1c1c; font-size: 24px">
-                    <strong>You have no coupons!</strong>
-                  </h3>
-                  <!-- Add a button to go back to checkout with an empty couponId -->
-                  <a href="/checkout?couponCode=&discountAmount=0&couponId=" class="btn btn-primary">Go Back to Checkout</a>
-                </div>
+          <div class="container-fluid mt-100">
+              <div class="row">
+                  <div class="col-md-12 text-center">
+                      <div class="card" style="background-color: #f2f2f2; border: none; border-radius: 10px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+                          <div class="card-body text-center">
+                              <h3 style="color: #1c1c1c; font-size: 24px">
+                                  <strong>You have no coupons!</strong>
+                              </h3>
+                              <!-- Add a button to go back to checkout with an empty couponId -->
+                              <a href="/checkout?couponCode=&discountAmount=0&couponId=" class="btn btn-primary">Go Back to Checkout</a>
+                          </div>
+                      </div>
+                  </div>
               </div>
-            </div>
           </div>
-        </div>
       <% } else { %>
-        <div class="row">
-          <% coupons.forEach(function(item) { %>
-    
-            <div class="col-md-6">
-              <div class="card" style="background: #fff; border: 1px solid #e0e0e0; border-radius: 7px; box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1);">
-                <div class="card-body text-center">
-                  <h2 class="couponcode bg-light" style="font-size: 18px; padding: 10px; border-radius: 10px 10px 0 0; color: grey;">
-                    <b><%= item.code %></b>
-                  </h2>
-                  <p class="description" style="font-size: 14px; margin-top: 15px; color: #000">
-                    <%= item.description %>
-                  </p>
-                  <!-- Added section for displaying discount amount based on the coupon's discount type -->
-                  <p class="discountAmount" style="font-size: 16px; color: #000">
-                    <% if (item.discountType === 'Percentage') { %>
-                      Discount Amount: <%= (item.displayDiscountAmount * 100).toLocaleString('en-US', {
-                        minimumFractionDigits: 2, maximumFractionDigits: 2 }) %>%
-                    <% } else { %>
-                      Discount Amount: Rs.<span class="discountAmount1"><%= item.displayDiscountAmount.toLocaleString('en-US', {
-                        minimumFractionDigits: 2, maximumFractionDigits: 2 }) %></span>
-                    <% } %>
-                  </p>
-                  <!-- End of added section -->
-                  <p class="expire" style="font-size: 14px; color: #000">
-                    Coupon Expiry: <%= new Date(item.expirationDate).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) %>
-                  </p>
-                  <a class="apply-coupon-button btn btn-warning"
-                    href="/checkout?couponCode=<%= item.code %>&discountAmount=<%= item.discountAmount %>&couponId=<%= item._id %>"
-                    style="background-color: #ff1493; color: #fff; text-transform: uppercase; border: none; border-radius: 10px; font-weight: bold; padding: 10px 20px; margin-top: 20px; text-decoration: none;">
-                    Apply Coupon
-                  </a>
-                </div>
-              </div>
-            </div>
-    
-          <% }); %>
-        </div>
+          <div class="row">
+              <% coupons.forEach(function(item) { %>
+  
+                  <div class="col-md-6">
+                      <div class="card" style="background: #fff; border: 1px solid #e0e0e0; border-radius: 7px; box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1);">
+                          <div class="card-body text-center">
+                              <h2 class="couponcode bg-light" style="font-size: 18px; padding: 10px; border-radius: 10px 10px 0 0; color: grey;">
+                                  <b><%= item.code %></b>
+                              </h2>
+                              <p class="description" style="font-size: 14px; margin-top: 15px; color: #000">
+                                  <%= item.description %>
+                              </p>
+                              <!-- Added section for displaying discount amount based on the coupon's discount type -->
+                              <p class="discountAmount" style="font-size: 16px; color: #000">
+                                  <% if (item.discountType === 'Percentage' && item.displayDiscountAmount !== undefined) { %>
+                                      Discount Amount: <%= (item.displayDiscountAmount * 100).toLocaleString('en-US', {
+                                          minimumFractionDigits: 2, maximumFractionDigits: 2 }) %>%
+                                  <% } else if (item.displayDiscountAmount !== undefined) { %>
+                                      Discount Amount: Rs.<span class="discountAmount1"><%= item.displayDiscountAmount.toLocaleString('en-US', {
+                                          minimumFractionDigits: 2, maximumFractionDigits: 2 }) %></span>
+                                  <% } else { %>
+                                      <!-- Handle the case where displayDiscountAmount is undefined -->
+                                      Discount Amount: N/A
+                                  <% } %>
+                              </p>
+                              <!-- End of added section -->
+                              <p class="expire" style="font-size: 14px; color: #000">
+                                  Coupon Expiry: <%= new Date(item.expirationDate).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) %>
+                              </p>
+                              <a class="apply-coupon-button btn btn-warning"
+                                  href="/checkout?couponCode=<%= item.code %>&discountAmount=<%= item.discountAmount %>&couponId=<%= item._id %>"
+                                  style="background-color: #ff1493; color: #fff; text-transform: uppercase; border: none; border-radius: 10px; font-weight: bold; padding: 10px 20px; margin-top: 20px; text-decoration: none;">
+                                  Apply Coupon
+                              </a>
+                          </div>
+                      </div>
+                  </div>
+  
+              <% }); %>
+          </div>
       <% } %>
-    </div>
+  </div>
+  
     
 
     <br />
