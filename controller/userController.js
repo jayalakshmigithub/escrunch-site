@@ -389,40 +389,6 @@ const userProductLists = async (req, res) => {
 //   }
 // };
 
-// const userCategory = async (req, res) => {
-//   try {
-//     const catId = req.params.id;
-//     const category = await categoryModel.findOne({ _id: catId });
-//     const categoryname = category.categoryname;
-//     const products = await productModel
-//       .find({ categoryname: catId })
-//       .populate("categoryname");
-
-//     const ITEMS_PER_PAGE = 3;
-//     const page = parseInt(req.query.page) || 1;
-//     const skipItems = (page - 1) * ITEMS_PER_PAGE;
-//     const totalCount = 9;
-//     const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
-//     const prods = await productModel
-//       .find()
-//       .populate("categoryname")
-//       .skip(skipItems)
-//       .limit(ITEMS_PER_PAGE);
-//     console.log("prods in category", prods);
-
-//     if (prods)
-//       res.render("users/userCategory", {
-//         products,
-//         currentPage: page,
-//         totalPages: totalPages,
-//         catId,
-//         categoryname,
-//       });
-//   } catch (error) {
-//     console.log(error.message);
-//   }
-// };
-
 const userCategory = async (req, res) => {
   try {
     const catId = req.params.id;
@@ -444,24 +410,18 @@ const userCategory = async (req, res) => {
       .limit(ITEMS_PER_PAGE);
     console.log("prods in category", prods);
 
-    if (prods) {
-      const selectedCategoryHeading = categoryname;
+    if (prods)
       res.render("users/userCategory", {
         products,
         currentPage: page,
         totalPages: totalPages,
         catId,
         categoryname,
-        selectedCategoryHeading // Variable name corrected
       });
-    }
   } catch (error) {
     console.log(error.message);
-    res.status(500).send("Internal Server Error");
   }
 };
-
-
 
 
 // const userSortPrice = async (req, res) => {

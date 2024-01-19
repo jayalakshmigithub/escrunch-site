@@ -132,6 +132,7 @@
 
     <div class="container">
         <div class="row">
+
             <div class="col-xl-9 col-lg-8 col-md-7">
                 <!-- Start Filter Bar -->
                 <div class="filter-bar d-flex flex-wrap align-items-center"
@@ -152,98 +153,93 @@
                 <!-- End Filter Bar -->
             </div>
             <section class="lattest-product-area pb-40 category-list">
-              <div class="row">
-                  <!-- single product -->
-                  <% products.forEach(function(product) { %>
-                      <% if (product.status==='Listed' ) { %>
-                          <div class="col-lg-4 col-md-6">
-                              <div class="single-product"
-                                  style="background: #fff;  border: 1px solid #e0e0e0; border: 1px solid #e0e0e0; border-radius: 7px; box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1);">
-                                  <img class="img-fluid" src="/uploadProductImages/<%= product.image[0] %>" alt="">
-                                  <div class="product-details">
-                                      <h6 style="font-size: 16px; color: #333; margin: 10px 0;">
-                                          <%= product.productname %>
-                                      </h6>
-                                      <div class="price" style="font-size: 16px; color: #333; margin: 10px 0;">
-                                          <h6>
-                                              <% if (product.categoryname.offerPercentage> 0) { %>
-                                                  MRP ₹ <%= product.price.toLocaleString('en-IN', {
-                                                      minimumFractionDigits: 2, maximumFractionDigits: 2 }) %>
-                                              <% } else if (product.categoryname.offerPercentage===0 &&
-                                                  product.productOffer> 0) { %>
-                                                  MRP ₹ <%= product.productOffer.toLocaleString('en-IN', {
-                                                      minimumFractionDigits: 2, maximumFractionDigits: 2 }) %>
-                                              <% } else if (product.categoryname.offerPercentage===0
-                                                  && product.productOffer===0) { %>
-                                                  MRP ₹ <%= product.mrp.toLocaleString('en-IN', {
-                                                      minimumFractionDigits: 2, maximumFractionDigits:
-                                                      2 }) %>
-                                              <% } else {%>
-                                                  MRP ₹ <%= product.mrp.toLocaleString('en-IN', {
-                                                  minimumFractionDigits: 2,
-                                                  maximumFractionDigits: 2 }) %>
-                                              <%}%>
-                                          </h6>
-                                          <h6 class="l-through">
-                                              MRP ₹<%= product.mrp.toLocaleString('en-IN', { minimumFractionDigits: 2,
-                                                  maximumFractionDigits: 2 }) %>
-                                          </h6>
-                                      </div>
-                                      <div class="prd-bottom">
-                                          <a href="" class="social-info">
-                                              <span class="lnr lnr-heart"></span>
-                                              <p class="hover-text">Wishlist</p>
-                                          </a>
-                                          <a href="/productdetails/<%= product._id %>" class="social-info">
-                                              <span class="ti-layers"></span>
-                                              <p class="hover-text">compare</p>
-                                          </a>
-                                          <a href="/productdetails/<%= product._id %>?timestamp=<%= Date.now() %>"
-                                              class="social-info">
-                                              <span class="ti-more-alt"></span>
-                                              <p class="hover-text">view more</p>
-                                          </a>
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>
-                      <% } %>
-                  <% }); %>
-              </div>
-          </section>
-          
-          <!-- Display Selected Category Heading -->
-<div class="selected-category-heading" style="font-size: 24px; font-weight: bold; margin-top: 20px;">
-  <%= selectedCategoryHeading || 'Category Heading Not Available' %>
-</div>
+                <div class="row">
+                    <!-- single product -->
+                    <% products.forEach(function(product) { %>
+                        <% if (product.status==='Listed' ) { %>
+                            <div class="col-lg-4 col-md-6">
+                                <div class="single-product"
+                                    style="background: #fff;  border: 1px solid #e0e0e0; border: 1px solid #e0e0e0; border-radius: 7px; box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1);">
+                                    <img class="img-fluid" src="/uploadProductImages/<%= product.image[0] %>" alt="">
+                                    <div class="product-details">
+                                        <h6 style="font-size: 16px; color: #333; margin: 10px 0;">
+                                            <%= product.productname %>
+                                        </h6>
+                                        <div class="price" style="font-size: 16px; color: #333; margin: 10px 0;">
+                                            <h6>
+                                                <% if (product.categoryname.offerPercentage> 0) { %>
+                                                    MRP ₹ <%= product.price.toLocaleString('en-IN', {
+                                                        minimumFractionDigits: 2, maximumFractionDigits: 2 }) %>
+                                                        <% } else if (product.categoryname.offerPercentage===0 &&
+                                                            product.productOffer> 0) { %>
+                                                            MRP ₹ <%= product.productOffer.toLocaleString('en-IN', {
+                                                                minimumFractionDigits: 2, maximumFractionDigits: 2 }) %>
+                                                                <% } else if (product.categoryname.offerPercentage===0
+                                                                    && product.productOffer===0) { %>
+                                                                    MRP ₹ <%= product.mrp.toLocaleString('en-IN', {
+                                                                        minimumFractionDigits: 2, maximumFractionDigits:
+                                                                        2 }) %>
+                                                                        <% } else {%>
+                                                                            MRP ₹ <%=
+                                                                                product.mrp.toLocaleString('en-IN', {
+                                                                                minimumFractionDigits: 2,
+                                                                                maximumFractionDigits: 2 }) %>
+                                                                                <%}%>
+                                            </h6>
+                                            <h6 class="l-through">
+                                                MRP ₹<%= product.mrp.toLocaleString('en-IN', { minimumFractionDigits: 2,
+                                                    maximumFractionDigits: 2 }) %>
+                                            </h6>
+                                        </div>
+                                        <div class="prd-bottom">
+                                            
+                                            <a href="" class="social-info">
+                                                <span class="lnr lnr-heart"></span>
+                                                <p class="hover-text">Wishlist</p>
+                                            </a>
+                                            <a href="/productdetails/<%= product._id %>" class="social-info">
+                                                <span class="ti-layers"></span>
+                                                <p class="hover-text">compare</p>
+                                            </a>
+                                            <a href="/productdetails/<%= product._id %>?timestamp=<%= Date.now() %>"
+                                                class="social-info">
+                                                <span class="ti-more-alt"></span>
+                                                <p class="hover-text">view more</p>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <% } %>
+                                <% }); %>
 
-          
-          <!-- Pagination -->
-          <div class="pagination-area mt-30 mb-50" style="display: flex; justify-content: center; align-items: center;">
-              <nav aria-label="Page navigation example">
-                  <ul class="pagination" style="list-style: none; display: flex; align-items: center;">
-                      <% for (let i=1; i <=totalPages; i++) { %>
-                          <% if (i===currentPage) { %>
-                              <li class="page-item active"
-                                  style="background: #007bff; color: #fff; padding: 5px 10px; margin: 0 5px; border-radius: 5px;">
-                                  <a class="page-link" href="#" style="text-decoration: none;">
-                                      <%= i %>
-                                  </a>
-                              </li>
-                          <% } else { %>
-                              <li class="page-item"
-                                  style="background: #f0f0f0; color: #333; padding: 5px 10px; margin: 0 5px; border-radius: 5px;">
-                                  <a class="page-link" href="/sortedproducts?sortOption=<%= sortOption %>&page=<%= i %>"
-                                      style="text-decoration: none;">
-                                      <%= i %>
-                                  </a>
-                              </li>
-                          <% } %>
-                      <% } %>
-                  </ul>
-              </nav>
-          </div>
-          
+
+                </div>
+            </section>
+            <div class="pagination-area mt-30 mb-50"
+                style="display: flex; justify-content: center; align-items: center;">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination" style="list-style: none; display: flex; align-items: center;">
+                        <% for (let i=1; i <=totalPages; i++) { %>
+                            <% if (i===currentPage) { %>
+                                <li class="page-item active"
+                                    style="background: #007bff; color: #fff; padding: 5px 10px; margin: 0 5px; border-radius: 5px;">
+                                    <a class="page-link" href="#" style="text-decoration: none;">
+                                        <%= i %>
+                                    </a>
+                                </li>
+                                <% } else { %>
+                                    <li class="page-item"
+                                        style="background: #f0f0f0; color: #333; padding: 5px 10px; margin: 0 5px; border-radius: 5px;">
+                                        <a class "page-link" href="" style="text-decoration: none;">
+                                            <%= i %>
+                                        </a>
+                                    </li>
+                                    <% } %>
+                                        <% } %>
+                    </ul>
+                </nav>
+            </div>
         </div>
     </div>
 
