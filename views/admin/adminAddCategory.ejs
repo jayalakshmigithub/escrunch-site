@@ -172,19 +172,17 @@
     const descriptionError = document.getElementById('descriptionError');
 
     form.addEventListener('submit', async function (event) {
-      event.preventDefault(); // Prevent default form submission
       categoryNameError.textContent = ""; // Clear previous error messages
       descriptionError.textContent = "";
 
-      if (await validateCategoryName() && validateDescription()) {
-        // If validation passes, you can submit the form here
-        form.submit();
+      if (!(await validateCategoryName()) || !validateDescription()) {
+        event.preventDefault(); // Prevent form submission if validation fails
       }
     });
 
-    categoryNameInput.addEventListener("blur", function () {
+    categoryNameInput.addEventListener("blur", async function () {
       categoryNameError.textContent = ""; // Clear previous error message
-      validateCategoryName();
+      await validateCategoryName();
     });
 
     categoryDescription.addEventListener("blur", function () {
@@ -239,6 +237,7 @@
     }
   });
 </script>
+
 
 
 
