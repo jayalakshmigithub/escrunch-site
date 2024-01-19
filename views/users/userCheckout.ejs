@@ -718,37 +718,45 @@
 });
 
 
-  function handlePlaceOrder() {
+function handlePlaceOrder() {
     let contactDetails = $('#addressForm').serialize();
     contactDetails = contactDetails.split("=")[1];
+
     let paymentMethod = $('#paymentOption').serialize();
     paymentMethod = paymentMethod.split("=")[1];
+
     var subTotalPriceElement = $('#subTotalPrice');
     var subTotalPrice = subTotalPriceElement.text();
     subTotalPrice = +subTotalPrice;
+
+    // Assuming you have a way to retrieve the selected coupon ID
+    let couponId = $('#coupon').data('coupon');
+
     const details = {
-      address: contactDetails,
-      paymentMethod: paymentMethod,
-      subTotalPrice,
+        address: contactDetails,
+        paymentMethod: paymentMethod,
+        subTotalPrice: subTotalPrice,
+        couponId: couponId,
     };
 
     $.ajax({
-      url: "/checkoutpost",
-      method: "post",
-      data: details,
-      success: (response) => {
-        if (paymentMethod === 'cashondelivery') {
-          showCashOnDeliveryAlert();
-        } else {
-          razorpayPayment(response);
-        }
-        console.log('response', response);
-      },
-      error: (error) => {
-        console.error('Error placing order:', error);
-      },
+        url: "/checkoutpost",
+        method: "post",
+        data: details,
+        success: (response) => {
+            if (paymentMethod === 'cashondelivery') {
+                showCashOnDeliveryAlert();
+            } else {
+                razorpayPayment(response);
+            }
+            console.log('response', response);
+        },
+        error: (error) => {
+            console.error('Error placing order:', error);
+        },
     });
-  }
+}
+
 
   function showCashOnDeliveryAlert() {
         Swal.fire({
