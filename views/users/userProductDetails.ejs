@@ -404,38 +404,30 @@
               <!-- Your existing quantity input code -->
               <div>
                 <% if (product.stock > 0) { %>
-                <div class="input-group quantity mr-3" style="width: 130px">
-                  <div class="input-group-btn">
-                    <button class="btn btn-primary btn-minus" id="dec-btn">
-                      <i class="fa fa-minus"></i>
+                  <div class="input-group quantity mr-3" style="width: 130px">
+                    <div class="input-group-btn">
+                      <button class="btn btn-primary btn-minus" id="dec-btn">
+                        <i class="fa fa-minus"></i>
+                      </button>
+                    </div>
+              
+                    <span class="form-control bg-secondary border-0 text-center" id="inputQuantity">1</span>
+              
+                    <div class="input-group-btn">
+                      <button class="btn btn-primary btn-plus" id="inc-btn">
+                        <i class="fa fa-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+              
+                  <div class="card_area d-flex align-items-center">
+                    <button class="primary-btn" id="addtocart" href="#" style="margin-top: 20px">
+                      Add to Cart
                     </button>
                   </div>
-
-                  <span
-                    class="form-control bg-secondary border-0 text-center"
-                    id="inputQuantity"
-                    >1</span
-                  >
-
-                  <div class="input-group-btn">
-                    <button class="btn btn-primary btn-plus" id="inc-btn">
-                      <i class="fa fa-plus"></i>
-                    </button>
-                  </div>
-                </div>
-
-                <div class="card_area d-flex align-items-center">
-                  <button
-                    class="primary-btn"
-                    id="addtocart"
-                    href="#"
-                    style="margin-bottom: 30px; margin-top: 20px"
-                  >
-                    Add to Cart
-                  </button>
-                </div>
                 <% } %>
               </div>
+              
             </div>
           </div>
         </div>
