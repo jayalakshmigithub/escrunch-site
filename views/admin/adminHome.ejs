@@ -318,6 +318,7 @@
     // Initialize data variable
     <% if (typeof data !== 'undefined') { %>
         const data = <%- JSON.stringify(data) %>;
+        console.log('Data received in the script:', data);
     <% } else { %>
         const data = [];
     <% } %>
