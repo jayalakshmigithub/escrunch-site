@@ -445,13 +445,14 @@ const userCategory = async (req, res) => {
     console.log("prods in category", prods);
 
     if (prods) {
+      const selectedCategoryHeading = categoryname;
       res.render("users/userCategory", {
         products,
         currentPage: page,
         totalPages: totalPages,
         catId,
         categoryname,
-        selectedCategoryHeading: categoryname, // Variable name corrected
+        selectedCategoryHeading // Variable name corrected
       });
     }
   } catch (error) {
