@@ -165,33 +165,48 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    const form = document.getElementById('categoryform');
-    const categoryNameInput = document.getElementById('categoryname');
-    const categoryDescription = document.getElementById('description');
-    const categoryNameError = document.getElementById("categoryNameError");
-    const descriptionError = document.getElementById('descriptionError');
+    const form = document.getElementById("categoryform");
+    const categoryNameInput = document.getElementById("categoryname");
+    const categoryDescriptionInput = document.getElementById("description");
 
-    form.addEventListener('submit', async function (event) {
-      categoryNameError.textContent = ""; // Clear previous error messages
-      descriptionError.textContent = "";
+    form.addEventListener("submit", async function (event) {
+      event.preventDefault();
 
-      if (!(await validateCategoryName()) || !validateDescription()) {
-        event.preventDefault(); // Prevent form submission if validation fails
+      if (
+        !validateCategoryName() ||
+        !validateDescription()
+      ) {
+        return;
+      }
+
+      const categoryName = categoryNameInput.value.trim();
+      const categoryDescription = categoryDescriptionInput.value.trim();
+
+      try {
+        // Perform an asynchronous request to the server to check category name existence
+        const response = await fetch(`/checkCategoryNameExists?categoryName=${encodeURIComponent(categoryName)}`);
+        const data = await response.json();
+
+        if (data.exists) {
+          // Category name already exists, display the error message
+          const categoryNameError = document.getElementById("categoryNameError");
+          categoryNameError.textContent = "Category name already exists.";
+          return;
+        }
+
+        // If category name is unique, proceed with form submission
+        form.submit();
+      } catch (error) {
+        console.error("Error checking category name existence:", error);
       }
     });
 
-    categoryNameInput.addEventListener("blur", async function () {
-      categoryNameError.textContent = ""; // Clear previous error message
-      await validateCategoryName();
-    });
+    categoryNameInput.addEventListener("blur", validateCategoryName);
+    categoryDescriptionInput.addEventListener("blur", validateDescription);
 
-    categoryDescription.addEventListener("blur", function () {
-      descriptionError.textContent = ""; // Clear previous error message
-      validateDescription();
-    });
-
-    async function validateCategoryName() {
+    function validateCategoryName() {
       const categoryName = categoryNameInput.value.trim();
+      const categoryNameError = document.getElementById("categoryNameError");
 
       if (categoryName === "") {
         categoryNameError.textContent = "Category name cannot be empty";
@@ -199,44 +214,34 @@
       }
 
       if (!/^[a-zA-Z]+$/.test(categoryName)) {
-        categoryNameError.textContent = 'Only letters are allowed in category name';
+        categoryNameError.textContent = "Only letters are allowed in category name";
         return false;
       }
 
-      // Check if the category name already exists on the server
-      const categoryExists = await checkCategoryNameExists(categoryName);
-      if (categoryExists) {
-        categoryNameError.textContent = 'Category name already exists';
-        return false;
-      }
-
+      categoryNameError.textContent = "";
       return true;
     }
 
     function validateDescription() {
-      const description = categoryDescription.value.trim();
+      const description = categoryDescriptionInput.value.trim();
+      const descriptionError = document.getElementById("descriptionError");
 
       if (description === "") {
-        descriptionError.textContent = 'Category description cannot be empty';
+        descriptionError.textContent = "Category description cannot be empty";
         return false;
       }
 
-      if (!/[a-zA-Z]+$/.test(description)) {
-        descriptionError.textContent = 'Only letters are allowed in category description';
+      if (!/^[a-zA-Z]+$/.test(description)) {
+        descriptionError.textContent = "Only letters are allowed in category description";
         return false;
       }
 
+      descriptionError.textContent = "";
       return true;
-    }
-
-    async function checkCategoryNameExists(categoryName) {
-      // Perform an asynchronous request to the server to check category name existence
-      const response = await fetch(`/checkCategoryNameExists?categoryName=${encodeURIComponent(categoryName)}`);
-      const data = await response.json();
-      return data.exists;
     }
   });
 </script>
+
 
 
 
