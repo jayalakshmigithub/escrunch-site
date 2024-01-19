@@ -397,59 +397,47 @@
     <!-- Main Script -->
     <script src="/assets/js/main.js" type="text/javascript"></script>
 
+
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const categoryForm = document.getElementById("yourCategoryFormId");
-            const categoryNameInput = document.getElementById('categoryName');
-            const categoryDescriptionInput = document.getElementById('categoryDescription');
-            const categoryNameError = document.getElementById('categoryNameError');
-            const categoryDescriptionError = document.getElementById('categoryDescriptionError');
+        async function checkCategoryNameExists(categoryName) {
+            // Perform an asynchronous request to the server to check category name existence
+            const response = await fetch(`/checkCategoryNameExists?categoryName=${encodeURIComponent(categoryName)}`);
+            const data = await response.json();
+            return data.exists;
+        }
     
-            categoryForm.addEventListener("submit", async function (event) {
-                event.preventDefault(); // Prevent the form from submitting by default
+        async function CategoryForm() {
+            var categoryName = document.getElementById('categoryName').value.trim();
+            var categoryDescription = document.getElementById('categoryDescription').value.trim();
     
-                const categoryName = categoryNameInput.value.trim();
-                const categoryDescription = categoryDescriptionInput.value.trim();
-    
-                // Reset previous error messages
-                resetErrorMessage(categoryNameError);
-                resetErrorMessage(categoryDescriptionError);
-    
-                // Check if any field is empty
-                if (categoryName === '' || categoryDescription === '') {
-                    displayErrorMessage(categoryNameError, 'Category Name and Description are required.');
-                    return;
-                }
-    
-                // Check if Category Name contains only letters
-                if (!/^[A-Za-z]+$/.test(categoryName)) {
-                    displayErrorMessage(categoryNameError, 'Category Name should contain only letters.');
-                    return;
-                }
-    
-                // Attempt to submit the form
-                try {
-                    await categoryForm.submit();
-                } catch (error) {
-                    if (error.message.includes('E11000 duplicate key error')) {
-                        // MongoDB unique constraint violation error
-                        displayErrorMessage(categoryNameError, 'Category Name already exists.');
-                    } else {
-                        console.error('Error submitting form:', error);
-                        displayErrorMessage(categoryNameError, 'Error submitting form. Please try again.');
-                    }
-                }
-            });
-    
-            function displayErrorMessage(errorElement, message) {
-                errorElement.textContent = message;
-                errorElement.style.color = 'red';
+            // Check if any field is empty
+            if (categoryName === '' || categoryDescription === '') {
+                alert('All fields are required.');
+                return false; // Prevent form submission
             }
     
-            function resetErrorMessage(errorElement) {
-                errorElement.textContent = '';
+            // Check if Category Name contains only letters
+            if (!/^[A-Za-z]+$/.test(categoryName)) {
+                alert('Category Name should contain only letters.');
+                return false; // Prevent form submission
             }
-        });
+    
+            // Check if Category Name already exists
+            const categoryExists = await checkCategoryNameExists(categoryName);
+            if (categoryExists) {
+                alert('Category Name already exists.');
+                return false; // Prevent form submission
+            }
+    
+            // Check if Category Description contains only letters
+            if (!/^[A-Za-z]+$/.test(categoryDescription)) {
+                alert('Category Description should contain only letters.');
+                return false; // Prevent form submission
+            }
+    
+            // If all validation passes, allow form submission
+            return true;
+        }
     </script>
     
 
