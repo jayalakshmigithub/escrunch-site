@@ -238,7 +238,8 @@ const adminHome = async (req, res) => {
     ]);
 
     const data = orders.map(({ _id, total, count }) => ({ date: _id, amount: total, count }));
-    res.render('admin/adminHome', { data });
+    const totalSalesAmount = data.reduce((acc, current) => acc + current.amount, 0);
+    res.render('admin/adminHome', { data ,totalSalesAmount});
   } catch (error) {
     console.error(error.message); // Use console.error for error messages
   }
