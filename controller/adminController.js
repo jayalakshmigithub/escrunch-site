@@ -225,7 +225,7 @@ const adminHome = async (req, res) => {
       return res.redirect('/admin/login');
     }
 
-    const order = await orderModel.aggregate([
+    const orders = await orderModel.aggregate([
       { $match: { orderStatus: 'Delivered' } },
       {
         $group: {
@@ -236,7 +236,7 @@ const adminHome = async (req, res) => {
       },
       { $sort: { _id: 1 } },
     ]);
-    const orders = await orderModel
+     orders = await orderModel
     .find({})
     .populate("user", "name email")
     .populate({ path: "items.product", select: "name price" })
