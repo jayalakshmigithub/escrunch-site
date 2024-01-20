@@ -225,7 +225,65 @@
                   style="background: #fff; border-radius: 20px; box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);">
                   <article class="card-body">
                     <h3 style="color: #3045d3;">Total Sales</h3>
-                    <p style="font-size: 32px; margin: 0; color: #4491a9;" id="totalSalesAmount">INR 0</p>
+                    <!-- <p style="font-size: 32px; margin: 0; color: #4491a9;" id="totalSalesAmount">INR 0</p> -->
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>#ID</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Total</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Date</th>
+                                        <th scope="col" class="text-end"> Action </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- <% orders.forEach(function(item) { %>
+                                        <tr>
+                                          <td><%= item._id %></td>
+                                          <td><% if (item.user && item.user.name) { %><b><%= item.user.name %></b><% } %></td>
+                                          <td><% if (item.user && item.user.email ) { %><%= item.user.email %><% } %></td>
+                                          <td><%= item.totalAmount %></td>
+                                          <td><span class="badge rounded-pill alert-warning"><%= item.orderStatus %></span></td>
+                                        </tr>
+                                      <% }); %> -->
+                                      <% orders.forEach(function(item) { %>
+                                        <tr>
+                                            <td><%= item._id %></td>
+                                            <td><b><%= item.user.name %></b></td>
+                                            <td><template class="__cf_email__" data-cfemail="aec3cfdcd8c7c0eecbd6cfc3dec2cb80cdc1c3">[email&#160;protected]</template><%= item.user.email %></td>
+                                            <td><%= item.totalAmount %></td>
+                                            <td><span class="badge rounded-pill alert-warning"><%= item.orderStatus %></span></td>
+                                            <td><%= new Date(item.createdAt).toLocaleDateString("en-GB") %></td>
+                                            <td class="text-end">
+                                                <a href="/admin/order/edit?_id=<%= item._id %>"class="btn btn-md rounded font-sm">Detail</a>
+            
+            
+            
+            
+                                                <!-- <div class="dropdown">
+                                                    <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
+                                                    <div class="dropdown-menu">
+                                                        <a class="dropdown-item" href="#">View detail</a>
+                                                        <a class="dropdown-item" href="#">Edit info</a>
+                                                        <a class="dropdown-item text-danger" href="#">Delete</a>
+                                                    </div>
+                                                </div> dropdown //end -->
+                                            </td>
+                                        </tr>
+                                        <% }); %>
+                                      
+                                      
+                                     
+                                      
+                                       
+                                </tbody>
+                            </table>
+                        </div> <!-- table-responsive //end -->
+                    </div>
                   </article>
                 </div>
               </div>
