@@ -225,18 +225,18 @@ const adminHome = async (req, res) => {
       return res.redirect('/admin/login');
     }
 
-    const orders = await orderModel.aggregate([
-      { $match: { orderStatus: 'Delivered' } },
-      {
-        $group: {
-          _id: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } },
-          total: { $sum: '$totalAmount' },
-          count: { $sum: 1 },
-        },
-      },
-      { $sort: { _id: 1 } },
-    ]);
-     orders = await orderModel
+    // const orders = await orderModel.aggregate([
+    //   { $match: { orderStatus: 'Delivered' } },
+    //   {
+    //     $group: {
+    //       _id: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } },
+    //       total: { $sum: '$totalAmount' },
+    //       count: { $sum: 1 },
+    //     },
+    //   },
+    //   { $sort: { _id: 1 } },
+    // ]);
+    const orders = await orderModel
     .find({})
     .populate("user", "name email")
     .populate({ path: "items.product", select: "name price" })
