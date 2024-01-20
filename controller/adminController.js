@@ -225,24 +225,20 @@ const adminHome = async (req, res) => {
       return res.redirect('/admin/login');
     }
 
-    // const orders = await orderModel.aggregate([
-    //   { $match: { orderStatus: 'Delivered' } },
-    //   {
-    //     $group: {
-    //       _id: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } },
-    //       total: { $sum: '$totalAmount' },
-    //       count: { $sum: 1 },
-    //     },
-    //   },
-    //   { $sort: { _id: 1 } },
-    // ]);
-    const orders = await orderModel
-    .find({})
-    .populate("user", "name email")
-    .populate({ path: "items.product", select: "name price" })
-    .sort({ createdAt: -1 });
+    const orders = await orderModel.aggregate([
+      { $match: { orderStatus: 'Delivered' } },
+      {
+        $group: {
+          _id: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } },
+          total: { $sum: '$totalAmount' },
+          count: { $sum: 1 },
+        },
+      },
+      { $sort: { _id: 1 } },
+    ]);
+
     const data = orders.map(({ _id, total, count }) => ({ date: _id, amount: total, count }));
-    res.render('admin/adminHome', { data,orders });
+    res.render('admin/adminHome', { data });
   } catch (error) {
     console.error(error.message); // Use console.error for error messages
   }
