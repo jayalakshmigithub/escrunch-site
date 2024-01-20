@@ -315,8 +315,8 @@
 <script src="https://code.highcharts.com/highcharts.js"></script>
 
 
-<% if (data) { %>
-    <script>
+<%- data ? '<script>' : '' %>
+    <% if (data) { %>
       const data = <%- JSON.stringify(data) %>;
       const date = data.map(item => {
         const date = new Date(item.date);
@@ -412,9 +412,8 @@
         },
       });
   
-    </script>
-  <% } %>
-  
+    <% } %>
+  <%- data ? '</script>' : '' %>
   
   
   
