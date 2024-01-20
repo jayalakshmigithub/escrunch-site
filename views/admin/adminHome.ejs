@@ -317,6 +317,7 @@
 
 <% if (data) { %>
     <script>
+      // Declare data outside the conditional block
       const data = <%- JSON.stringify(data) %>;
       const date = data.map(item => {
         const date = new Date(item.date);
