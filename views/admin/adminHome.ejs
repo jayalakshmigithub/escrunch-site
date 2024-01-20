@@ -315,108 +315,107 @@
 <script src="https://code.highcharts.com/highcharts.js"></script>
 
 
-<% if (data) { %>
-    <script>
-      const data = <%- JSON.stringify(data) %>;
-      const date = data.map(item => {
-        const date = new Date(item.date);
-        return date.getDate();
-      });
-      const amount = data.map(item => item.amount);
-      const count = data.map(item => item.count);
-  
-      let sum = 0;
-      for (const it in amount) sum += amount[it];
-      //sum = amounts.reduce((acc, curr) => acc + curr, 0);
-      const totalSalesAmount = amount.reduce((acc, current) => acc + current, 0);
-      document.getElementById('totalSalesAmount').textContent = `INR ${totalSalesAmount}`;
-  
-      // Calculate today's sales report
-      const today = new Date();
-      const todayDate = today.getDate();
-      const todaySales = amount[date.indexOf(todayDate)] || 0;
-      document.getElementById('todaysSalesReport').textContent = `INR ${todaySales}`;
-      document.getElementById('todaysSalesDate').textContent = `Date: ${today.toLocaleDateString()}`;
-  
-      // Calculate last week's sales report
-      const lastWeekStart = new Date();
-      lastWeekStart.setDate(today.getDate() - 7);
-      const lastWeekEnd = new Date();
-      lastWeekEnd.setDate(today.getDate() - 1);
-      const lastWeekRange = `${lastWeekStart.toLocaleDateString()} - ${lastWeekEnd.toLocaleDateString()}`;
-      let lastWeekSales = 0;
-      for (let i = 0; i < 7; i++) {
-        const index = date.indexOf(lastWeekStart.getDate());
-        if (index !== -1) {
-          lastWeekSales += amount[index];
-        }
-        lastWeekStart.setDate(lastWeekStart.getDate() + 1);
+<%- data ? 
+  <script>
+    const data = ${JSON.stringify(data)};
+    const date = data.map(item => {
+      const date = new Date(item.date);
+      return date.getDate();
+    });
+    const amount = data.map(item => item.amount);
+    const count = data.map(item => item.count);
+
+    let sum = 0;
+    for (const it in amount) sum += it;
+
+    const totalSalesAmount = amount.reduce((acc, current) => acc + current, 0);
+    document.getElementById('totalSalesAmount').textContent = \`INR \${totalSalesAmount}\`;
+
+    // Calculate today's sales report
+    const today = new Date();
+    const todayDate = today.getDate();
+    const todaySales = amount[date.indexOf(todayDate)] || 0;
+    document.getElementById('todaysSalesReport').textContent = \`INR \${todaySales}\`;
+    document.getElementById('todaysSalesDate').textContent = \`Date: \${today.toLocaleDateString()}\`;
+
+    // Calculate last week's sales report
+    const lastWeekStart = new Date();
+    lastWeekStart.setDate(today.getDate() - 7);
+    const lastWeekEnd = new Date();
+    lastWeekEnd.setDate(today.getDate() - 1);
+    const lastWeekRange = \`\${lastWeekStart.toLocaleDateString()} - \${lastWeekEnd.toLocaleDateString()}\`;
+    let lastWeekSales = 0;
+    for (let i = 0; i < 7; i++) {
+      const index = date.indexOf(lastWeekStart.getDate());
+      if (index !== -1) {
+        lastWeekSales += amount[index];
       }
-      document.getElementById('lastWeekSalesReport').textContent = `INR ${lastWeekSales}`;
-      document.getElementById('lastWeekSalesDate').textContent = `Date Range: ${lastWeekRange}`;
-  
-      console.log("Dates = ", date);
-      console.log("Amount = ", amount);
-      console.log("Count = ", count);
-      console.log("Sum (Total sales) = ", sum);
-  
-      Highcharts.chart('chartContainer', {
-        chart: {
-          type: 'line'
-        },
+      lastWeekStart.setDate(lastWeekStart.getDate() + 1);
+    }
+    document.getElementById('lastWeekSalesReport').textContent = \`INR \${lastWeekSales}\`;
+    document.getElementById('lastWeekSalesDate').textContent = \`Date Range: \${lastWeekRange}\`;
+
+    console.log("Dates = ", date);
+    console.log("Amount = ", amount);
+    console.log("Count = ", count);
+    console.log("Sum (Total sales) = ", sum);
+
+    Highcharts.chart('chartContainer', {
+      chart: {
+        type: 'line'
+      },
+      title: {
+        text: ''
+      },
+      xAxis: {
+        categories: date
+      },
+      yAxis: {
         title: {
-          text: ''
-        },
-        xAxis: {
-          categories: date
-        },
-        yAxis: {
-          title: {
-            text: 'Sales'
-          }
-        },
-        legend: {
-          enabled: false
-        },
-        series: [{
-          name: 'Total Sales',
-          data: amount,
-        }]
-      });
-  
-      Highcharts.chart('chartContainer2', {
-        chart: {
-          type: 'column'
-        },
+          text: 'Sales'
+        }
+      },
+      legend: {
+        enabled: false
+      },
+      series: [{
+        name: 'Total Sales',
+        data: amount
+      }]
+    });
+
+    Highcharts.chart('chartContainer2', {
+      chart: {
+        type: 'column'
+      },
+      title: {
+        text: ''
+      },
+      xAxis: {
+        categories: date
+      },
+      yAxis: {
         title: {
-          text: ''
-        },
-        xAxis: {
-          categories: date
-        },
-        yAxis: {
-          title: {
-            text: 'Sales'
-          }
-        },
-        legend: {
-          enabled: false
-        },
-        series: [{
-          name: 'Total Sales',
-          data: amount,
-        }],
-        plotOptions: {
-          column: {
-            pointWidth: 10,
-          }
-        },
-      });
-  
-    </script>
-  <% } %>
-  
-  
+          text: 'Sales'
+        }
+      },
+      legend: {
+        enabled: false
+      },
+      series: [{
+        name: 'Total Sales',
+        data: amount
+      }],
+      plotOptions: {
+        column: {
+          pointWidth: 10
+        }
+      }
+    });
+
+  </script>
+` : '' %>
+
   
 
 
