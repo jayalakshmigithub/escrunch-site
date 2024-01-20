@@ -216,6 +216,8 @@ const verifyAdmin = async (req, res) => {
 //     console.log(err.message);
 //   }
 // };
+
+
 const adminHome = async (req, res) => {
   try {
     if (!req.session.admin) {
@@ -236,145 +238,11 @@ const adminHome = async (req, res) => {
     ]);
 
     const data = orders.map(({ _id, total, count }) => ({ date: _id, amount: total, count }));
-    const totalSalesAmount = data.reduce((acc, current) => acc + current.amount, 0);
-
-    const today = new Date();
-    const todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-    const todayEnd = new Date(todayStart);
-    todayEnd.setDate(todayEnd.getDate() + 1);
-
-    // Calculate today's sales
-    const todaySales = await orderModel.aggregate([
-      {
-        $match: {
-          orderStatus: 'Delivered',
-          createdAt: { $gte: todayStart, $lt: todayEnd },
-        },
-      },
-      {
-        $group: {
-          _id: null,
-          totalSales: { $sum: '$totalAmount' },
-        },
-      },
-    ]);
-    const todaySalesAmount = todaySales.length > 0 ? todaySales[0].totalSales : 0;
-
-    // Calculate last week's sales
-    const lastWeekStart = new Date();
-    lastWeekStart.setDate(today.getDate() - 7);
-    const lastWeekEnd = new Date(today);
-    const lastWeekSales = await orderModel.aggregate([
-      {
-        $match: {
-          orderStatus: 'Delivered',
-          createdAt: { $gte: lastWeekStart, $lt: lastWeekEnd },
-        },
-      },
-      {
-        $group: {
-          _id: null,
-          totalSales: { $sum: '$totalAmount' },
-        },
-      },
-    ]);
-    const lastWeekSalesAmount = lastWeekSales.length > 0 ? lastWeekSales[0].totalSales : 0;
-
-    // Calculate total sales
-    const totalSales = await orderModel.aggregate([
-      {
-        $match: {
-          orderStatus: 'Delivered',
-        },
-      },
-      {
-        $group: {
-          _id: null,
-          totalSales: { $sum: '$totalAmount' },
-        },
-      },
-    ]);
-     totalSalesAmount = totalSales.length > 0 ? totalSales[0].totalSales : 0;
-
-    // Render the adminHome view and pass the data to the template
-    res.render('admin/adminHome', {
-      locals: {
-        data,
-        totalSalesAmount,
-        todaySalesAmount,
-        lastWeekSalesAmount,
-        /* other variables if any */
-      }
-    });
+    res.render('admin/adminHome', { data });
   } catch (error) {
-    console.error(error.message);
-    res.status(500).send('Internal Server Error');
+    console.error(error.message); // Use console.error for error messages
   }
 };
-
-
-
-
-// const adminHome = async (req, res) => {
-//   try {
-//     if (!req.session.admin) {
-//       // If the user is not authenticated as an admin, redirect them to the admin login page
-//       return res.redirect('/admin/login');
-//     }
-
-//     const orders = await orderModel.aggregate([
-//       { $match: { orderStatus: 'Delivered' } },
-//       {
-//         $group: {
-//           _id: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } },
-//           total: { $sum: '$totalAmount' },
-//           count: { $sum: 1 },
-//         },
-//       },
-//       { $sort: { _id: 1 } },
-//     ]);
-
-//     const data = orders.map(({ _id, total, count }) => ({ date: _id, amount: total, count }));
-//     res.render('admin/adminHome', { data });
-//   } catch (error) {
-//     console.error(error.message); // Use console.error for error messages
-//   }
-// };
-
-
-// const adminHome = async (req, res) => {
-//   try {
-//     if (!req.session.admin) {
-//       // If the user is not authenticated as an admin, redirect them to the admin login page
-//       return res.redirect('/admin/login');
-//     }
-
-//     const orders = await orderModel.aggregate([
-//       { $match: { orderStatus: 'Delivered' } },
-//       {
-//         $group: {
-//           _id: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } },
-//           total: { $sum: '$totalAmount' },
-//           count: { $sum: 1 },
-//         },
-//       },
-//       { $sort: { _id: 1 } },
-//     ]);
-
-//     const data = orders.map(({ _id, total, count }) => ({ date: _id, amount: total, count }));
-//     const totalSalesAmount = data.reduce((acc, current) => acc + current.amount, 0);
-
-//     // Render the adminHome view and pass the data to the template
-//     res.render('admin/adminHome', { data, totalSalesAmount });
-//   } catch (error) {
-//     console.error(error.message);
-//     res.status(500).send('Internal Server Error');
-//   }
-// };
-
-
-
-
 
 const adminUsersList = async (req, res) => {
   try {
