@@ -317,7 +317,6 @@
 
 <% if (data) { %>
     <script>
-      // Declare data outside the conditional block
       const data = <%- JSON.stringify(data) %>;
       const date = data.map(item => {
         const date = new Date(item.date);
@@ -328,7 +327,6 @@
   
       let sum = 0;
       for (const it in amount) sum += amount[it];
-      //sum = amounts.reduce((acc, curr) => acc + curr, 0);
       const totalSalesAmount = amount.reduce((acc, current) => acc + current, 0);
       document.getElementById('totalSalesAmount').textContent = `INR ${totalSalesAmount}`;
   
