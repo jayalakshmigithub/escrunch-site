@@ -317,9 +317,14 @@
     ///////////////////////////////////script for graph data and sales data////////////////////////////////////////////////////
     // Initialize data variable
     <% if (typeof data !== 'undefined') { %>
-        const data = <%- JSON.stringify(data) %>;
+        const data = <%- JSON.stringify([
+            { date: '2024-01-01', amount: 100, count: 5 },
+            { date: '2024-01-02', amount: 150, count: 8 },
+            { date: '2024-01-03', amount: 200, count: 10 },
+            // Add more data as needed
+        ]) %>;
         console.log('Data received in the script:', data);
-        const totalSalesAmount = <%- totalSalesAmount %>;
+        const totalSalesAmount = <%- 450 %>;
         console.log('Total Sales Amount:', totalSalesAmount);
     <% } else { %>
         const data = [];
@@ -332,43 +337,39 @@
 
         // Sample data for total sales per month
         const date = data.map(item => {
-        const date = new Date(item.date);
-        return date.getDate();
-    });
-    const amount = data.map(item => item.amount);
-    const count = data.map(item => item.count);
+            const date = new Date(item.date);
+            return date.getDate();
+        });
+        const amount = data.map(item => item.amount);
+        const count = data.map(item => item.count);
 
         // Calculate total sales amount using reduce
-        let sum = 0
-    for(const it in amount) sum+= it
+        const totalSalesAmount = amount.reduce((acc, current) => acc + current, 0);
+        document.getElementById('totalSalesAmount').textContent = `INR ${totalSalesAmount}`;
 
-        
-     const totalSalesAmount = amount.reduce((acc, current) => acc + current, 0);
-      document.getElementById('totalSalesAmount').textContent = `INR ${totalSalesAmount}`;
+        // Calculate today's sales report
+        const today = new Date();
+        const todayDate = today.getDate();
+        const todaySales = amount[date.indexOf(todayDate)] || 0;
+        document.getElementById('todaysSalesReport').textContent = `INR ${todaySales}`;
+        document.getElementById('todaysSalesDate').textContent = `Date: ${today.toLocaleDateString()}`;
 
-      // Calculate today's sales report
-      const today = new Date();
-      const todayDate = today.getDate();
-      const todaySales = amount[date.indexOf(todayDate)] || 0;
-      document.getElementById('todaysSalesReport').textContent = `INR ${todaySales}`;
-      document.getElementById('todaysSalesDate').textContent = `Date: ${today.toLocaleDateString()}`;
-
-      // Calculate last week's sales report
-      const lastWeekStart = new Date();
-      lastWeekStart.setDate(today.getDate() - 7);
-      const lastWeekEnd = new Date();
-      lastWeekEnd.setDate(today.getDate() - 1);
-      const lastWeekRange = `${lastWeekStart.toLocaleDateString()} - ${lastWeekEnd.toLocaleDateString()}`;
-      let lastWeekSales = 0;
-      for (let i = 0; i < 7; i++) {
-        const index = date.indexOf(lastWeekStart.getDate());
-        if (index !== -1) {
-          lastWeekSales += amount[index];
+        // Calculate last week's sales report
+        const lastWeekStart = new Date();
+        lastWeekStart.setDate(today.getDate() - 7);
+        const lastWeekEnd = new Date();
+        lastWeekEnd.setDate(today.getDate() - 1);
+        const lastWeekRange = `${lastWeekStart.toLocaleDateString()} - ${lastWeekEnd.toLocaleDateString()}`;
+        let lastWeekSales = 0;
+        for (let i = 0; i < 7; i++) {
+            const index = date.indexOf(lastWeekStart.getDate());
+            if (index !== -1) {
+                lastWeekSales += amount[index];
+            }
+            lastWeekStart.setDate(lastWeekStart.getDate() + 1);
         }
-        lastWeekStart.setDate(lastWeekStart.getDate() + 1);
-      }
-      document.getElementById('lastWeekSalesReport').textContent = `INR ${lastWeekSales}`;
-      document.getElementById('lastWeekSalesDate').textContent = `Date Range: ${lastWeekRange}`;
+        document.getElementById('lastWeekSalesReport').textContent = `INR ${lastWeekSales}`;
+        document.getElementById('lastWeekSalesDate').textContent = `Date Range: ${lastWeekRange}`;
 
         // Highcharts chart for line chart
         Highcharts.chart('chartContainer', {
@@ -428,6 +429,7 @@
         console.error("Data is not defined!"); // Log an error if data is not defined
     }
 </script>
+
 
 
  <!-- <script>
