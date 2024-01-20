@@ -313,37 +313,21 @@
 </html>
 
 <script src="https://code.highcharts.com/highcharts.js"></script>
-<script>
-    ///////////////////////////////////script for graph data and sales data////////////////////////////////////////////////////
-    // Initialize data variable
-    <% if (typeof data !== 'undefined') { %>
-        const data = <%- JSON.stringify(data) %>;
-        console.log('Data received in the script:', data);
-        const totalSalesAmount = <%- totalSalesAmount %>;
-        console.log('Total Sales Amount:', totalSalesAmount);
-    <% } else { %>
-        const data = [];
-    <% } %>
 
-    // Check if data is defined
-    if (typeof data !== 'undefined') {
-        // Update total sales amount in the HTML
-        document.getElementById('totalSalesAmount').textContent = `INR ${totalSalesAmount}`;
 
-        // Sample data for total sales per month
-        const date = data.map(item => {
-        const date = new Date(item.date);
-        return date.getDate();
-    });
-    const amount = data.map(item => item.amount);
-    const count = data.map(item => item.count);
+ <script>
+const data = <%- JSON.stringify(data) %>;
+const date = data.map(item => {
+const date = new Date(item.date);
+return date.getDate();
+});
+const amount = data.map(item => item.amount);
+const count = data.map(item => item.count);
 
-        // Calculate total sales amount using reduce
-        let sum = 0
-    for(const it in amount) sum+= it
-
-        
-     const totalSalesAmount = amount.reduce((acc, current) => acc + current, 0);
+let sum = 0
+for(const it in amount) sum+= it
+//sum = amounts.reduce((acc, curr) => acc + curr, 0);
+const totalSalesAmount = amount.reduce((acc, current) => acc + current, 0);
       document.getElementById('totalSalesAmount').textContent = `INR ${totalSalesAmount}`;
 
       // Calculate today's sales report
@@ -370,90 +354,6 @@
       document.getElementById('lastWeekSalesReport').textContent = `INR ${lastWeekSales}`;
       document.getElementById('lastWeekSalesDate').textContent = `Date Range: ${lastWeekRange}`;
 
-        // Highcharts chart for line chart
-        Highcharts.chart('chartContainer', {
-            chart: {
-                type: 'line'
-            },
-            title: {
-                text: ''
-            },
-            xAxis: {
-                categories: date
-            },
-            yAxis: {
-                title: {
-                    text: 'Sales'
-                }
-            },
-            legend: {
-                enabled: false
-            },
-            series: [{
-                name: 'Total Sales',
-                data: amount,
-            }]
-        });
-
-        // Highcharts chart for column chart
-        Highcharts.chart('chartContainer2', {
-            chart: {
-                type: 'column'
-            },
-            title: {
-                text: ''
-            },
-            xAxis: {
-                categories: date
-            },
-            yAxis: {
-                title: {
-                    text: 'Sales'
-                }
-            },
-            legend: {
-                enabled: false
-            },
-            series: [{
-                name: 'Total Sales',
-                data: amount,
-            }],
-            plotOptions: {
-                column: {
-                    pointWidth: 10,
-                }
-            },
-        });
-    } else {
-        console.error("Data is not defined!"); // Log an error if data is not defined
-    }
-</script>
-
-
-
-
-<!-- Add this where you want the chart to appear -->
-<!-- <canvas id="salesChart" width="400" height="200"></canvas> -->
-
-<!-- Add this after including Chart.js -->
-
-    
-    
- <script>
-// Sample data for total sales per month
-
-
-// Extracting the months and sales values from the data
-const date = data.map(item => {
-const date = new Date(item.date);
-return date.getDate();
-});
-const amount = data.map(item => item.amount);
-const count = data.map(item => item.count);
-
-let sum = 0
-for(const it in amount) sum+= it
-//sum = amounts.reduce((acc, curr) => acc + curr, 0);
 
 console.log("Dates = ", date)
 console.log("AMount = ", amount)
