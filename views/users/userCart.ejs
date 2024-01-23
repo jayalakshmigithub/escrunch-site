@@ -495,32 +495,36 @@
       });
   
       function updateQuantity(button, delta) {
-          let parent = button.closest(".incrementdecrement");
-          let qty = parent.find(".inputQuantity");
-          let productId = parent.data("id");
-          let stock = parent.data("stock");
-  
-          let quantity = parseInt(qty.text()) + delta;
-  
-          if (quantity > 0 && quantity <= stock) {
-              qty.text(quantity);
-              let price = parseFloat(parent.find(".price").text());
-              let total = parent.find(".total-price");
-              total.text((price * quantity).toFixed(2));
-  
-              updateQuantityInCart(productId, quantity);
-          } else if (quantity <= 0) {
-              qty.text("1");
-          } else {
-              Swal.fire({
-                  icon: "info",
-                  title: "Max Qty is " + stock,
-                  showConfirmButton: true,
-              });
-          }
-  
-          updateTotalPriceSum();
-      }
+    let parent = button.closest(".incrementdecrement");
+    let qty = parent.find(".inputQuantity");
+    let productId = parent.data("id");
+    let stock = parent.data("stock");
+
+    // Ensure stock is a valid number, fallback to 10 if undefined
+    stock = isNaN(stock) ? 10 : parseInt(stock);
+
+    let quantity = parseInt(qty.text()) + delta;
+
+    if (quantity > 0 && quantity <= stock) {
+        qty.text(quantity);
+        let price = parseFloat(parent.find(".price").text());
+        let total = parent.find(".total-price");
+        total.text((price * quantity).toFixed(2));
+
+        updateQuantityInCart(productId, quantity);
+    } else if (quantity <= 0) {
+        qty.text("1");
+    } else {
+        Swal.fire({
+            icon: "info",
+            title: "Max Qty is " + stock,
+            showConfirmButton: true,
+        });
+    }
+
+    updateTotalPriceSum();
+}
+
   
       function updateQuantityInCart(productId, quantity) {
           // Implement your AJAX request to update the cart on the server
