@@ -481,6 +481,46 @@
   </script>
     <!-- Include this script at the bottom of your page or in your script section -->
     <script>
+      $(document).ready(function () {
+          $(".btn-minus").on("click", function () {
+              updateQuantity($(this), -1);
+          });
+  
+          $(".btn-plus").on("click", function () {
+              updateQuantity($(this), 1);
+          });
+      });
+  
+      function updateQuantity(button, delta) {
+          let parent = button.closest(".incrementdecrement");
+          let qty = parent.find(".inputQuantity");
+          let productId = parent.data("id");
+          let stock = parent.data("stock");
+  
+          let quantity = parseInt(qty.text()) + delta;
+  
+          if (quantity > 0 && quantity <= stock) {
+              qty.text(quantity);
+              let price = parseFloat(parent.find(".price").text());
+              let total = parent.find(".total-price");
+              total.text((price * quantity).toFixed(2));
+  
+              updateQuantityInCart(productId, quantity);
+          } else if (quantity <= 0) {
+              // Optionally handle minimum quantity (prevent going below 1)
+              qty.text("1");
+          } else {
+              // Handle exceeding stock limit
+              Swal.fire({
+                  icon: "info",
+                  title: "Max Qty is " + stock,
+                  showConfirmButton: true,
+              });
+          }
+  
+          updateTotalPriceSum();
+      }
+  
       function updateQuantityInCart(productId, quantity) {
           $.ajax({
               url: "/updatecart",
@@ -506,53 +546,8 @@
           });
           $(".total-price-sum").text("Rs." + sum.toFixed(2));
       }
-  
-      function incFunction(e) {
-          let parent = e.closest(".incrementdecrement");
-          let qty = parent.find(".inputQuantity");
-          let productId = parent.data("id");
-          let stock = parent.data("stock");
-  
-          if (stock > 0) {
-              let quantity = parseInt(qty.text()) + 1;
-  
-              if (quantity <= stock) {
-                  qty.text(quantity);
-                  let price = parseFloat(parent.find(".price").text());
-                  let total = parent.find(".total-price");
-                  total.text((price * quantity).toFixed(2));
-  
-                  updateQuantityInCart(productId, quantity);
-              } else {
-                  Swal.fire({
-                      icon: "info",
-                      title: "Max Qty is " + stock,
-                      showConfirmButton: true,
-                  });
-              }
-          }
-      }
-  
-      function decFunction(e) {
-          let parent = e.closest(".incrementdecrement");
-          let qty = parent.find(".inputQuantity");
-          let productId = parent.data("id");
-          let stock = parent.data("stock");
-  
-          if (stock > 0) {
-              let quantity = parseInt(qty.text()) - 1;
-  
-              if (quantity > 0) {
-                  qty.text(quantity);
-                  let price = parseFloat(parent.find(".price").text());
-                  let total = parent.find(".total-price");
-                  total.text((price * quantity).toFixed(2));
-  
-                  updateQuantityInCart(productId, quantity);
-              }
-          }
-      }
   </script>
+  
   
 
   </body>
