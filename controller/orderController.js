@@ -43,6 +43,11 @@ const orderDetail = async (req, res) => {
       model: "users",
     });
 
+
+    if (typeof order.createdAt === 'string') {
+      order.createdAt = new Date(order.createdAt);
+    }
+
     console.log("order details", order);
 
     res.render("users/userOrderDetails", { order, user, coupon: order.coupon });

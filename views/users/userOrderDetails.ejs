@@ -351,23 +351,26 @@
                       <div class="col-lg-6 col-md-6 mb-lg-0 mb-15">
                         <span>
                           <i class="material-icons md-calendar_today"></i>
-                          <b
-                            ><%= new
-                            Date(order.createdAt).toLocaleString('en-US', {
-                            weekday: 'short', month: 'short', day: 'numeric',
-                            year: 'numeric', hour: 'numeric', minute: 'numeric',
-                            hour12: true })%>
+                          <b>
+                            <%= order.createdAt.toLocaleString('en-US', {
+                              weekday: 'short',
+                              month: 'short',
+                              day: 'numeric',
+                              year: 'numeric',
+                              hour: 'numeric',
+                              minute: 'numeric',
+                              hour12: true
+                            }) %>
                           </b>
                         </span>
                         <br />
-                        <small class="text-muted"
-                          >Order ID: <%= order._id %></small
-                        >
+                        <small class="text-muted">
+                          Order ID: <%= order._id %>
+                        </small>
                       </div>
-
-                      <!-- // cancel order was here -->
                     </div>
                   </header>
+                  
                   <!-- card-header end// -->
 
                   <div class="card-body">
