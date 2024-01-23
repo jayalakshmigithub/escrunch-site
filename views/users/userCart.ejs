@@ -512,18 +512,22 @@
         total.text((price * quantity).toFixed(2));
 
         updateQuantityInCart(productId, quantity);
-    } else if (quantity <= 0) {
-        qty.text("1");
     } else {
-        Swal.fire({
-            icon: "info",
-            title: "Max Qty is " + stock,
-            showConfirmButton: true,
-        });
+        if (quantity <= 0) {
+            qty.text("1");
+        } else {
+            Swal.fire({
+                icon: "info",
+                title: "Max Qty is " + stock,
+                showConfirmButton: true,
+            });
+            qty.text(stock); // Set the quantity to the maximum allowed (stock)
+        }
     }
 
     updateTotalPriceSum();
 }
+
 
   
       function updateQuantityInCart(productId, quantity) {
