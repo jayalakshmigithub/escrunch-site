@@ -313,7 +313,7 @@
               <tbody>
                 <% cart.products.forEach(function(item) { %> <% if (item.product) { %> <% let totalPrice = item.product.price *
                     item.quantity; %> <% totalPriceSum += totalPrice; %>
-                <tr class="incrementdecrement" data-id="<%= item.product._id %>">
+                <tr class="incrementdecrement" data-id="<%= item.product._id %>" data-stock="<%= item.product.stock %>">
                     <td class="align-middle">
                         <img src="/uploadProductImages/<%= item.product.image[0] %>" alt="" style="width: 50px" /><%= item.product.productname %>
                     </td>
@@ -328,7 +328,8 @@
                                 </button>
                             </div>
                             <span class="form-control bg-secondary border-0 text-center inputQuantity"
-                                data-price="<%= item.product.price %>" data-total="<%= totalPrice %>">
+                                data-price="<%= item.product.price %>" data-total="<%= totalPrice %>"
+                                data-stock="<%= item.product.stock %>">
                                 <%= item.quantity %>
                             </span>
                             <div class="input-group-btn">
@@ -351,18 +352,8 @@
                 <% } %> <% }); %>
             
                 <tr class="bottom_button">
-                    <!-- <td>
-                        <a class="gray_btn" href="/updatecart">Update Cart</a>
-                    </td> -->
                     <td></td>
                     <td></td>
-                    <!-- <td>
-                        <div class="cupon_text d-flex align-items-center">
-                            <input type="text" placeholder="Coupon Code">
-                            <a class="primary-btn" href="#">Apply</a>
-                            <a class="gray_btn" href="#">Close Coupon</a>
-                        </div>
-                    </td> -->
                 </tr>
                 <tr>
                     <td></td>
@@ -386,11 +377,11 @@
                         <div class="checkout_btn_inner d-flex align-items-center">
                             <a class="gray_btn" href="/home">Continue Shopping</a>
                             <a class="primary-btn" href="/checkout">Proceed to checkout</a>
-                            <!-- <button class=" primary-btn" onclick="proceedToCheckout()">Proceed To Checkout</button> -->
                         </div>
                     </td>
                 </tr>
             </tbody>
+            
             
             </table>
           </div>

@@ -16,6 +16,25 @@ var instance = new Razorpay({
   key_secret: RAZORPAY_KEY_SECRET,
 });
 
+// const userCart = async (req, res) => {
+//   try {
+//     const userId = req.session.user_id;
+//     let cart = await cartModel.findOne({ user: userId });
+
+//     if (cart == null) {
+//       cart = await cartModel.create({ user: userId });
+//     }
+
+//     cart = await cartModel
+//       .findOne({ user: userId })
+//       .populate({ path: "products.product" });
+
+//     res.render("users/userCart", { cart });
+//   } catch (error) {
+//     console.log(error.message);
+//   }
+// };
+
 const userCart = async (req, res) => {
   try {
     const userId = req.session.user_id;
@@ -27,13 +46,17 @@ const userCart = async (req, res) => {
 
     cart = await cartModel
       .findOne({ user: userId })
-      .populate({ path: "products.product" });
+      .populate({
+        path: "products.product",
+        select: "productName price stock", // Add any other fields you need
+      });
 
     res.render("users/userCart", { cart });
   } catch (error) {
     console.log(error.message);
   }
 };
+
 
 const addtocartpost = async (req, res) => {
   // Set cache-control headers to prevent caching
