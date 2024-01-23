@@ -34,7 +34,7 @@ const orderDetail = async (req, res) => {
       .populate("user items.product")
       .populate("coupon")
       .select(
-        "items user quantity orderStatus paymentMode totalAmount finalPrice"
+        "items user quantity orderStatus paymentMode totalAmount finalPrice createdAt"
       );
 
     // Manually populate user.address
@@ -44,17 +44,25 @@ const orderDetail = async (req, res) => {
     });
 
 
-    if (typeof order.createdAt === 'string') {
-      order.createdAt = new Date(order.createdAt);
+    if (order.createdAt instanceof Date) {
+      console.log("order details", order);
+
+      res.render("users/userOrderDetails", {
+        order,
+        user,
+        coupon: order.coupon,
+      });
+    } else {
+      console.log("Invalid order date:", order.createdAt);
+      // Handle the case where order.createdAt is not a valid Date object
+      res.status(500).send("Internal Server Error");
     }
-
-    console.log("order details", order);
-
-    res.render("users/userOrderDetails", { order, user, coupon: order.coupon });
   } catch (error) {
     console.log(error.message);
+    res.status(500).send("Internal Server Error");
   }
 };
+
 
 const editOrderDetails = async (req, res) => {
   try {
