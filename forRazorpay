@@ -392,3 +392,192 @@ script in userpayment
 
 
 </script>
+
+// cart tbody
+
+
+<tbody>
+<% cart.products.forEach(function(item) { %> <% if
+(item.product) { %> <% let totalPrice = item.product.price *
+item.quantity; %> <% totalPriceSum += totalPrice; %>
+<tr
+  class="incrementdecrement"
+  data-id="<%= item.product._id %>"
+>
+  <td class="align-middle">
+    <img
+      src="/uploadProductImages/<%= item.product.image[0] %>"
+      alt=""
+      style="width: 50px"
+    /><%= item.product.productname %>
+  </td>
+  <td class="align-middle price">
+    <%= item.product.price.toFixed(2) %>
+  </td>
+  <td class="align-middle">
+    <div
+      class="input-group quantity mx-auto"
+      style="width: 100px"
+    >
+      <!-- <div class="input-group-btn">
+                              <button class="btn btn-sm btn-primary dec-btn" >
+                              <i class="fa fa-minus"></i>
+                              </button>
+                          </div> -->
+      <span
+        class="inputQuantity form-control bg-secondary border-0 text-center"
+        data-price="<%= item.product.price %>"
+        data-total="<%= totalPrice %>"
+        ><%= item.quantity %></span
+      >
+
+      <!-- <div class="input-group-btn">
+                              <button class="btn btn-sm btn-primary inc-btn">
+                                  <i class="fa fa-plus"></i>
+                              </button>
+                          </div> -->
+    </div>
+  </td>
+  <td class="align-middle total-price">
+    <%= totalPrice.toFixed(2) %>
+  </td>
+  <td class="align-middle">
+    <a
+      href="/cart/<%= cart._id %>/product/<%= item.product._id %>"
+      ><button
+        class="btn btn-sm btn-danger"
+        onclick="return confirm('Are you sure you want to delete?')"
+      >
+        <i class="fa fa-times"></i></button
+    ></a>
+  </td>
+</tr>
+<% } %> <% }); %>
+
+<tr class="bottom_button">
+  <!-- <td>
+                <a class="gray_btn" href="/updatecart">Update Cart</a>
+            </td> -->
+  <td></td>
+  <td></td>
+  <!-- <td>
+                <div class="cupon_text d-flex align-items-center">
+                    <input type="text" placeholder="Coupon Code">
+                    <a class="primary-btn" href="#">Apply</a>
+                    <a class="gray_btn" href="#">Close Coupon</a>
+                </div>
+            </td> -->
+</tr>
+<tr>
+  <td></td>
+  <td></td>
+  <td>
+    <h5>Subtotal</h5>
+  </td>
+
+  <td>
+    <h5 class="total-price-sum">
+      Rs.<%= totalPriceSum.toFixed(2) %>
+    </h5>
+  </td>
+</tr>
+
+<tr class="out_button_area">
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>
+    <div class="checkout_btn_inner d-flex align-items-center">
+      <a class="gray_btn" href="/home">Continue Shopping</a>
+      <a class="primary-btn" href="/checkout"
+        >Proceed to checkout</a
+      >
+      <!-- <button class=" primary-btn" onclick="proceedToCheckout()">Proceed To Checkout</button> -->
+    </div>
+  </td>
+</tr>
+</tbody>
+
+
+
+//script vanilla js
+
+<script>
+
+
+const displayCount = document.querySelectorAll(".incrementdecrement");
+const totalpricesum = document.querySelector(".total-price-sum");
+const priceaftercoupon = document.querySelector(".price-after-coupon");
+
+displayCount.forEach((item) => {
+  const decBtn = item.querySelector(".dec-btn");
+  const incBtn = item.querySelector(".inc-btn");
+  const inputQuantity = item.querySelector(".inputQuantity");
+  const price = item.querySelector(".price");
+  const totalprice = item.querySelector(".total-price");
+  const productId = item.getAttribute("data-id");
+
+  incBtn.addEventListener("click", () => {
+    let qty = Number(inputQuantity.textContent);
+
+    if (qty < 10) {
+      inputQuantity.textContent = ++qty;
+      totalprice.textContent = (price.textContent * qty).toFixed(2);
+      console.log(
+        "Product id and qty kn incBtn fucntion--",
+        productId,
+        qty
+      );
+      updatetotalpricesum();
+      updateQuantity(productId, qty);
+    }
+  });
+
+  decBtn.addEventListener("click", () => {
+    let qty = inputQuantity.textContent;
+    if (qty > 1) {
+      inputQuantity.textContent = --qty;
+      totalprice.textContent = (price.textContent * qty).toFixed(2);
+      console.log(
+        "Product id and qty in decBtn fucntion--",
+        productId,
+        qty
+      );
+      updatetotalpricesum();
+      updateQuantity(productId, qty);
+    }
+  });
+});
+
+function updatetotalpricesum() {
+  let sum = 0;
+  displayCount.forEach((item) => {
+    const totalprice = item.querySelector(".total-price");
+    sum += Number(totalprice.textContent);
+  });
+  totalpricesum.textContent = sum.toFixed(2);
+  console.log("Total Price Sum:", sum.toFixed(2));
+}
+
+function updateQuantity(productId, quantity) {
+  fetch("/updatecart", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ productId, quantity }),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log("Update Quantity Response:", data);
+    })
+    .catch((error) => {
+      console.error("Error updating quantity:", error);
+    });
+}
+</script>

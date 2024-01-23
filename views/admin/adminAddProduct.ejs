@@ -361,18 +361,19 @@ document.addEventListener("DOMContentLoaded", function () {
     const productName = productNameInput.value.trim();
     const productNameError = document.getElementById("productNameError");
 
-    if (productName === "") {
-      productNameError.textContent = "Product name can't be empty";
-      productNameError.style.color = "red";
-      return false;
-    }
-
-    // if (/\s/.test(productName)) {
-    //   productNameError.textContent =
-    //     "Product name cannot contain empty spaces";
+    // if (productName === "") {
+    //   productNameError.textContent = "Product name can't be empty";
     //   productNameError.style.color = "red";
     //   return false;
     // }
+
+
+    if (/\s/.test(productName)) {
+      productNameError.textContent =
+        "Product name cannot contain empty spaces";
+      productNameError.style.color = "red";
+      return false;
+    }
 
     productNameError.textContent = "";
     return true;
