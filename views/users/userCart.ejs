@@ -526,30 +526,33 @@
       }
   
       function updateQuantityInCart(productId, quantity) {
-          // Implement your AJAX request to update the cart on the server
-          $.ajax({
-              url: "/updatecart",
-              method: "POST",
-              contentType: "application/json",
-              data: JSON.stringify({ productId, quantity }),
-              success: function (response) {
-                  console.log("Quantity in cart updated successfully:", response);
-              },
-              error: function (error) {
-                  console.error("Error updating quantity in cart:", error);
-              },
-          });
-      }
-  
-      function updateTotalPriceSum() {
-          let sum = 0;
-          $(".incrementdecrement").each(function () {
-              const price = parseFloat($(this).find('.price').text());
-              const quantity = parseInt($(this).find('.inputQuantity').text(), 10);
-              sum += price * quantity;
-          });
-          $(".total-price-sum").text("Rs." + sum.toFixed(2));
-      }
+    // Implement your AJAX request to update the cart on the server
+    $.ajax({
+      url: "/updatecart",
+      method: "POST",
+      contentType: "application/json",
+      data: JSON.stringify({ productId, quantity }),
+      success: function (response) {
+        console.log("Quantity in cart updated successfully:", response);
+
+        // After updating on the server, update the total price sum on the client side
+        updateTotalPriceSum();
+      },
+      error: function (error) {
+        console.error("Error updating quantity in cart:", error);
+      },
+    });
+  }
+
+  function updateTotalPriceSum() {
+    let sum = 0;
+    $(".incrementdecrement").each(function () {
+      const price = parseFloat($(this).find('.price').text());
+      const quantity = parseInt($(this).find('.inputQuantity').text(), 10);
+      sum += price * quantity;
+    });
+    $(".total-price-sum").text("Rs." + sum.toFixed(2));
+  }
   </script>
   
   
