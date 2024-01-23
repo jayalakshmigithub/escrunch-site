@@ -486,46 +486,44 @@
       });
   
       function updateQuantity(button, delta) {
-    let parent = button.closest('.cartPrice');
-    let qty = parent.querySelector('.inputQuantity');
-    let productId = parent.getAttribute('data-id');
-    let stock = parent.getAttribute('data-stock');
-
-    console.log("Stock:", stock); // Add this line for debugging
-
-    // Ensure stock is a valid number, fallback to 10 if undefined
-    stock = isNaN(stock) ? 10 : parseInt(stock);
-
-    console.log("Parsed Stock:", stock); // Add this line for debugging
-
-    let quantity = parseInt(qty.value) + delta;
-
-    console.log("New Quantity:", quantity); // Add this line for debugging
-
-    if (quantity > 0 && quantity <= stock) {
-        qty.value = quantity;
-        let price = parent.getAttribute('data-price');
-        let total = parent.querySelector('.total-price');
-        total.innerText = (price * quantity).toFixed(2);
-
-        updateQuantityInCart(productId, quantity);
-    } else {
-        if (quantity <= 0) {
-            qty.value = "1";
-        } else {
-            Swal.fire({
-                icon: 'info',
-                title: 'Max Qty is ' + stock,
-                showConfirmButton: true,
-            });
-            qty.value = stock; // Set the quantity to the maximum allowed (stock)
-        }
-    }
-
-    updateTotalPriceSum();
-}
-
-
+          let parent = button.closest('.incrementdecrement');
+          let qty = parent.find('.inputQuantity');
+          let productId = parent.data('id');
+          let stock = parent.data('stock');
+  
+          console.log("Stock:", stock); // Add this line for debugging
+  
+          // Ensure stock is a valid number, fallback to 10 if undefined
+          stock = isNaN(stock) ? 10 : parseInt(stock);
+  
+          console.log("Parsed Stock:", stock); // Add this line for debugging
+  
+          let quantity = parseInt(qty.text()) + delta;
+  
+          console.log("New Quantity:", quantity); // Add this line for debugging
+  
+          if (quantity > 0 && quantity <= stock) {
+              qty.text(quantity);
+              let price = parseFloat(parent.find('.price').text());
+              let total = parent.find('.total-price');
+              total.text((price * quantity).toFixed(2));
+  
+              updateQuantityInCart(productId, quantity);
+          } else {
+              if (quantity <= 0) {
+                  qty.text("1");
+              } else {
+                  Swal.fire({
+                      icon: 'info',
+                      title: 'Max Qty is ' + stock,
+                      showConfirmButton: true,
+                  });
+                  qty.text(stock); // Set the quantity to the maximum allowed (stock)
+              }
+          }
+  
+          updateTotalPriceSum();
+      }
   
       function updateQuantityInCart(productId, quantity) {
           // Implement your AJAX request to update the cart on the server
@@ -546,13 +544,14 @@
       function updateTotalPriceSum() {
           let sum = 0;
           $(".incrementdecrement").each(function () {
-              const price = parseFloat($(this).find(".price").text());
-              const quantity = parseInt($(this).find(".inputQuantity").text(), 10);
+              const price = parseFloat($(this).find('.price').text());
+              const quantity = parseInt($(this).find('.inputQuantity').text(), 10);
               sum += price * quantity;
           });
           $(".total-price-sum").text("Rs." + sum.toFixed(2));
       }
   </script>
+  
   
   
 
