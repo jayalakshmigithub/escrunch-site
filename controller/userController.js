@@ -100,7 +100,8 @@ const userLandingPage = async (req, res) => {
   try {
     let products = await productModel.find();
     let category = await categoryModel.find();
-    res.render("users/userLandingPage", { products: products });
+    const banner = await bannerModel.find();
+    res.render("users/userLandingPage", { products: products,banner });
   } catch (err) {
     console.log(err.message);
   }
