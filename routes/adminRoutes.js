@@ -53,7 +53,7 @@ adminRoute.get('/reports/sales/download/:type',auth.isAdminAuthorized,adminContr
 
 adminRoute.get('/bannerlist',auth.isAdminAuthorized, adminController.adminBannerList); // Display banner list
 adminRoute.get('/addbanner',auth.isAdminAuthorized, adminController.adminAddbanner); // Display banner add page
-adminRoute.post('/addbanner',auth. setCacheControl, auth.isAdminAuthorized, adminController.adminAddedBanner); // Add a new banner
+adminRoute.post('/addbanner', auth.isAdminAuthorized, adminController.adminAddedBanner); // Add a new banner
 adminRoute.get('/banner/edit',auth.isAdminAuthorized, adminController.adminEditBanner); // Display banner edit page
 adminRoute.post('/editbanner',auth.isAdminAuthorized, adminController.adminEditedBanner); // Edit a banner
 adminRoute.get('/deletebanner',auth.isAdminAuthorized, adminController.deleteBanner); // Delete a banner
