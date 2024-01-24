@@ -1,0 +1,116 @@
+<%- include('../layouts/adminHeader.ejs') %>
+
+  <section class="vh-100 gradient-custom">
+    <div class="container py-5 h-100">
+      <div class="row justify-content-center align-items-center h-100">
+        <div class="col-12 col-lg-9 col-xl-7">
+          <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+            <div class="card-body p-4 p-md-5">
+              <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Add Banner</h3>
+
+              <form id="bannerForm" action="/admin/addbanner" method="POST" enctype="multipart/form-data">
+
+                <div class="row">
+                  <div class="col-md-6 mb-4">
+
+                    <div class="form-outline">
+                      <label class="form-label" for="bannername">Banner Name</label>
+                      <input type="text" id="bannername" class="form-control form-control-lg" name="bannername" />
+                      <span class="error-message" id="bannername-error"></span>
+                    </div>
+
+                  </div>
+
+                  <div class="col-md-6 mb-4">
+                    <div class="form-outline">
+                      <label class="form-label" for="bannerurl">Banner Url</label>
+                      <input type="text" id="bannerurl" class="form-control form-control-lg" name="bannerurl" />
+                      <span class="error-message" id="bannerurl-error"></span>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6 mb-4 d-flex align-items-center">
+
+                    <div class="col-md-6 mb-4 pb-2">
+                      <div class="form-outline">
+                        <label class="form-label" for="addimage">Add images</label>
+                        <input type="file" name="images" multiple />
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <div class="mt-4 pt-2">
+                    <button class="btn btn-primary btn-lg" type="submit">ADD BANNER</button>
+                  </div>
+                </div>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <%- include('../layouts/adminFooter.ejs') %>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const bannerForm = document.getElementById('bannerForm');
+        const bannerNameInput = document.getElementById('bannername');
+        const bannernameError = document.getElementById('bannername-error');
+        const imagesInput = document.querySelector('input[type="file"]');
+        const imageError = document.getElementById('image-error');
+        const bannerUrlInput = document.getElementById('bannerurl');
+        const bannerUrlError = document.getElementById('bannerurl-error');
+
+        bannerForm.addEventListener('submit', function (event) {
+          let isValid = true;
+
+          if (!isValidBannerName(bannerNameInput.value)) {
+            bannernameError.textContent = 'Invalid input';
+            bannernameError.style.display = 'block';
+            isValid = false;
+          } else {
+            bannernameError.style.display = 'none'; // Corrected the typo here
+          }
+
+
+
+          if (!isValidBannerUrl(bannerUrlInput.value)) {
+            bannerUrlError.textContent = 'Invalid input';
+            bannerUrlError.style.display = 'block';
+            isValid = false;
+          } else {
+            bannerUrlError.style.display = 'none'; // Corrected the typo here
+          }
+
+          if (!isValid) {
+            event.preventDefault(); // Prevent form submission if validation fails
+          }
+        });
+
+        function isValidBannerName(bannername) {
+          // Check if the input is not empty and contains the allowed characters
+          const bannernamePattern = /^[A-Za-z0-9\s!@#$%^&*()_+-=,.<>;:'"\\/{}[\]]*$/;
+          return bannername.trim() !== '' && bannernamePattern.test(bannername);
+        }
+
+        function isValidBannerUrl(bannerurl) {
+          // Check if the input is not empty and contains the allowed characters
+          const bannerurlPattern = /^[A-Za-z0-9\s!@#$%^&*()_+-=,.<>;:'"\\/{}[\]]*$/;
+          return bannerurl.trim() !== '' && bannerurlPattern.test(bannerurl);
+        }
+      });
+    </script>
+
+    <style>
+      .error-message {
+        color: red;
+        display: none;
+      }
+    </style>

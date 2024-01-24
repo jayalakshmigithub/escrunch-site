@@ -727,6 +727,106 @@ const adminDownloadReports = async (req, res, next) => {
   }
 };
 
+
+const adminBannerList = async (req, res) => {
+  try {
+    const ITEMS_PER_PAGE = 9
+    const page = parseInt(req.query.page) || 1
+    const skipItems = (page - 1) * ITEMS_PER_PAGE
+    const totalCount = await orderModel.countDocuments()
+    const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE)
+    const banner = await bannerModel.find().sort({ createdAt: -1 }).skip(skipItems)
+      .limit(ITEMS_PER_PAGE)
+    if (banner) res.render("admin/adminBannerLists", { data: banner, currentPage: page, totalPages: totalPages });
+  } catch (error) {
+    console.error("Error getting banners:", error);
+    throw error;
+  }
+}
+
+
+const adminAddbanner = async (req, res) => {
+  try {
+    res.render("admin/adminAddBanner");
+  } catch (error) {
+    console.error(error.message);
+  }
+}
+
+
+const adminAddedBanner = async (req, res) => {
+  const { bannername, bannerurl } = req.body;
+  let images = req.file.filename;
+  let imageName = `cropped_${images}`;
+  const inputFilePath = `public/uploadProductImage/${images}`;
+  const outputFilePath = `public/uploadProductImage/${imageName}`;
+
+  try {
+    await cropBannerImage(inputFilePath, outputFilePath);
+    images = imageName;
+
+    const banner = await bannerModel.create({ bannername, bannerurl, images });
+    if (banner) {
+      const allBanners = await bannerModel.find();
+      res.redirect("/admin/bannerlist");
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+
+const adminEditBanner = async (req, res) => {
+  try {
+    const bannerId = req.query._id;
+    const banner = await bannerModel.findById(bannerId);
+    res.render('admin/adminEditBanner', { banner });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ success: false, message: 'Server Error' });
+  }
+}
+
+
+
+const adminEditedBanner = async (req, res) => {
+  try {
+    const { bannername, _id, bannerurl } = req.body;
+    const data = { bannername, bannerurl };
+    if (req.file && req.file.filename) {
+      let images = req.file.filename;
+      let imageName = `cropped_${images}`;
+      const inputFilePath = `public/uploadProductImage/${images}`;
+      const outputFilePath = `public/uploadProductImage/${imageName}`;
+
+      await cropBannerImage(inputFilePath, outputFilePath);
+      data.images = imageName;
+    }
+    const banner = await bannerModel.findByIdAndUpdate(_id, data);
+
+    res.redirect("/admin/bannerlist");
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+
+const deleteBanner = async (req, res) => {
+  try {
+    const bannerId = req.query._id;
+
+    // Delete the category with the specified ID
+    await bannerModel.deleteOne({ _id: bannerId });
+
+    res.redirect('/admin/bannerlist');
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Internal Server Error');
+  }
+}
+
 module.exports = {
   adminLogin,
   //adminLogout,
@@ -737,4 +837,10 @@ module.exports = {
   salesreport,
   salesreportpost,
   adminDownloadReports,
+  adminBannerList,
+  adminAddbanner,
+  adminAddedBanner,
+  adminEditBanner,
+  adminEditedBanner,
+  deleteBanner,
 };

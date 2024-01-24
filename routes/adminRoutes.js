@@ -51,4 +51,11 @@ adminRoute.get('/salesreport',auth.isAdminAuthorized,adminController.salesreport
 adminRoute.get('/reports/sales/download/:type',auth.isAdminAuthorized,adminController.adminDownloadReports);//To download sales report
 
 
+adminRoute.get('/bannerlist',auth.isAdminAuthorized, adminController.adminBannerList); // Display banner list
+adminRoute.get('/addbanner',auth.isAdminAuthorized, adminController.adminAddbanner); // Display banner add page
+adminRoute.post('/addbanner',productUpload.single('images'),auth. setCacheControl, auth.isAdminAuthorized, adminController.adminAddedBanner); // Add a new banner
+adminRoute.get('/banner/edit',auth.isAdminAuthorized, adminController.adminEditBanner); // Display banner edit page
+adminRoute.post('/editbanner',productUpload.single('images'), auth.isAdminAuthorized, adminController.adminEditedBanner); // Edit a banner
+adminRoute.get('/deletebanner',auth.isAdminAuthorized, adminController.deleteBanner); // Delete a banner
+
 module.exports=adminRoute;

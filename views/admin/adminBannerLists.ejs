@@ -1,0 +1,78 @@
+<%- include('../layouts/adminHeader.ejs') %>
+    <section class="content-main">
+        <div class="content-header">
+            <div>
+                <h2 class="content-title card-title">Banner List </h2>
+            </div>
+
+            <div>
+                <a href="/admin/addbanner" class="btn btn-primary btn-sm rounded">Create new</a>
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="table-responsive">
+
+                    <table class="table table-hover">
+
+                        <thead>
+                            <tr>
+                                <th scope="col">Banner Image</th>
+                                <th scope="col">Banner Name</th>
+                                <th scope="col"> Action </th>
+                                <th scope="col"> Remove </th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <% data.forEach(function(item) { %>
+                                <tr>
+                                    <td>
+                                        <div class="left">
+                                            <img src="/uploadProductImages/<%= item.images %>"
+                                                class="img-sm img-thumbnail" alt="Item">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <%= item.bannername %>
+                                    </td>
+                                    <td>
+                                        <a href="/admin/banner/edit?_id=<%= item._id %>">
+                                            <button class="btn btn-primary">Edit</button></a>
+                                    </td>
+                                    <td>
+                                        <a href="/admin/deletebanner?_id=<%= item._id %>">
+                                            <button class="btn btn-primary"
+                                                style="background-color: red;">Delete</button></a>
+                                    </td>
+                                </tr>
+                                <% }); %>
+                        </tbody>
+
+                    </table>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="pagination-area mt-15 mb-50">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-start">
+                    <% for(let i=1; i<=totalPages;i++) { %>
+                        <% if(i===currentPage){ %>
+                            <li class="page-item active"><a class="page-link" href="#">
+                                    <%= i %>
+                                </a></li>
+                            <% } else { %>
+                                <li class="page-item"><a class="page-link" href="/admin/bannerlist?page=<%= i %>">
+                                        <%= i %>
+                                    </a></li>
+                                <% } %>
+                                    <% } %>
+                </ul>
+            </nav>
+        </div>
+    </section>
+
+    <%- include('../layouts/adminFooter.ejs') %>
