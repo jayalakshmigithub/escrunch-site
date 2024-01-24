@@ -758,8 +758,8 @@ const adminAddedBanner = async (req, res) => {
   const { bannername, bannerurl } = req.body;
   let images = req.file.filename;
   let imageName = `cropped_${images}`;
-  const inputFilePath = `public/uploadProductImage/${images}`;
-  const outputFilePath = `public/uploadProductImage/${imageName}`;
+  const inputFilePath = `public/uploadProductImages/${images}`;
+  const outputFilePath = `public/uploadProductImages/${imageName}`;
 
   try {
     await cropBannerImage(inputFilePath, outputFilePath);
@@ -797,8 +797,8 @@ const adminEditedBanner = async (req, res) => {
     if (req.file && req.file.filename) {
       let images = req.file.filename;
       let imageName = `cropped_${images}`;
-      const inputFilePath = `public/uploadProductImage/${images}`;
-      const outputFilePath = `public/uploadProductImage/${imageName}`;
+      const inputFilePath = `public/uploadProductImages/${images}`;
+      const outputFilePath = `public/uploadProductImages/${imageName}`;
 
       await cropBannerImage(inputFilePath, outputFilePath);
       data.images = imageName;
