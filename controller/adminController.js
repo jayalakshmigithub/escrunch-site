@@ -3,7 +3,7 @@ const { configDotenv } = require("dotenv");
 const userModel = require("../model/userModel");
 const orderModel = require("../model/orderModel");
 const productModel = require("../model/productModel");
-const bannerModel = require("../model/bannerModel")
+const bannerModel = require("../model/bannerModel");
 const userHelper = require("../helper/userHelper");
 const bcrypt = require("bcrypt");
 const moment = require("moment");
@@ -769,7 +769,7 @@ const adminAddedBanner = async (req, res) => {
     const banner = await bannerModel.create({ bannername, bannerurl, images });
     if (banner) {
       const allBanners = await bannerModel.find();
-      res.redirect("/admin/adminBannerLists");
+      res.redirect("/admin/bannerlist");
     }
   } catch (err) {
     console.error(err);
@@ -806,7 +806,7 @@ const adminEditedBanner = async (req, res) => {
     }
     const banner = await bannerModel.findByIdAndUpdate(_id, data);
 
-    res.redirect("/admin/adminEditBanner");
+    res.redirect("/admin/bannerlist");
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Internal server error" });
