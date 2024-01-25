@@ -769,7 +769,7 @@ const adminAddedBanner = async (req, res) => {
     const banner = await bannerModel.create({ bannername, bannerurl, images });
     if (banner) {
       const allBanners = await bannerModel.find();
-      res.redirect("/admin/bannerlist");
+      res.redirect("/admin/adminBannerLists");
     }
   } catch (err) {
     console.error(err);
@@ -806,7 +806,7 @@ const adminEditedBanner = async (req, res) => {
     }
     const banner = await bannerModel.findByIdAndUpdate(_id, data);
 
-    res.redirect("/admin/bannerlist");
+    res.redirect("/admin/adminEditBanner");
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Internal server error" });
