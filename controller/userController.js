@@ -398,11 +398,10 @@ const userProductLists = async (req, res) => {
 const userSearch = async (req, res, next) => {
   try {
     const query = req.query.query;
-    const regex = new RegExp(query, "i");
+
+    // Using $regex without $options for case-insensitive search (MongoDB default)
     const searchResults = await productModel.find({
-      $or: [
-        { productname: regex },
-      ],
+      productname: { $regex: query },
     });
 
     const ITEMS_PER_PAGE = 3;
@@ -422,6 +421,7 @@ const userSearch = async (req, res, next) => {
     res.status(500).send("Internal Server Error");
   }
 };
+
 
 
 
