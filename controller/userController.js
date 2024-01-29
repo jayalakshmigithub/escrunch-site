@@ -399,9 +399,9 @@ const userSearch = async (req, res, next) => {
   try {
     const query = req.query.query;
 
-    // Using $regex without $options for case-insensitive search (MongoDB default)
+    // Using $regex for case-insensitive search directly in the database query
     const searchResults = await productModel.find({
-      productname: { $regex: query },
+      productname: { $regex: query, $options: 'i' },
     });
 
     const ITEMS_PER_PAGE = 3;
