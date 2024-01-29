@@ -390,6 +390,44 @@ const userProductLists = async (req, res) => {
 //   }
 // };
 
+
+
+
+
+//////////////////////to seach the products
+const userSearch = async (req, res, next) => {
+  try {
+    const query = req.query.query;
+    const regex = new RegExp(query, "i");
+    const searchResults = await productModel.find({
+      $or: [
+        { productname: regex },
+      ],
+    });
+
+    const ITEMS_PER_PAGE = 3;
+    const page = parseInt(req.query.page) || 1;
+    const skipItems = (page - 1) * ITEMS_PER_PAGE;
+    const totalCount = searchResults.length;
+    const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
+
+    res.render("users/userSearch", {
+      results: searchResults,
+      query: query,
+      currentPage: page,
+      totalPages: totalPages,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+
+
+
+
+
 const userCategory = async (req, res) => {
   try {
     const catId = req.params.id;
@@ -1001,6 +1039,7 @@ module.exports = {
   viewOtpPage,
   userHome,
   userProductDetails,
+  userSearch,
   userProfile,
   userProfileUpdated,
   userAddress,

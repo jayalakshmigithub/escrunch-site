@@ -71,6 +71,20 @@
                   <a href="/cart" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
                     aria-haspopup="true" aria-expanded="false">Blog</a>
                 </li> -->
+
+                <li class="nav-item">
+                  <a class="search" style="color: #090808;">
+                    <i class="fa-solid fa-magnifying-glass" id="search"
+                      style="font-size: 24px; margin-top: 30px;"></i>
+                  </a>
+                </li>
+
+
+
+
+
+
+
                 <li class="nav-item submenu dropdown active">
                   <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                     aria-expanded="false" style="color: #ff1493;">Account</a>
@@ -127,6 +141,20 @@
           </div>
         </nav>
       </div>
+
+
+      <div class="search_input" id="search_input_box" style="background-color: rgb(77, 78, 80);">
+        <div class="container">
+          <form class="d-flex justify-content-between" id="search_form" action="/search" method="GET">
+            <input type="text" class="form-control" id="search_input" name="query"
+              placeholder="Search Products">
+            <button type="submit" class="btn"></button>
+            <span class="lnr lnr-cross" id="close_search" title="Close Search"></span>
+          </form>
+        </div>
+      </div>
+
+      
     </header>
     
 
