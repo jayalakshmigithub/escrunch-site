@@ -397,12 +397,13 @@ const userProductLists = async (req, res) => {
 //////////////////////to seach the products
 const userSearch = async (req, res, next) => {
   try {
-    const query = req.query.query;
+    const query = req.query.body;
 
     // Using $regex for case-insensitive search directly in the database query
     const searchResults = await productModel.find({
       productname: { $regex: query, $options: 'i' },
     });
+    console.log("searchResults",searchResults)
 
     const ITEMS_PER_PAGE = 3;
     const page = parseInt(req.query.page) || 1;
