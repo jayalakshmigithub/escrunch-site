@@ -32,7 +32,7 @@ router.get(
 
 router.get("/productdetails/:id", userController.userProductDetails); //show single product details
 router.get("/products", auth.isLogin, userController.userProductLists);//show products list for filter
-router.post('/search',auth.isLogin,userController.userSearch); // to search product
+router.get('/search',auth.isLogin,userController.userSearch); // to search product
 router.get("/categoryproducts/:id", auth.isLogin, userController.userCategory); //show product based on category
 router.get("/sortedproducts", auth.isLogin, userController.userSortPrice); //show products based on price
 

@@ -159,7 +159,7 @@
 
       <div class="search_input" id="search_input_box" style="background-color: rgb(77, 78, 80);">
         <div class="container">
-          <form class="d-flex justify-content-between" id="search_form" action="/search" method="post">
+          <form class="d-flex justify-content-between" id="search_form" action="/search" method="get">
             <input type="text" class="form-control" id="search_input" name="query"
               placeholder="Search Products">
             <button type="submit" class="btn"></button>
@@ -168,116 +168,90 @@
         </div>
       </div>
 
+   
+      <!-- <form class="form-inline ml-auto" style="margin-top: 10px; margin-right: 10px;" id="searchForm"
+				action="/search" method="Post">
+				<div class="input-group">
+					<input type="search" name="search" id="searchform" class="form-control" placeholder="Search"
+						style="border-radius: 0; height: 30px; font-size: 14px;" />
+					<label class="form-label sr-only" for="form1">Search</label>
+					<button type="submit" class="btn btn-primary" id="searchButton"
+						style="border-radius: 0; height: 30px; width: 30px; padding: 0;">
+						<i class="fas fa-search" style="font-size: 16px;"></i>
+					</button>
+				</div>
+			</form> -->
+        
+
 
     </header>
 
 
-
-
-<div class="container">
-    <div class="row">
-
-
+    <div class="container">
         <!-- Start Filter Bar -->
-        <div class="filter-bar d-flex flex-wrap align-items-center"
-            style="background: #fff; padding: 15px; border: 1px solid #e0e0e0; border-radius: 7px; box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1); margin-top: 10px;">
+        <div class="filter-bar d-flex flex-wrap align-items-center" style="background: #fff; padding: 15px; border: 1px solid #e0e0e0; border-radius: 7px; box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1); margin-top: 150px;">
             <div class="sorting">
                 <span style="color: rgb(8, 8, 8); font-size: 30px;">Search Results</span>
-
-                </select>
             </div>
-
         </div>
+        
         <!-- End Filter Bar -->
-        <!-- Start Best Seller -->
-        <br>
-
-
-        <!-- search results,below -->
-        <!-- trying with prdt lists code -->
-
+    
+        <!-- Search Results Section -->
         <section class="lattest-product-area pb-40 category-list">
             <div class="row">
-                <!-- single product -->
-                <!--  -->
-                <% if (results.length===0) { %>
+                <!-- Single Product -->
+                <% if (results.length === 0) { %>
                     <p>No results found for '<%= query %>'</p>
-                    <% } else { %>
-                        <% results.forEach(function(product) { %>
-                            <% if (product.status==='Listed' ) { %>
-                                <div class="col-lg-4 col-md-6">
-
-                                    <div class="single-product">
-
-                                        <img class="img-fluid" src="/uploadProductImages/<%= product.image[0] %>"
-                                            alt="">
-                                        <div class="product-details">
-                                            <h6>
-                                                <%= product.productname %>
-                                            </h6>
-                                            <div class="price">
-                                                <h6>Rs <%= product.price %>
-                                                </h6>
-                                                <h6 class="l-through">
-                                                    <%= product.mrp %>
-                                                </h6>
-                                            </div>
-                                            <div class="prd-bottom">
-                                                <a href="" class="social-info">
-                                                    <span class="lnr lnr-heart"></span>
-                                                    <p class="hover-text">Wishlist</p>
-                                                </a>
-                                                <a href="/productdetails/<%= product._id %>" class="social-info">
-                                                    <span class="ti-layers"></span>
-                                                    <p class="hover-text">compare</p>
-                                                </a>
-                                                <a href="/productdetails/<%= product._id %>?timestamp=<%= Date.now() %>"
-                                                    class="social-info">
-                                                    <span class="ti-more-alt"></span>
-                                                    <p class="hover-text">view more</p>
-                                                </a>
-                                            </div>
+                <% } else { %>
+                    <% results.forEach(function(product) { %>
+                        <% if (product.status === 'Listed') { %>
+                            <div class="col-lg-4 col-md-6">
+                                <div class="single-product" style="background: #fff;  border: 1px solid #e0e0e0; border: 1px solid #e0e0e0; border-radius: 7px; box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1);">
+                                    <img class="img-fluid" src="/uploadProductImages/<%= product.image[0] %>" alt="">
+                                    <div class="product-details">
+                                        <h6><%= product.productname %></h6>
+                                        <div class="price">
+                                            <h6>Rs <%= product.price %></h6>
+                                            <h6 class="l-through"><%= product.mrp %></h6>
+                                        </div>
+                                        <div class="prd-bottom">
+                                            <a href="" class="social-info">
+                                                <span class="lnr lnr-heart"></span>
+                                                <p class="hover-text">Wishlist</p>
+                                            </a>
+                                            <a href="/productdetails/<%= product._id %>" class="social-info">
+                                                <span class="ti-layers"></span>
+                                                <p class="hover-text">Compare</p>
+                                            </a>
+                                            <a href="/productdetails/<%= product._id %>?timestamp=<%= Date.now() %>"
+                                                class="social-info">
+                                                <span class="ti-more-alt"></span>
+                                                <p class="hover-text">View more</p>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
-                                <% } %>
-                                    <% }); %>
-                                        <% } %>
-
+                            </div>
+                        <% } %>
+                    <% }); %>
+                <% } %>
             </div>
         </section>
-
-        <!-- search results ,above-->
-
-        <!-- Start Filter Bar -->
-
-        <!-- my pagination code below -->
+    
+        <!-- Pagination Section -->
         <div class="pagination-area mt-30 mb-50">
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-start">
-                    <% for(let i=1; i<=totalPages;i++) { %>
-                        <% if(i===currentPage){ %>
-                            <li class="page-item active"><a class="page-link" href="#">
-                                    <%= i %>
-                                </a></li>
-                            <% } else { %>
-                                <li class="page-item"><a class="page-link" href="/products?page=<%= i %>">
-                                        <%= i %>
-                                    </a></li>
-                                <% } %>
-                                    <% } %>
+                    <% for (let i = 1; i <= totalPages; i++) { %>
+                        <% if (i === currentPage) { %>
+                            <li class="page-item active"><a class="page-link" href="#"><%= i %></a></li>
+                        <% } else { %>
+                            <li class="page-item"><a class="page-link" href="/products?page=<%= i %>"><%= i %></a></li>
+                        <% } %>
+                    <% } %>
                 </ul>
             </nav>
         </div>
-
-
-
-
-        <!-- my pagination code ends here -->
     </div>
-    <!-- End Filter Bar -->
-
-
-
-</div>
-</div>
+    

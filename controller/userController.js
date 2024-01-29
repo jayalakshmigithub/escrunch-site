@@ -16,6 +16,7 @@ const product = require("../multer/product");
 const catImgCrop = require("../multer/catImgCrop");
 const nodemailer = require("nodemailer");
 
+
 //<------------------ Password Hashing --------------------->
 async function hashPassword(plainPassword) {
   try {
@@ -149,10 +150,12 @@ const userLogout = async (req, res) => {
 };
 
 const loginLoad = async (req, res) => {
+  console.log(req.session.user_id);
   try {
     if (req.session.user_id) {
       console.log("hah", req.session.user_id);
       console.log("in login loaadddd");
+
       res.redirect("/home");
     } else {
       res.render("users/userLogin");
@@ -247,11 +250,10 @@ const viewOtpPage = async (req, res) => {
 
 const userHome = async (req, res) => {
   try {
+    console.log('homee enter ');
     let products = await productModel.find({ status: "Listed" });
-    // res.render("users/userHome", { products });
-    // res.setHeader('Cache-Control','no-cache, no-store, must-revalidate')
-    // res.setHeader('Pragma','no-cache')
-    // res.setHeader('Expires','0')
+console.log(products);
+    res.render('./users/userHome',{products})
   } catch (err) {
     res.send(err);
     console.log(err.message);
@@ -395,15 +397,45 @@ const userProductLists = async (req, res) => {
 
 
 //////////////////////to seach the products
+// const userSearch = async (req, res, next) => {
+//   try {
+//     const query = req.query;
+
+//     // Using $regex for case-insensitive search directly in the database query
+//     const searchResults = await productModel.find({
+//       productname: { $regex: query, $options: 'i' },
+//     });
+//     console.log("searchResults",searchResults)
+
+//     const ITEMS_PER_PAGE = 3;
+//     const page = parseInt(req.query.page) || 1;
+//     const skipItems = (page - 1) * ITEMS_PER_PAGE;
+//     const totalCount = searchResults.length;
+//     const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
+
+//     res.render("users/userSearch", {
+//       results: searchResults,
+//       query: query,
+//       currentPage: page,
+//       totalPages: totalPages,
+//     });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).send("Internal Server Error");
+//   }
+// };
+
+
 const userSearch = async (req, res, next) => {
   try {
-    const query = req.query.body;
-
-    // Using $regex for case-insensitive search directly in the database query
+    console.log("hi from search")
+    const query = req.query.query;
+    const regex = new RegExp(query, "i");
     const searchResults = await productModel.find({
-      productname: { $regex: query, $options: 'i' },
+      $or: [
+        { productname: regex },
+      ],
     });
-    console.log("searchResults",searchResults)
 
     const ITEMS_PER_PAGE = 3;
     const page = parseInt(req.query.page) || 1;
@@ -422,6 +454,7 @@ const userSearch = async (req, res, next) => {
     res.status(500).send("Internal Server Error");
   }
 };
+
 
 
 
