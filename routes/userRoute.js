@@ -29,7 +29,7 @@ router.get(
   userController.userHome
 ); //Render home page
 
-router.get('/search',userController.userSearch);// to search product
+router.get('/search',auth.isLogin,userController.userSearch);// to search product
 router.get("/productdetails/:id", userController.userProductDetails); //show single product details
 router.get("/products", auth.isLogin, userController.userProductLists); //show products list for filter
 router.get("/categoryproducts/:id", auth.isLogin, userController.userCategory); //show product based on category
