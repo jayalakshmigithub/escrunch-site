@@ -3,6 +3,7 @@ const { configDotenv } = require("dotenv");
 const userModel = require("../model/userModel");
 const orderModel = require("../model/orderModel");
 const productModel = require("../model/productModel");
+const categoryModel=require('../model/categoryModel')
 const bannerModel = require("../model/bannerModel");
 const userHelper = require("../helper/userHelper");
 const bcrypt = require("bcrypt");
@@ -10,6 +11,9 @@ const moment = require("moment");
 const puppeteer = require("puppeteer");
 const excel = require("exceljs");
 const fs = require("fs");
+const sharp = require('sharp');
+const { cropBannerImage } = require("../multer/bannerCrop")
+const category = require("../model/categoryModel");
 
 
 const adminLogin = async (req, res) => {
@@ -218,32 +222,347 @@ const verifyAdmin = async (req, res) => {
 //   }
 // };
 
-
-const adminHome = async (req, res) => {
+async function calculateDeliveredOrderTotal() {
   try {
-    if (!req.session.admin) {
-      // If the user is not authenticated as an admin, redirect them to the admin login page
-      return res.redirect('/admin/login');
-    }
-
-    const orders = await orderModel.aggregate([
-      { $match: { orderStatus: 'Delivered' } },
+    const totalData = await orderModel.aggregate([
+      {
+        $match: {
+          orderStatus: 'Delivered',
+        },
+      },
       {
         $group: {
-          _id: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } },
-          total: { $sum: '$totalAmount' },
+          _id: null,
+          totalPriceSum: { $sum: '$totalAmount' }, // Adjusted to use 'totalAmount' field
           count: { $sum: 1 },
         },
       },
-      { $sort: { _id: 1 } },
     ]);
 
-    const data = orders.map(({ _id, total, count }) => ({ date: _id, amount: total, count }));
-    res.render('admin/adminHome', { data });
+    if (totalData.length === 0) {
+      return {
+        _id: null,
+        totalPriceSum: 0,
+        count: 0,
+      };
+    }
+
+    // Return the first element of the array as the result
+    return totalData[0];
   } catch (error) {
-    console.error(error.message); // Use console.error for error messages
+    throw error;
+  }
+}
+
+const calculateCategorySales = async () => {
+  try {
+    const ordersWithDetails = await orderModel.aggregate([
+      {
+        $match: {
+          orderStatus: 'Delivered', // Filter orders with orderStatus 'Delivered'
+        },
+      },
+      {
+        $lookup: {
+          from: 'products',
+          localField: 'items.product',
+          foreignField: '_id',
+          as: 'productDetails',
+        },
+      },
+      {
+        $unwind: '$productDetails',
+      },
+      {
+        $lookup: {
+          from: 'categories',
+          localField: 'productDetails.categoryname',
+          foreignField: '_id',
+          as: 'categoryDetails',
+        },
+      },
+      {
+        $unwind: '$categoryDetails',
+      },
+      {
+        $group: {
+          _id: '$productDetails.categoryname',
+          categoryName: { $first: '$categoryDetails.categoryname' },
+          totalSales: {
+            $sum: { $multiply: ['$productDetails.price', '$products.quantity'] },
+          },
+        },
+      }
+
+    ]);
+
+    return ordersWithDetails;
+  } catch (error) {
+    console.error('Error fetching orders with details:', error);
   }
 };
+
+
+
+async function calculateDailySales() {
+  try {
+    const dailySalesData = await orderModel.aggregate([
+      {
+        $match: {
+          orderStatus: 'Delivered',
+        },
+      },
+      {
+        $group: {
+          _id: {
+            $dateToString: {
+              format: '%Y-%m-%d',
+              date: '$createdAt', // Assuming 'createdAt' is the date field for the order
+            },
+          },
+          dailySales: {
+            $sum: '$totalAmount', // Adjusted to use 'totalAmount' field
+          },
+        },
+      },
+      {
+        $sort: {
+          _id: 1,
+        },
+      },
+    ]);
+
+    return dailySalesData;
+  } catch (error) {
+    throw error;
+  }
+}
+
+
+async function calculateOrderCountByDate() {
+  try {
+    const orderCountData = await orderModel.aggregate([
+      {
+        $match: {
+          orderStatus: 'Delivered',
+        },
+      },
+      {
+        $group: {
+          _id: {
+            $dateToString: {
+              format: '%Y-%m-%d',
+              date: '$createdAt', // Assuming 'createdAt' is the date field for the order
+            },
+          },
+          orderCount: { $sum: 1 },
+        },
+      },
+      {
+        $sort: {
+          _id: 1,
+        },
+      },
+    ]);
+
+    return orderCountData;
+  } catch (error) {
+    throw error;
+  }
+}
+
+
+  async function calculateProductsCount() {
+    try {
+      const productCount = await productModel.countDocuments();
+  
+      return productCount;
+    } catch (error) {
+      throw error; 
+    }
+ }
+
+
+ async function calculateOnlineOrderCountAndTotal() {
+  try {
+    const onlineOrderData = await orderModel.aggregate([
+      {
+        $match: {
+          paymentMode: 'onlinepayment', // Adjusted to 'paymentMode' based on your schema
+          orderStatus: 'Delivered',
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          totalPriceSum: { $sum: '$totalAmount' }, // Adjusted to use 'totalAmount' field
+          count: { $sum: 1 },
+        },
+      },
+    ]);
+
+    return onlineOrderData;
+  } catch (error) {
+    throw error;
+  }
+}
+
+
+
+async function calculateCodOrderCountAndTotal() {
+  try {
+    const codOrderData = await orderModel.aggregate([
+      {
+        $match: {
+          paymentMode: 'cashondelivery', // Adjusted to 'paymentMode' based on your schema
+          orderStatus: 'Delivered',
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          totalPriceSum: { $sum: '$totalAmount' }, // Adjusted to use 'totalAmount' field
+          count: { $sum: 1 },
+        },
+      },
+    ]);
+
+    return codOrderData;
+  } catch (error) {
+    throw error;
+  }
+}
+
+
+
+async function getLatestOrders() {
+  try {
+    const latestOrders = await orderModel.aggregate([
+      {
+        $unwind: '$items', // Adjusted to '$items' based on your schema
+      },
+      {
+        $sort: {
+          'createdAt': -1, // Adjusted to 'createdAt' assuming it's the order creation date
+        },
+      },
+      {
+        $limit: 10,
+      },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'user',
+          foreignField: '_id',
+          as: 'userDetails',
+        },
+      },
+      {
+        $addFields: {
+          username: {
+            $arrayElemAt: ['$userDetails.name', 0],
+          },
+          address: {
+            $arrayElemAt: ['$userDetails.address.name', 0],
+          },
+        },
+      },
+      {
+        $project: {
+          userDetails: 0,
+        },
+      },
+    ]);
+
+    return latestOrders;
+  } catch (error) {
+    throw error;
+  }
+}
+
+
+
+
+async function calculateListedCategoryCount() {
+  try {
+    const listedCategoryCount = await categoryModel.countDocuments({ listed: true });
+
+    return listedCategoryCount;
+  } catch (error) {
+    throw error; 
+  }
+}
+
+
+
+const adminHome =async (req,res)=>{
+    try {
+      
+      const ordersData= await calculateDeliveredOrderTotal()
+     
+      const orders = ordersData
+       const categorySales =await calculateCategorySales() 
+       const salesData = await calculateDailySales() 
+        const salesCount = await calculateOrderCountByDate()
+       const categoryCount  = await calculateListedCategoryCount()
+       const productsCount  = await calculateProductsCount()
+       const onlinePay = await calculateOnlineOrderCountAndTotal()
+       const codPay = await calculateCodOrderCountAndTotal()
+       const latestorders = await  getLatestOrders()
+    
+      //  console.log(ordersData,"get dashBorde rsData")
+      //  console.log(orders,'fhfhf++');
+
+    //  console.log(orders,"get dashBordorders")
+       console.log(categorySales,"get dashBorders categorySales")
+    //    console.log(salesData,"get dashBorders  salesData")
+    //    console.log(salesCount,"get dashBordersData salesCount")
+      //  console.log(categoryCount ,"get dashBorders categoryCount ")
+    //    console.log(productsCount,"get dashBorders productsCount")
+      //  console.log(onlinePay,"get dashBord onlinePay")
+      //  console.log(codPay,"get dashBord codPay")
+    //    console.log(latestorders,"get dashBord latestorders")
+    //    console.log("productsCount:", productsCount);
+      //  console.log("categoryCount:", categoryCount);
+    //   console.log("onlinePay.totalPriceSum:", onlinePay[0].totalPriceSum);
+      // console.log("onlinePay.count:");
+      // console.log('uasername',latestorders)
+       
+       res.render('admin/adminHome',{orders,productsCount,categoryCount,
+            onlinePay:onlinePay[0],salesData,order:latestorders,salesCount,
+            codPay:codPay[0],categorySales})
+      
+    }
+     catch (error) {
+      res.render('/error')
+    }
+    
+  }
+// const adminHome = async (req, res) => {
+//   try {
+//     if (!req.session.admin) {
+//       // If the user is not authenticated as an admin, redirect them to the admin login page
+//       return res.redirect('/admin/login');
+//     }
+
+//     const orders = await orderModel.aggregate([
+//       { $match: { orderStatus: 'Delivered' } },
+//       {
+//         $group: {
+//           _id: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } },
+//           total: { $sum: '$totalAmount' },
+//           count: { $sum: 1 },
+//         },
+//       },
+//       { $sort: { _id: 1 } },
+//     ]);
+
+//     const data = orders.map(({ _id, total, count }) => ({ date: _id, amount: total, count }));
+//     res.render('admin/adminHome', { data });
+//   } catch (error) {
+//     console.error(error.message); // Use console.error for error messages
+//   }
+// };
 
 const adminUsersList = async (req, res) => {
   try {
@@ -731,6 +1050,7 @@ const adminDownloadReports = async (req, res, next) => {
 
 const adminBannerList = async (req, res) => {
   try {
+    console.log("in adminbannerlist")
     const ITEMS_PER_PAGE = 9
     const page = parseInt(req.query.page) || 1
     const skipItems = (page - 1) * ITEMS_PER_PAGE
@@ -748,6 +1068,7 @@ const adminBannerList = async (req, res) => {
 
 const adminAddbanner = async (req, res) => {
   try {
+    console.log("admin add banner")
     res.render("admin/adminAddBanner");
   } catch (error) {
     console.error(error.message);
@@ -756,6 +1077,7 @@ const adminAddbanner = async (req, res) => {
 
 
 const adminAddedBanner = async (req, res) => {
+  console.log("added banner")
   const { bannername, bannerurl } = req.body;
   let images = req.file.filename;
   let imageName = `cropped_${images}`;

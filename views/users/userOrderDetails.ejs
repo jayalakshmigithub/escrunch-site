@@ -539,33 +539,33 @@
                         </dl>
                         <input name="id" value="<%= order._id %>" hidden />
                         <div class="col-lg-6 col-md-6 ms-auto text-md-end">
-                          <% if(order.orderStatus ===
-                          'pending'||order.orderStatus === 'ordered'){%>
-                          <button
-                            class="cancel btn btn-primary"
-                            onclick="cancelOrder('<%= order._id %>')"
-                          >
-                            Cancel Order
-                          </button>
-                          <% console.log('order cancelling') %>
+  <% if(order.orderStatus === 'pending' || order.orderStatus === 'ordered') { %>
+    <button
+      class="cancel btn btn-primary"
+      onclick="cancelOrder('<%= order._id %>')"
+    >
+      Cancel Order
+    </button>
+    <% console.log('order cancelling') %>
 
-                          <div style="margin-top: 10px">
-                            <% if(order.orderStatus === 'pending' ||
-                            order.orderStatus === 'ordered') { %>
-                            <button
-                              class="cancel btn btn-primary"
-                              onclick="returnedOrder('<%= order._id %>')"
-                            >
-                              Return Order
-                            </button>
-                            <% } %>
-                          </div>
+    
+    <% if(order.orderStatus === 'Delivered') { %>
+      <div style="margin-top: 10px">
+        <button
+          class="cancel btn btn-primary"
+          onclick="returnedOrder('<%= order._id %>')"
+        >
+          Return Order
+        </button>
+      </div>
+    <% } %>
 
-                          <%} else if(order.orderStatus === 'Delivered') { %> <%
-                          } %>
-                          <!-- order stat- delivered, here -->
-                          <!-- <a class="btn btn-secondary print ms-2" href="#"><i class="icon material-icons md-print"></i></a> -->
-                        </div>
+  <% } else if(order.orderStatus === 'Delivered') { %>
+ 
+    <!-- <a class="btn btn-secondary print ms-2" href="#"><i class="icon material-icons md-print"></i></a> -->
+  <% } %>
+</div>
+
                         <!-- Modal HTML -->
                         <div
                           id="returnOrderModal"
@@ -633,8 +633,8 @@
                   Each of our hair accessories tells a unique story, intricately
                   crafted with love and dedication.
                 </p>
-                <!-- <p style="font-size: 18px; margin-bottom: 10px;">We invite you to explore our world of handmade hair treasures.</p>
-                        <p style="font-size: 18px; margin-bottom: 10px;">Join us on this enchanting journey of weaving dreams into hair accessories, and discover the beauty that lies in every strand.</p> -->
+                <p style="font-size: 18px; margin-bottom: 10px;">We invite you to explore our world of handmade hair treasures.</p>
+                        <p style="font-size: 18px; margin-bottom: 10px;">Join us on this enchanting journey of weaving dreams into hair accessories, and discover the beauty that lies in every strand.</p>
               </div>
             </div>
           </div>

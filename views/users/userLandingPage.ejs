@@ -40,6 +40,12 @@
       type="text/css"
       href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
     />
+	
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
 
     <style>
       .custom-col-style {
@@ -55,197 +61,91 @@
 
   <body>
     <!-- Start Header Area -->
-    <header class="header_area sticky-header">
-      <div class="main_menu">
-        <nav class="navbar navbar-expand-lg navbar-light main_box">
-          <div class="container">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <a class="navbar-brand logo_h" href="/"
-              ><img src="img/logo.png" alt=""
-            /></a>
-            <button
-              class="navbar-toggler"
-              type="button"
-              data-toggle="collapse"
-              data-target="#navbarSupportedContent"
-              aria-controls="navbarSupportedContent"
-              aria-expanded="false"
-              aria-label="Toggle navigation"
-            >
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div
-              class="collapse navbar-collapse offset"
-              id="navbarSupportedContent"
-            >
-              <ul class="nav navbar-nav menu_nav ml-auto">
-                <li class="nav-item active">
-                  <a class="nav-link" href="index.html">Home</a>
-                </li>
-                <li class="nav-item submenu dropdown">
-                  <a
-                    href="#"
-                    class="nav-link dropdown-toggle"
-                    data-toggle="dropdown"
-                    role="button"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                    >Shop</a
-                  >
-                  <ul class="dropdown-menu">
-                    <li class="nav-item">
-                      <a class="nav-link" href="category.html">Shop Category</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="/productdetails"
-                        >Product Details</a
-                      >
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="/cart">Shopping Cart</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="checkout.html"
-                        >Product Checkout</a
-                      >
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="confirmation.html"
-                        >Confirmation</a
-                      >
-                    </li>
-                  </ul>
-                </li>
-                <li class="nav-item submenu dropdown">
-                  <a
-                    href="#"
-                    class="nav-link dropdown-toggle"
-                    data-toggle="dropdown"
-                    role="button"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                    >Blog</a
-                  >
-                  <ul class="dropdown-menu">
-                    <li class="nav-item">
-                      <a class="nav-link" href="blog.html">Blog</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="single-blog.html"
-                        >Blog Details</a
-                      >
-                    </li>
-                  </ul>
-                </li>
-                <li class="nav-item submenu dropdown">
-                  <a
-                    href="#"
-                    class="nav-link dropdown-toggle"
-                    data-toggle="dropdown"
-                    role="button"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                    >Pages</a
-                  >
-                  <ul class="dropdown-menu">
-                    <!-- <li class="nav-item"><a class="nav-link" href="/login">Login</a></li> -->
-                    <li class="nav-item">
-                      <a class="nav-link" href="tracking.html">Tracking</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="elements.html">Elements</a>
-                    </li>
-                    <!-- <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li> -->
-                  </ul>
-                </li>
-
-                <li class="nav-item">
-                  <a class="nav-link" href="contact.html">Contact</a>
-                </li>
-              </ul>
-              <ul class="nav navbar-nav navbar-right">
-                <li class="nav-item" style="display: inline-block">
-                  <a href="/cart" class="cart">
-                    <img
-                      src="/user-assets/img/cartneww.png"
-                      alt="Cart"
-                      style="width: 24px; height: 24px"
-                    />
-                    <!-- Replace "cart-image.png" with the path to your cart image -->
-                  </a>
-                </li>
-
-                <li class="nav-item">
-                  <button class="search">
-                    <img
-                      src="/user-assets/img/searchnewicon.png"
-                      alt="Search Icon"
-                      style="width: 24px; height: 24px; margin-right: 3px"
-                    />
-                  </button>
-                </li>
-              </ul>
-              <li class="nav-item" style="display: inline-block">
-                <div class="dropdown">
-                  <button
-                    class="user-button"
-                    id="userButton"
-                    style="
-                      background: transparent;
-                      border: none;
-                      cursor: pointer;
-                      padding: 1px 2px;
-                    "
-                  >
-                    <img
-                      src="/user-assets/img/usericon.png"
-                      alt="User Icon"
-                      id="user-icon"
-                      style="width: 40px; height: 40px; border-radius: 50%"
-                    />
-                  </button>
-                  <ul class="dropdown-menu" id="dropdownMenu">
-                    <li class="nav-item">
-                      <a class="nav-link" href="/login">Login</a>
-                    </li>
-                    <li class="nav-item">
-                      <!-- <a class="nav-link" href="/logout">Logout</a> -->
-                    </li>
-                  </ul>
-                </div>
-              </li>
-            </div>
-          </div>
-        </nav>
-      </div>
-      <div class="search_input" id="search_input_box">
-			<div class="container">
-				<form class="d-flex justify-content-between">
-					<input type="text" class="form-control" id="search_input" placeholder="Search Here">
-					<button type="submit" class="btn"></button>
-					<span class="lnr lnr-cross" id="close_search" title="Close Search"></span>
-				</form>
-			</div>
+	<header class="header_area sticky-header fixed-top" style="z-index: 1000;">
+		<div class="main_menu">
+			<nav class="navbar navbar-expand-lg navbar-light main_box" style="width: 1200px;">
+				<div class="container" style="margin: 0;">
+					<a class="navbar-brand logo_h" href="/home"><img src="/" alt="" /></a>
+					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+						aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+						<ul class="nav navbar-nav menu_nav ml-auto">
+							<li class="nav-item">
+								<a class="nav-link" href="/login" style="color: #ff1493;">Home</a>
+							</li>
+							<li class="nav-item submenu dropdown">
+								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+									aria-haspopup="true" aria-expanded="false" style="color: #ff1493;">Products</a>
+								<ul class="dropdown-menu">
+									<li class="nav-item">
+										<a class="nav-link" href="/login" style="color: #ff1493;">Products</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="/login" style="color: #ff1493;">Product Details</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="/login" style="color: #ff1493;">Product Checkout</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="/login" style="color: #ff1493;">Shopping Cart</a>
+									</li>
+								</ul>
+							</li>
+							<!-- ... (other menu items) ... -->
+							<li class="nav-item">
+								<a class="nav-link" href="/contact" style="color: #ff1493;">Contact</a>
+							</li>
+						</ul>
+						<ul class="nav navbar-nav navbar-right">
+							<li class="nav-item" style="display: inline-block; margin-right: 2px;">
+								<a href="/login" class="cart" style="text-decoration: none; padding: 1px 2px; font-size: 16px; cursor: pointer; color: #ff1493;">
+									<span class="ti-bag"></span>
+								</a>
+							</li>
+							<li class="nav-item" style="display: inline-block; margin-right: 2px;">
+								<a class="search" style="text-decoration: none; color: #ff1493; padding: 1px 2px; font-size: 16px;">
+									<i class="lnr lnr-magnifier" id="search"></i>
+								</a>
+							</li>
+							<li class="nav-item" style="display: inline-block">
+								<div class="dropdown">
+									<button class="user-button" id="userButton" style="background: transparent; border: none; cursor: pointer; padding: 1px 2px;">
+										<img src="/user-assets/img/usericon.png" alt="User Icon" id="user-icon" style="width: 40px; height: 40px; border-radius: 50%" />
+									</button>
+									<ul class="dropdown-menu" id="dropdownMenu">
+										<li class="nav-item">
+											<a class="nav-link" href="/login" style="color: #ff1493;">Login</a>
+										</li>
+										<li class="nav-item">
+											<!-- <a class="nav-link" href="/logout">Logout</a> -->
+										</li>
+									</ul>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
 		</div>
-    </header>
+	</header>
+	
     <!-- End Header Area -->
 	
     <!-- start banner Area -->
-    <section class="banner-area">
+    <!-- <section class="banner-area">
       <div class="container">
         <div class="row fullscreen align-items-center justify-content-start">
           <div class="col-lg-12">
             <div class="active-banner-slider owl-carousel">
-              <!-- single-slide -->
+              single-slide 
               <div class="row single-slide align-items-center d-flex">
                 <div class="col-lg-5 col-md-6">
                   <div class="banner-content">
-                    <!-- <h1> E scrunch</h1>
-									<p>Check out to see exciting offers and wide range of collections of Hair  
-										accessories like Scrunchies, Hairbands and Bows & Caps</p> -->
+                  
                   </div>
                 </div>
                 <div class="col-lg-7">
@@ -258,7 +158,7 @@
                   </div>
                 </div>
               </div>
-              <!-- single-slide -->
+             
               <div class="row single-slide">
                 <div class="col-lg-5">
                   <div
@@ -307,16 +207,16 @@
           </div>
         </div>
       </div>
-    </section>
+    </section>  -->
     <!-- End banner Area -->
-	
 
-    <!-- start features Area -->
-    <section class="features-area section_gap">
-      <div class="container">
+	<img src="/user-assets/img/landingpageImg" alt="Image Description" style="width: 100vw; height: 100vh; object-fit: cover; margin-top: 120px; margin-bottom: 50px;">
+	<section class="features-area section_gap" >
+
+      <div class="container"style="margin-bottom: 1px; background: linear-gradient(rgba(255, 182, 193, 0.5), rgba(255, 182, 193, 0.8)); background-color: beige;">
         <div class="row features-inner">
           <!-- single features -->
-          <div class="col-lg-3 col-md-6 col-sm-6">
+          <div class="col-lg-3 col-md-6 col-sm-6" >
             <div class="single-features">
               <div class="f-icon">
                 <img src="img/features/f-icon1.png" alt="" />
@@ -358,8 +258,37 @@
         </div>
       </div>
     </section>
+	<div class="container-fluid mb-3" style="margin-top: 100px;">
+		<div class="row px-3 justify-content-center attractive-background">
+			<div class="col-lg-8">
+				<div id="header-carousel" class="carousel slide carousel-fade mb-3 mb-lg-0" data-ride="carousel">
+					<ol class="carousel-indicators">
+						<% for (let i = 0; i < banner.length; i++) { %>
+							<li data-target="#header-carousel" data-slide-to="<%= i %>" class="<%= i === 0 ? 'active' : '' %>"></li>
+						<% } %>
+					</ol>
+					<div class="carousel-inner">
+						<% for (let i = 0; i < banner.length; i++) { %>
+							<div class="carousel-item <%= i === 0 ? 'active' : '' %>">
+								<img src="/uploadProductImages/<%= banner[i].images %>" class="d-block w-100" alt="Slide <%= i + 1 %>">
+							</div>
+						<% } %>
+					</div>
+					<a class="carousel-control-prev" href="#header-carousel" role="button" data-slide="prev">
+						<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+						<span class="sr-only">Previous</span>
+					</a>
+					<a class="carousel-control-next" href="#header-carousel" role="button" data-slide="next">
+						<span class="carousel-control-next-icon" aria-hidden="true"></span>
+						<span class="sr-only">Next</span>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
 
-    <section class="features-area section_gap" style="margin-top: 2px">
+    <!-- start features Area -->
+    <section class="features-area section_gap" style="margin-top: 1px">
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-6 text-center">
@@ -372,7 +301,7 @@
             </div>
           </div>
         </div>
-        <div class="row">
+        <div class="row" style="margin-top: 1px;">
           <% products.forEach(function(product) { %> <% if
           (product.status==='Listed' ) { %>
 
@@ -418,78 +347,76 @@
       </div>
     </section>
 
-    <!-- end features Area -->
+    //  end features Area 
 
 
 	// !-- Carousel
     
-
-    <!-- Start category Area -->
-    <!-- <section class="category-area">
-		<div class="container">
-			<div class="row justify-content-center">
-				<div class="col-lg-8 col-md-12">
-					<div class="row">
-						<div class="col-lg-8 col-md-8">
-							<div class="single-deal">
-								<div class="overlay"></div>
-								<img class="img-fluid w-100" src="img/category/c1.jpg" alt="">
-								<a href="img/category/c1.jpg" class="img-pop-up" target="_blank">
-									<div class="deal-details">
-										<h6 class="deal-title">Sneaker for Sports</h6>
-									</div>
-								</a>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4">
-							<div class="single-deal">
-								<div class="overlay"></div>
-								<img class="img-fluid w-100" src="img/category/c2.jpg" alt="">
-								<a href="img/category/c2.jpg" class="img-pop-up" target="_blank">
-									<div class="deal-details">
-										<h6 class="deal-title">Sneaker for Sports</h6>
-									</div>
-								</a>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4">
-							<div class="single-deal">
-								<div class="overlay"></div>
-								<img class="img-fluid w-100" src="img/category/c3.jpg" alt="">
-								<a href="img/category/c3.jpg" class="img-pop-up" target="_blank">
-									<div class="deal-details">
-										<h6 class="deal-title">Product for Couple</h6>
-									</div>
-								</a>
-							</div>
-						</div>
-						<div class="col-lg-8 col-md-8">
-							<div class="single-deal">
-								<div class="overlay"></div>
-								<img class="img-fluid w-100" src="img/category/c4.jpg" alt="">
-								<a href="img/category/c4.jpg" class="img-pop-up" target="_blank">
-									<div class="deal-details">
-										<h6 class="deal-title">Sneaker for Sports</h6>
-									</div>
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-6">
-					<div class="single-deal">
-						<div class="overlay"></div>
-						<img class="img-fluid w-100" src="img/category/c5.jpg" alt="">
-						<a href="img/category/c5.jpg" class="img-pop-up" target="_blank">
-							<div class="deal-details">
-								<h6 class="deal-title">Sneaker for Sports</h6>
-							</div>
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section> -->
+    //  <section class="category-area">
+	// 	<div class="container">
+	// 		<div class="row justify-content-center">
+	// 			<div class="col-lg-8 col-md-12">
+	// 				<div class="row">
+	// 					<div class="col-lg-8 col-md-8">
+	// 						<div class="single-deal">
+	// 							<div class="overlay"></div>
+	// 							<img class="img-fluid w-100" src="img/category/c1.jpg" alt="">
+	// 							<a href="img/category/c1.jpg" class="img-pop-up" target="_blank">
+	// 								<div class="deal-details">
+	// 									<h6 class="deal-title">Sneaker for Sports</h6>
+	// 								</div>
+	// 							</a>
+	// 						</div>
+	// 					</div>
+	// 					<div class="col-lg-4 col-md-4">
+	// 						<div class="single-deal">
+	// 							<div class="overlay"></div>
+	// 							<img class="img-fluid w-100" src="img/category/c2.jpg" alt="">
+	// 							<a href="img/category/c2.jpg" class="img-pop-up" target="_blank">
+	// 								<div class="deal-details">
+	// 									<h6 class="deal-title">Sneaker for Sports</h6>
+	// 								</div>
+	// 							</a>
+	// 						</div>
+	// 					</div>
+	// 					<div class="col-lg-4 col-md-4">
+	// 						<div class="single-deal">
+	// 							<div class="overlay"></div>
+	// 							<img class="img-fluid w-100" src="img/category/c3.jpg" alt="">
+	// 							<a href="img/category/c3.jpg" class="img-pop-up" target="_blank">
+	// 								<div class="deal-details">
+	// 									<h6 class="deal-title">Product for Couple</h6>
+	// 								</div>
+	// 							</a>
+	// 						</div>
+	// 					</div>
+	// 					<div class="col-lg-8 col-md-8">
+	// 						<div class="single-deal">
+	// 							<div class="overlay"></div>
+	// 							<img class="img-fluid w-100" src="img/category/c4.jpg" alt="">
+	// 							<a href="img/category/c4.jpg" class="img-pop-up" target="_blank">
+	// 								<div class="deal-details">
+	// 									<h6 class="deal-title">Sneaker for Sports</h6>
+	// 								</div>
+	// 							</a>
+	// 						</div>
+	// 					</div>
+	// 				</div>
+	// 			</div>
+	// 			<div class="col-lg-4 col-md-6">
+	// 				<div class="single-deal">
+	// 					<div class="overlay"></div>
+	// 					<img class="img-fluid w-100" src="img/category/c5.jpg" alt="">
+	// 					<a href="img/category/c5.jpg" class="img-pop-up" target="_blank">
+	// 						<div class="deal-details">
+	// 							<h6 class="deal-title">Sneaker for Sports</h6>
+	// 						</div>
+	// 					</a>
+	// 				</div>
+	// 			</div>
+	// 		</div>
+	// 	</div>
+	// </section> 
     <!-- End category Area -->
 
     <!-- start product Area -->
@@ -1421,11 +1348,10 @@
     <script src="/user-assets/js/main.js"></script>
 
     <script>
-      // Get references to the search input box and the close_search element
       const searchInputBox = document.getElementById("search_input_box");
       const closeSearchButton = document.getElementById("close_search");
 
-      // Add a click event listener to the close_search element
+      
       closeSearchButton.addEventListener("click", function () {
         // Toggle the visibility of the search input box by adding/removing a CSS class
         searchInputBox.classList.toggle("hidden");
@@ -1448,10 +1374,74 @@
         }
       });
 
-      // Close the dropdown when clicking outside of it
+      
       window.addEventListener("click", function () {
         dropdownMenu.style.display = "none";
       });
     </script>
+
+	
+
+
+	    <script>
+            if (typeof history.pushState === "function") {
+                history.pushState("back", null, null);
+                window.onpopstate = function () {
+                    history.pushState('back', null, null);
+                };
+            } else {
+                window.location.hash = "back";
+            }
+        </script>
+
+        <style>
+            /* Apply responsive styles to the banner-area */
+            .banner-area {
+                background-image: url('../img/banner/banner-bg.jpg');
+                /* Add your background image here */
+                background-size: cover;
+                background-position: center;
+                padding: 100px 0;
+                text-align: center;
+            }
+
+            .banner-area h1 {
+                font-size: 2rem;
+                /* Adjust the font size as needed for different screen sizes */
+            }
+
+            .banner-area p {
+                font-size: 1rem;
+                /* Adjust the font size as needed for different screen sizes */
+            }
+
+            /* Add additional responsive CSS as needed */
+            @media (max-width: 768px) {
+                .banner-area {
+                    background-size: contain;
+                }
+
+                .banner-area h1 {
+                    font-size: 1.5rem;
+                }
+
+                .banner-area p {
+                    font-size: 0.9rem;
+                }
+            }
+
+            .attractive-background {
+				background: linear-gradient(rgba(255, 182, 193, 0.5), rgba(255, 182, 193, 0.8)),
+                    url('');
+                /* Add an attractive background image */
+                background-size: cover;
+                background-position: center;
+                color: white;
+                /* Set text color to white for better contrast */
+                padding: 20px;
+                /* Add padding to the row for spacing */
+            }
+        </style>
+		
   </body>
 </html>

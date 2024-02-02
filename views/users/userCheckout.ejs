@@ -490,6 +490,24 @@
                   </div>
                   <p>Pay online; you can pay with your net banking.</p>
                 </div>
+
+
+                <div class="payment_item">
+                  <div class="radion_btn">
+                      <input type="radio" id="f-option7" name="paymentoptions"
+                          value="walletpayment">
+                      <label for="f-option7" style="color: #000;">Escrunch Wallet
+                          Payment</label>
+                      <div class="check"></div>
+                  </div>
+                  <p id="description-wallet" style="display: none;">You can make payment
+                      from your
+                      wallet for your order.</p>
+                  <p id="wallet-balance" style="margin-left: 20px;">Wallet Balance: INR
+                      <%=user.wallet.balance%>
+                  </p> <!-- Add your wallet balance information here -->
+              </div>
+
                 <div class="creat_account">
                   <input type="checkbox" id="f-option4" name="selector" />
                   <label for="f-option4">I've read and accept the </label>
@@ -780,7 +798,6 @@
             Swal.fire({
                 icon: 'success',
                 title: 'Payment succeeded',
-                showCancelButton: false,
                 confirmButtonText: 'OK'
             }).then((result) => {
                
@@ -807,6 +824,35 @@
     var rzp1 = new Razorpay(options);
     rzp1.open();
 }
+
+function handleWalletPayment(response) {
+  // Add logic for wallet payment
+  if (response.success) {
+    // Wallet payment is successful
+    console.log('Wallet payment success');
+    Swal.fire({
+      icon: 'success',
+      title: 'Payment from Wallet succeeded',
+      showCancelButton: false,
+      confirmButtonText: 'OK'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.location.href = '/myorders';
+      }
+    });
+  } else {
+    // Handle the case where wallet payment fails
+    console.error('Wallet payment failed');
+    Swal.fire({
+      icon: 'error',
+      title: 'Wallet payment failed',
+      text: 'Please try again or choose a different payment method.',
+      showCancelButton: false,
+      confirmButtonText: 'OK'
+    });
+  }
+}
+
 
 </script>
 </html>

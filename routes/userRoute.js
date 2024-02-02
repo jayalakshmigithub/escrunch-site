@@ -36,6 +36,10 @@ router.get('/search',auth.isLogin,userController.userSearch); // to search produ
 router.get("/categoryproducts/:id", auth.isLogin, userController.userCategory); //show product based on category
 router.get("/sortedproducts", auth.isLogin, userController.userSortPrice); //show products based on price
 
+router.get('/wishlist', auth.isLogin ,userController.userWishlist);//to show wishlist
+router.post('/addtowishlist', auth.isLogin,userController.addToWishlist);//to add the product to wishlist
+router.get('/wishlist/:wishlistId/product/:productId', auth.isLogin, userController.removeFromWishlist);
+
 router.get("/cart", auth.isLogin, cartController.userCart); //Render user cart
 router.post("/addtocart", auth.isLogin, cartController.addtocartpost); // Add product to cart
 router.get(

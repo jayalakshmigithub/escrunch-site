@@ -77,6 +77,11 @@
 		
 	})
 
+
+	// orderSchema.virtual('totalPrice').get(function() {
+	// 	return this.items.reduce((total, item) => total + item.price * item.quantity, 0);
+	// });
+
 	// orderSchema.pre('save', async function (next) {
 	// 	let total = 0
 	// 	for (let item of this.items) {

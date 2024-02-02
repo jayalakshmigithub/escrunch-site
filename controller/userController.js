@@ -5,6 +5,7 @@ const productModel = require("../model/productModel");
 const categoryModel = require("../model/categoryModel");
 const wishlistModel = require("../model/wishlistModel");
 const couponModel = require("../model/couponModel");
+const bannerModel = require("../model/bannerModel");
 const accountSid = process.env.ACCOUNT_SID;
 const authToken = process.env.AUTH_TOKEN;
 const client = require("twilio")(accountSid, authToken);
@@ -102,7 +103,7 @@ const userLandingPage = async (req, res) => {
     let products = await productModel.find();
     let category = await categoryModel.find();
     const banner = await bannerModel.find();
-    res.render("users/userLandingPage", { products: products,banner });
+    res.render("users/userLandingPage", { products: products,banner,category });
   } catch (err) {
     console.log(err.message);
   }
@@ -252,8 +253,11 @@ const userHome = async (req, res) => {
   try {
     console.log('homee enter ');
     let products = await productModel.find({ status: "Listed" });
+    let user = await userModel.find()
 console.log(products);
-    res.render('./users/userHome',{products})
+let banner = await bannerModel.find();
+
+    res.render('./users/userHome',{ products: products, banner, user })
   } catch (err) {
     res.send(err);
     console.log(err.message);
@@ -721,18 +725,11 @@ const updatePassword = async (req, res) => {
 
 const userProfileUpdated = async (req, res) => {
   try {
+    console.log("Updating user profile...");
     const userId = req.session.user_id;
     const name = req.body.name;
     const phonenumber = req.body.phonenumber;
-
-    // if (!phonenumber) {
-    //   return res.render("users/userProfile", {
-    //     user: req.user,
-    //     isUpdated: false,
-    //     error: "Phone number is required",
-    //   });
-    // }
-
+    console.log("Name:", name, "Phone Number:", phonenumber);
     const user = await userModel.findByIdAndUpdate(
       userId,
       { name, phonenumber },
@@ -983,6 +980,10 @@ const userWallet = async (req, res) => {
     }
     // Fetch user's transactions
     const userTransactions = user.wallet.transactions;
+    // const walletSum = userTransactions.reduce((total, transaction) => {
+    //   return total + (transaction.type === 'credit' ? transaction.amount : -transaction.amount);
+    // }, 0);
+
     console.log("userTransactions ?", userTransactions);
     res.render("users/userWallet", { user, userTransactions });
   } catch (error) {
@@ -990,6 +991,9 @@ const userWallet = async (req, res) => {
     res.status(500).send("Internal Server Error"); // Handle this error appropriately
   }
 };
+
+
+
 // the Ogs
 // const userAddCoupon = async (req, res) => {
 //   try {
@@ -1059,6 +1063,101 @@ const userAddCouponpost = async (req, res) => {
   }
 };
 
+
+
+
+////////////////////to display user wishlist 
+const userWishlist = async (req, res) => {
+  try {
+    console.log("inside wishlist")
+    const user1 = req.session.user
+    const userId = req.session.user._id;
+
+    let wishlist = await wishlistModel.findOne({ user: userId });
+
+    if (wishlist == null) {
+      wishlist = await wishlistModel.create({ user: userId });    //if no cart, create cart for the user
+    }
+
+    wishlist = await wishlistModel
+      .findOne({ user: userId })
+      .populate({ path: "products.product" });
+    res.render("users/userWishlist", { wishlist });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+//////////////////////add product to the wishlist
+const addToWishlist = async (req, res) => {
+  try {
+    console.log("add to wishlist...")
+    const userId = req.session.user._id;
+    const { productId } = req.body;
+
+    let wishlist = await wishlistModel.findOne({ user: userId });
+    console.log("hii")
+
+    if (!wishlist) {
+      wishlist = new wishlistModel({ user: userId, products: [] });
+    }
+
+    const productIndex = wishlist.products.findIndex(product => product.product.toString() === productId);
+
+    if (productIndex === -1) {
+      wishlist.products.push({ product: productId }); // Ensure 'product' is set
+
+      await wishlist.save();
+      return res.status(200).json({ success: true });
+    } else {
+      return res.status(400).json({ success: false, message: 'Product already in wishlist' });
+    }
+  } catch (error) {
+    console.error(error.message);
+    // Log the validation errors if any
+    if (error.errors) {
+      Object.keys(error.errors).forEach((field) => {
+      });
+    }
+    res.status(500).json({ success: false, message: "Something went wrong" });
+  }
+};
+
+
+
+////////////////////remove product from the wishlist
+const removeFromWishlist = async (req, res) => {
+  try {
+    const { wishlistId, productId } = req.params;
+    // Find the cartlist document by ID
+    const wishlist = await wishlistModel.findById(wishlistId);
+
+    if (!wishlist) {
+      return res.status(404).json({ error: "wishlist not found" });
+    }
+
+    // Find the index of the product in the "products" array
+    const productIndex = wishlist.products.findIndex(
+      (product) => product.product.toString() === productId
+    );
+
+    if (productIndex === -1) {
+      return res.status(404).json({ error: "Product not found in cart" });
+    }
+
+    // Remove the product from the "products" array
+    wishlist.products.splice(productIndex, 1);
+
+    // Save the updated cartlist document
+    const updatedWishlist = await wishlist.save();
+    res.redirect("/wishlist");
+  } catch (error) {
+    console.error("Error deleting product from wishlist:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+}
+
 module.exports = {
   userLandingPage,
   userLogin,
@@ -1090,5 +1189,8 @@ module.exports = {
   userSortPrice,
   userAddCoupon,
   userAddCouponpost,
+  userWishlist,
+  addToWishlist,
+  removeFromWishlist,
   contactUsController,
 };

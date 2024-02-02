@@ -22,70 +22,80 @@
   </section>
 
   
-
-
-<table style="border-collapse: collapse; width: 100%; border: 1px solid #ddd">
-  <thead>
-    <tr style="background-color: #ffffff; color: rgb(13, 12, 12)">
-      <th style="text-align: left; padding: 8px; font-weight: bold">Order ID</th>
-      <th style="text-align: left; padding: 8px; font-weight: bold">Date and Time</th>
-      <th style="text-align: left; padding: 8px; font-weight: bold">Type</th>
-      <th style="text-align: left; padding: 8px; font-weight: bold">Amount</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% if (userTransactions && userTransactions.length > 0) { %>
-      <% userTransactions.forEach(transaction => { %>
-        <tr style="text-align: left; padding: 8px; color: #ffffff">
-          <td><%= transaction.ID %></td>
-          <td>
-            <%= new Date(transaction.createdAt).toLocaleString('en-US', {
-              weekday: 'short', month: 'short', day: 'numeric', year: 'numeric',
-              hour: 'numeric', minute: 'numeric', hour12: true
-            }) %>
-          </td>
-          <td>
-            <%= transaction.type %>
-          </td>
+  <section style="background: #ffffff; padding-top: 30px; padding-bottom: 100px;">
+    <div style="margin: 0 auto; width: 90%; max-width: 600px;">
+      <div style="border: 1px solid gray; border-radius: 15px; padding: 20px; margin-bottom: 15px;">
+        <h3 style="font-size: 24px; margin-bottom: 20px; color: gray;">Escrunch Wallet</h3>
   
-          <td>
-            <%= parseFloat(transaction.amount).toLocaleString(undefined, {
-              minimumFractionDigits: 2, maximumFractionDigits: 2
-            }) %>
-          </td>
-        </tr>
-      <% }); %>
+        <% if (user && user.wallet) { %>
+          <p style="font-size: 22px; margin-bottom: 20px; color: gray">Hi, <%=user.name%></p>
+          <p style="font-size: 18px; margin-bottom: 20px; color: gray;">Your Wallet Balance is: INR <%= parseFloat(user.wallet.balance).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %></p>
+        <% } %>
   
-      <!-- Script for styling based on transaction type -->
-      <script>
-        document.addEventListener("DOMContentLoaded", function () {
-          const rows = document.querySelectorAll("tbody tr");
+      </div>
   
-          rows.forEach(function (row) {
-            const transactionType = row.querySelector("td:nth-child(3)").textContent;
+      <table style="border-collapse: collapse; width: 100%; border: 1px solid #ddd">
+        <thead>
+          <tr style="background-color: #ffffff; color: rgb(13, 12, 12)">
+            <th style="text-align: left; padding: 8px; font-weight: bold">Order ID</th>
+            <th style="text-align: left; padding: 8px; font-weight: bold">Date and Time</th>
+            <th style="text-align: left; padding: 8px; font-weight: bold">Type</th>
+            <th style="text-align: left; padding: 8px; font-weight: bold">Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (userTransactions && userTransactions.length > 0) { %>
+            <% userTransactions.forEach(transaction => { %>
+              <tr style="text-align: left; padding: 8px; color: #ffffff">
+                <td><%= transaction.ID %></td>
+                <td>
+                  <%= new Date(transaction.createdAt).toLocaleString('en-US', {
+                    weekday: 'short', month: 'short', day: 'numeric', year: 'numeric',
+                    hour: 'numeric', minute: 'numeric', hour12: true
+                  }) %>
+                </td>
+                <td style="color: <%= transaction.type === 'Debit' ? 'red' : (transaction.type === 'Credit' ? 'green' : 'black') %>;">
+                  <%= transaction.type %>
+                </td>
+                <td>
+                  <%= parseFloat(transaction.amount).toLocaleString(undefined, {
+                    minimumFractionDigits: 2, maximumFractionDigits: 2
+                  }) %>
+                </td>
+              </tr>
+            <% }); %>
   
-            if (transactionType.toLowerCase() === "debit") {
-              row.style.color = "red";
-            } else if (transactionType.toLowerCase() === "credit") {
-              row.style.color = "green";
-            } else {
-              row.style.color = "black";
-            }
-          });
-        });
-      </script>
+            <!-- Script for styling based on transaction type -->
+            <script>
+              document.addEventListener("DOMContentLoaded", function () {
+                const rows = document.querySelectorAll("tbody tr");
   
-    <% } else { %>
-      <tr>
-        <td colspan="4">
-          <p style="font-size: 18px; margin-bottom: 20px; color: red">
-            No wallet data available.
-          </p>
-        </td>
-      </tr>
-    <% } %>
-  </tbody>
-</table>
+                rows.forEach(function (row) {
+                  const transactionType = row.querySelector("td:nth-child(3)").textContent;
+  
+                  if (transactionType.toLowerCase() === "debit") {
+                    row.style.color = "red";
+                  } else if (transactionType.toLowerCase() === "credit") {
+                    row.style.color = "green";
+                  } else {
+                    row.style.color = "black";
+                  }
+                });
+              });
+            </script>
+  
+          <% } else { %>
+            <tr>
+              <td colspan="4">
+                <p style="font-size: 18px; margin-bottom: 20px; color: red">No wallet data available.</p>
+              </td>
+            </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </section>
+  
 
 
 <!-- Your existing HTML content -->
