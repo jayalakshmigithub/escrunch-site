@@ -318,7 +318,17 @@
                                   data-id="<%= item.product._id %>"
                                   data-stock="<%= item.product.stock %>">
                                   <td class="align-middle">
-                                    <img src="/uploadProductImages/<%= item.product.image[0] %>" alt="" style="width: 50px" /><%= item.product.productname %>
+                                    <% if (item.product && item.product.image
+                                    && item.product.image[0]) { %>
+                                    <img
+                                      src="/uploadProductImages/<%= item.product.image[0] %>"
+                                      width="40"
+                                      height="40"
+                                      class="img-xs"
+                                      alt="Item"
+                                    />
+                                    <% } %>
+                                    <%= item.product.productname %>
                                 </td>
                                 
                                   <td class="align-middle price">
@@ -563,7 +573,167 @@
 
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
 
+
+  const displayCount = document.querySelectorAll(".incrementdecrement");
+  const totalpricesum = document.querySelector(".total-price-sum");
+  const priceaftercoupon = document.querySelector(".price-after-coupon");
+  
+  displayCount.forEach((item) => {
+    const decBtn = item.querySelector(".dec-btn");
+    const incBtn = item.querySelector(".inc-btn");
+    const inputQuantity = item.querySelector(".inputQuantity");
+    const price = item.querySelector(".price");
+    const totalprice = item.querySelector(".total-price");
+    const productId = item.getAttribute("data-id");
+  
+    incBtn.addEventListener("click", () => {
+      let qty = Number(inputQuantity.textContent);
+  
+      if (qty < 10) {
+        inputQuantity.textContent = ++qty;
+        totalprice.textContent = (price.textContent * qty).toFixed(2);
+        console.log(
+          "Product id and qty kn incBtn fucntion--",
+          productId,
+          qty
+        );
+        updatetotalpricesum();
+        updateQuantity(productId, qty);
+      }
+    });
+  
+    decBtn.addEventListener("click", () => {
+      let qty = inputQuantity.textContent;
+      if (qty > 1) {
+        inputQuantity.textContent = --qty;
+        totalprice.textContent = (price.textContent * qty).toFixed(2);
+        console.log(
+          "Product id and qty in decBtn fucntion--",
+          productId,
+          qty
+        );
+        updatetotalpricesum();
+        updateQuantity(productId, qty);
+      }
+    });
+  });
+  
+  function updatetotalpricesum() {
+    let sum = 0;
+    displayCount.forEach((item) => {
+      const totalprice = item.querySelector(".total-price");
+      sum += Number(totalprice.textContent);
+    });
+    totalpricesum.textContent = sum.toFixed(2);
+    console.log("Total Price Sum:", sum.toFixed(2));
+  }
+  
+  function updateQuantity(productId, quantity) {
+    fetch("/updatecart", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ productId, quantity }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Update Quantity Response:", data);
+      })
+      .catch((error) => {
+        console.error("Error updating quantity:", error);
+      });
+  }
+  </script>
+    <!-- Include this script at the bottom of your page or in your script section -->
+    <script>
+      $(document).ready(function () {
+          $(".btn-minus").on("click", function () {
+              updateQuantity($(this), -1);
+          });
+  
+          $(".btn-plus").on("click", function () {
+              updateQuantity($(this), 1);
+          });
+      });
+  
+      function updateQuantity(button, delta) {
+          let parent = button.closest('.incrementdecrement');
+          let qty = parent.find('.inputQuantity');
+          let productId = parent.data('id');
+          let stock = parent.data('stock');
+  
+          console.log("Stock:", stock); // Add this line for debugging
+  
+          // Ensure stock is a valid number, fallback to 10 if undefined
+          stock = isNaN(stock) ? 10 : parseInt(stock);
+  
+          console.log("Parsed Stock:", stock); // Add this line for debugging
+  
+          let quantity = parseInt(qty.text()) + delta;
+  
+          console.log("New Quantity:", quantity); // Add this line for debugging
+  
+          if (quantity > 0 && quantity <= stock) {
+              qty.text(quantity);
+              let price = parseFloat(parent.find('.price').text());
+              let total = parent.find('.total-price');
+              total.text((price * quantity).toFixed(2));
+  
+              updateQuantityInCart(productId, quantity);
+          } else {
+              if (quantity <= 0) {
+                  qty.text("1");
+              } else {
+                  Swal.fire({
+                      icon: 'info',
+                      title: 'Max Qty is ' + stock,
+                      showConfirmButton: true,
+                  });
+                  qty.text(stock); // Set the quantity to the maximum allowed (stock)
+              }
+          }
+  
+          updateTotalPriceSum();
+      }
+  
+      function updateQuantityInCart(productId, quantity) {
+    // Implement your AJAX request to update the cart on the server
+    $.ajax({
+        url: "/updatecart",
+        method: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({ productId, quantity }),
+        success: function (response) {
+            console.log("Server response:", response);
+
+            // After updating on the server, update the total price sum on the client side
+            updateTotalPriceSum();
+        },
+        error: function (error) {
+            console.error("Error updating quantity in cart:", error);
+        },
+    });
+}
+
+  
+      function updateTotalPriceSum() {
+          let sum = 0;
+          $(".incrementdecrement").each(function () {
+              const price = parseFloat($(this).find('.price').text());
+              const quantity = parseInt($(this).find('.inputQuantity').text(), 10);
+              sum += price * quantity;
+          });
+          $(".total-price-sum").text("Rs." + sum.toFixed(2));
+      }
+  </script>
   
   
   
