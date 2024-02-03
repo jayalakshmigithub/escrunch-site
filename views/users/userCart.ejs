@@ -313,23 +313,13 @@
                       <tbody>
                           <% cart.products.forEach(function(item) { %> <% if (item.product) { %> <% let totalPrice = item.product.price * item.quantity; %> <% totalPriceSum += totalPrice; %>
                           <tr class="incrementdecrement" data-id="<%= item.product._id %>" data-stock="<%= item.product.stock %>">
-                            <td>
-                             
-                                <div class="left">
-                                  <% if (item.product && item.product.image
-                                  && item.product.image[0]) { %>
-                                  <img
-                                    src="/uploadProductImages/<%= item.product.image[0] %>"
-                                   alt="" style="width: 50px;"
-                                  />
-                                  <% } %>
-                                </div>
-                                <div class="info">
-                                  <% if (item.product) { %> <%=
-                                  item.product.productname %> <% } %>
-                                </div>
-                              </a>
-                            </td>
+                              <td class="align-middle">
+                               
+                                      <% if (item.product && item.product.image && item.product.image[0]) { %>
+                                      <img src="/uploadProductImages/<%= item.product.image[0] %>" alt="" style="width: 50px;" />
+                                      <% } %>
+                                
+                              </td>
                               <td class="align-middle price">
                                   <%= item.product.price.toFixed(2) %>
                               </td>

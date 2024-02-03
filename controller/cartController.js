@@ -48,7 +48,7 @@ const userCart = async (req, res) => {
       .findOne({ user: userId })
       .populate({
         path: "products.product",
-        select: "productName price stock", // Add any other fields you need
+        select: "productName price stock image", // Add any other fields you need
       });
 
     res.render("users/userCart", { cart });
