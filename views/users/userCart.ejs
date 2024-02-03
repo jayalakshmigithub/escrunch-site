@@ -334,11 +334,11 @@
                                               style="width: 50px; height: 40px;" readonly>
                                           <button onclick='incFunction(this)'
                                               class="increase items-count position-absolute"
-                                              style="top: 0; right: 0; background-color: #030303; color: #fff; border: none; border-radius: 5px;"
+                                              style="top: 0; right: 0; background-color: #ff1493; color: #fff; border: none; border-radius: 5px;"
                                               type="button"><i class="lnr lnr-chevron-up"></i></button>
                                           <button onclick='decFunction(this)'
                                               class="reduced items-count position-absolute"
-                                              style="bottom: 0; right: 0; background-color: #040404; color: #fff; border: none; border-radius: 5px;"
+                                              style="bottom: 0; right: 0; background-color: #ff1493; color: #fff; border: none; border-radius: 5px;"
                                               type="button"><i class="lnr lnr-chevron-down"></i></button>
                                       </div>
                                   </td>
@@ -359,7 +359,7 @@
                                   <td class="align-middle">
                                       <button class="btn btn-sm btn-danger"
                                           onclick="deleteItem('<%= cart._id %>', '<%= item.product._id %>')"
-                                          style="background-color: #030303; color: #fff; border: none; border-radius: 5px;">
+                                          style="background-color: #ff1493; color: #fff; border: none; border-radius: 5px;">
                                           <i class="fa fa-times"></i>
                                       </button>
                                   </td>
@@ -383,11 +383,11 @@
               </div>
               <div class="checkout_btn_inner d-flex align-items-center">
                   <a class="gray_btn" href="/home"
-                      style="background: linear-gradient(90deg, #010101, #ffffff); border: none; border-radius: 30px; margin-right: 20px; color: white; transition: background 0.3s;">
+                      style="background: linear-gradient(90deg, #ff1493, #ffffff); border: none; border-radius: 30px; margin-right: 20px; color: white; transition: background 0.3s;">
                       Continue Shopping
                   </a>
                   <a class="gray_btn" href="/checkout"
-                      style="background: linear-gradient(90deg, #ffffff, #000000); border: none; border-radius: 30px; color: white; transition: background 0.3s;">
+                      style="background: linear-gradient(90deg, #ffffff, #ff1493); border: none; border-radius: 30px; color: white; transition: background 0.3s;">
                       Proceed to Buy
                   </a>
               </div>
@@ -401,6 +401,168 @@
 
    
 <!-- quantity -->
+
+
+
+<script>
+
+  ///////////////script for the total price to show in the cart///////////////////////////////////////////
+  function updateTotalPriceSum() {
+      let totalPriceSum = 0;
+      const cartItems = document.querySelectorAll('.cartPrice');
+
+      cartItems.forEach(function (item) {
+          let price = parseFloat(item.getAttribute('data-price'));
+          let quantity = parseInt(item.querySelector('.inputQuantity').value);
+          totalPriceSum += price * quantity;
+      });
+
+      // Update the displayed total price
+      const totalPriceSumElement = document.querySelector('.total-price-sum');
+      if (totalPriceSumElement) {
+          totalPriceSumElement.innerText = 'Rs.' + totalPriceSum.toFixed(2);
+      }
+  }
+
+
+
+
+  /////////////script for increase and decrease quantity of the product in cart///////////////////////////////////////////
+  function incFunction(e) {
+      let parent = e.closest('.cartPrice');
+      let qty = parent.querySelector('.inputQuantity');
+      let productId = parent.getAttribute('data-id');
+      let stock = parent.getAttribute('data-stock'); // Get the stock value
+
+      if (stock > 0) {
+          let quantity = parseInt(qty.value) + 1;
+
+          if (quantity <= stock) {
+              // Update the UI
+              qty.value = quantity;
+              let price = parent.getAttribute('data-price');
+              let total = parent.querySelector('.total-price');
+              total.innerText = (price * quantity).toFixed(2);
+
+              // Call the addToCart function to update the cart
+              addToCart(productId, quantity);
+              updateTotalPriceSum();
+          } else {
+              Swal.fire({
+                  icon: 'info',
+                  title: 'Max Qty is ' + stock,
+                  showConfirmButton: true,
+              });
+          }
+      }
+  }
+  function decFunction(e) {
+      let parent = e.closest('.cartPrice');
+      let qty = parent.querySelector('.inputQuantity');
+      let productId = parent.getAttribute('data-id');
+      let stock = parent.getAttribute('data-stock'); // Get the stock value
+
+      if (stock > 0) {
+          let quantity = parseInt(qty.value) - 1;
+
+          if (quantity > 0) {
+              // Update the UI
+              qty.value = quantity;
+              let price = parent.getAttribute('data-price');
+              let total = parent.querySelector('.total-price');
+              total.innerText = (price * quantity).toFixed(2);
+
+              // Call the addToCart function to update the cart
+              addToCart(productId, quantity);
+              updateTotalPriceSum();
+          }
+      }
+  }
+
+
+
+
+
+  /////////////script for add to cart//////////////////////////////////////
+  async function addToCart(productId, quantity) {
+      try {
+          // Send a request to your server to update the cart
+          const response = await fetch('/updatecart', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                  productId,
+                  quantity,
+              }),
+          });
+
+          if (response.ok) {
+              const data = await response.json();
+              if (data.success) {
+                  // Cart updated successfully
+                  console.log('Cart updated successfully');
+              } else {
+                  console.error('Failed to update cart');
+              }
+          } else {
+              console.error('Failed to update cart');
+          }
+      } catch (error) {
+          console.error('Error:', error);
+      }
+  }
+
+
+  /////////////////////////////////////////////////////sweet alert for deleting the product in the cart//////////////////////
+
+  function deleteItem(cartId, productId) {
+      Swal.fire({
+          title: 'Are you sure?',
+          text: "You won't be able to revert this!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#d33',
+          cancelButtonColor: '#3085d6',
+          confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+          if (result.isConfirmed) {
+              // If the user confirms the action, perform the deletion
+              window.location.href = `/cart/${cartId}/product/${productId}`;
+          }
+      });
+  }
+
+</script>
+
+<style>
+  /* Apply responsive styles to the table */
+  @media (max-width: 768px) {
+      .table-responsive table {
+          display: block;
+          width: 100%;
+      }
+
+      .table-responsive table tr {
+          display: block;
+          width: 100%;
+          margin-bottom: 10px;
+          /* Adjust the spacing between rows */
+      }
+
+      .table-responsive table td {
+          display: block;
+          text-align: center;
+          /* Center the table data on smaller screens */
+      }
+  }
+</style>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 
 
