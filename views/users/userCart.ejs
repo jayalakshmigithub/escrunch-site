@@ -298,100 +298,102 @@
     <!--================Cart Area =================-->
     <section class="cart_area">
       <div class="container">
-        <div class="cart_inner">
-          <div class="table-responsive">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th scope="col">Product</th>
-                  <th scope="col">Price</th>
-                  <th scope="col" style="text-align: center">Quantity</th>
-                  <th scope="col">Total</th>
-                  <th scope="col">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <% cart.products.forEach(function(item) { %>
-                    <% if (item.product && item.product.image && item.product.image[0]) { %>
-                        <% let totalPrice = item.product.price * item.quantity; %>
-                        <% totalPriceSum += totalPrice; %>
-                        <tr class="incrementdecrement" data-id="<%= item.product._id %>" data-stock="<%= item.product.stock %>">
-                            <td class="align-middle">
-                                <img src="/uploadProductImages/<%= item.product.image[0] %>" alt="" style="width: 50px" /><%= item.product.productname %>
-                            </td>
-                            <td class="align-middle price">
-                                <%= item.product.price.toFixed(2) %>
-                            </td>
-                            <td class="align-middle">
-                                <div class="input-group quantity mx-auto" style="width: 130px;">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-primary btn-minus" data-action="decrement">
-                                            <i class="fa fa-minus"></i>
-                                        </button>
-                                    </div>
-                                    <span class="form-control bg-secondary border-0 text-center inputQuantity"
-                                        data-price="<%= item.product.price %>" data-total="<%= totalPrice %>"
-                                        data-stock="<%= item.product.stock %>">
-                                        <%= item.quantity %>
-                                    </span>
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-primary btn-plus" data-action="increment">
-                                            <i class="fa fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="align-middle total-price">
-                                <%= totalPrice.toFixed(2) %>
-                            </td>
-                            <td class="align-middle">
-                                <a href="/cart/<%= cart._id %>/product/<%= item.product._id %>">
-                                    <button class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete?')">
-                                        <i class="fa fa-times"></i>
-                                    </button>
-                                </a>
-                            </td>
-                        </tr>
-                    <% } %>
-                <% }); %>
-            
-                <tr class="bottom_button">
-                    <td colspan="5"></td>
-                </tr>
-            
-                <tr>
-                    <td colspan="2"></td>
-                    <td>
-                        <h5>Subtotal</h5>
-                    </td>
-                    <td>
-                        <h5 class="total-price-sum">
-                            Rs.<%= totalPriceSum.toFixed(2) %>
-                        </h5>
-                    </td>
-                    <td></td>
-                </tr>
-            
-                <tr class="out_button_area">
-                    <td colspan="2"></td>
-                    <td colspan="2">
-                        <div class="checkout_btn_inner d-flex align-items-center">
-                            <a class="gray_btn" href="/home">Continue Shopping</a>
-                            <a class="primary-btn" href="/checkout">Proceed to checkout</a>
-                        </div>
-                    </td>
-                    <td></td>
-                </tr>
-            </tbody>
-            
-            
-            
-            </table>
+          <div class="cart_inner">
+              <div class="table-responsive">
+                  <table class="table">
+                      <thead style="background-color: #f5f5f5;">
+                          <tr>
+                              <th scope="col" style="font-weight: bold;">Product</th>
+                              <th scope="col" style="font-weight: bold;">Price</th>
+                              <th scope="col" style="font-weight: bold;">Quantity</th>
+                              <th scope="col" style="font-weight: bold;">Total</th>
+                              <th scope="col" style="font-weight: bold;">Availability</th>
+                              <th scope="col" style="font-weight: bold;">Remove</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <% cart.products.forEach(function(item) { %>
+                              <% let totalPrice = item.price * item.quantity; %>
+                              <tr class="cartPrice" data-price="<%= item.price %>"
+                                  data-id="<%= item.product._id %>"
+                                  data-stock="<%= item.product.stock %>">
+                                  <td class="align-middle">
+                                      <img src="/uploadProductImage/<%= item.product.image[0] %>" alt=""
+                                          style="width: 50px;">
+                                      <%= item.product.productname %>
+                                  </td>
+                                  <td class="align-middle price">
+                                      <%= item.price.toFixed(2) %>
+                                  </td>
+                                  <td>
+                                      <div class="product_parent d-inline-block position-relative">
+                                          <input type="text" name="qty" maxlength="1" value="<%= item.quantity %>"
+                                              title="Quantity:" class="input-text qty inputQuantity"
+                                              style="width: 50px; height: 40px;" readonly>
+                                          <button onclick='incFunction(this)'
+                                              class="increase items-count position-absolute"
+                                              style="top: 0; right: 0; background-color: #030303; color: #fff; border: none; border-radius: 5px;"
+                                              type="button"><i class="lnr lnr-chevron-up"></i></button>
+                                          <button onclick='decFunction(this)'
+                                              class="reduced items-count position-absolute"
+                                              style="bottom: 0; right: 0; background-color: #040404; color: #fff; border: none; border-radius: 5px;"
+                                              type="button"><i class="lnr lnr-chevron-down"></i></button>
+                                      </div>
+                                  </td>
+                                  <td class="align-middle total-price">
+                                      <%= totalPrice.toFixed(2) %>
+                                  </td>
+                                  <td class="stock">
+                                      <% if (item.product.stock === 0) { %>
+                                          <p style="color: red; font-size: larger; white-space: nowrap;">Out of Stock</p>
+                                      <% } else if (item.product.stock === 2) { %>
+                                          <p style="color: rgb(220, 152, 26);">Only 2 left!</p>
+                                      <% } else if (item.product.stock === 1) { %>
+                                          <p style="color: rgb(219, 149, 8);"> Only 1 left!</p>
+                                      <% } else { %>
+                                          <p style="color: rgb(17, 194, 55); font-size: larger;">In Stock</p>
+                                      <% } %>
+                                  </td>
+                                  <td class="align-middle">
+                                      <button class="btn btn-sm btn-danger"
+                                          onclick="deleteItem('<%= cart._id %>', '<%= item.product._id %>')"
+                                          style="background-color: #030303; color: #fff; border: none; border-radius: 5px;">
+                                          <i class="fa fa-times"></i>
+                                      </button>
+                                  </td>
+                              </tr>
+                          <% }); %>
+                          <tr class="bottom_button">
+                              <td colspan="5"></td>
+                          </tr>
+                          <tr>
+                              <td colspan="2"></td>
+                              <td>
+                                  <h3>Total Amount</h3>
+                              </td>
+                              <td>
+                                  <h3 class="total-price-sum">: Rs.<%= totalPriceSum.toFixed(2) %></h3>
+                              </td>
+                              <td></td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+              <div class="checkout_btn_inner d-flex align-items-center">
+                  <a class="gray_btn" href="/home"
+                      style="background: linear-gradient(90deg, #010101, #ffffff); border: none; border-radius: 30px; margin-right: 20px; color: white; transition: background 0.3s;">
+                      Continue Shopping
+                  </a>
+                  <a class="gray_btn" href="/checkout"
+                      style="background: linear-gradient(90deg, #ffffff, #000000); border: none; border-radius: 30px; color: white; transition: background 0.3s;">
+                      Proceed to Buy
+                  </a>
+              </div>
           </div>
-        </div>
+          <% } %>
       </div>
-      <% } %>
-    </section>
+  </section>
+  
 
     <!--================End Cart Area =================-->
 
