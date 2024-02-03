@@ -318,10 +318,12 @@
                                   data-id="<%= item.product._id %>"
                                   data-stock="<%= item.product.stock %>">
                                   <td class="align-middle">
-                                    <% if (item.product.image && item.product.image.length > 0) { %>
+                                    <% if (item.product && item.product.image && item.product.image.length > 0) { %>
                                         <img src="/uploadProductImages/<%= item.product.image[0] %>" alt="" style="width: 50px;">
+                                    <% } else { %>
+                                        <p>No Image Available</p>
                                     <% } %>
-                                    <%= item.product.productname %>
+                                    <%= item.product && item.product.productname ? item.product.productname : 'Product Name N/A' %>
                                 </td>
                                 
                                   <td class="align-middle price">
