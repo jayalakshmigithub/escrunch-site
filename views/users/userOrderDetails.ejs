@@ -399,7 +399,7 @@
                             Cancel Order
                           </button>
                           <% console.log('order cancelling') %>
-
+                        <% } %>
 
                             <% if(order.orderStatus==='Delivered' ) { %>
                               <div style="margin-top: 10px">
@@ -409,10 +409,7 @@
                               </div>
                               <% } %>
 
-                                <% } else if(order.orderStatus==='delivered' ) { %>
-
-                                   <a class="btn btn-secondary print ms-2" href="#"><i class="icon material-icons md-print"></i></a> 
-                                  <% } %>
+                               
                       </div>
 
                       <div id="returnOrderModal" class="modal" tabindex="-1" role="dialog">
