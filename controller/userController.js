@@ -17,7 +17,6 @@ const product = require("../multer/product");
 const catImgCrop = require("../multer/catImgCrop");
 const nodemailer = require("nodemailer");
 
-
 //<------------------ Password Hashing --------------------->
 async function hashPassword(plainPassword) {
   try {
@@ -103,7 +102,11 @@ const userLandingPage = async (req, res) => {
     let products = await productModel.find();
     let category = await categoryModel.find();
     const banner = await bannerModel.find();
-    res.render("users/userLandingPage", { products: products,banner,category });
+    res.render("users/userLandingPage", {
+      products: products,
+      banner,
+      category,
+    });
   } catch (err) {
     console.log(err.message);
   }
@@ -251,13 +254,13 @@ const viewOtpPage = async (req, res) => {
 
 const userHome = async (req, res) => {
   try {
-    console.log('homee enter ');
+    console.log("homee enter ");
     let products = await productModel.find({ status: "Listed" });
-    let user = await userModel.find()
-console.log(products);
-let banner = await bannerModel.find();
+    let user = await userModel.find();
+    console.log(products);
+    let banner = await bannerModel.find();
 
-    res.render('./users/userHome',{ products: products, banner, user })
+    res.render("./users/userHome", { products: products, banner, user });
   } catch (err) {
     res.send(err);
     console.log(err.message);
@@ -396,10 +399,6 @@ const userProductLists = async (req, res) => {
 //   }
 // };
 
-
-
-
-
 //////////////////////to seach the products
 // const userSearch = async (req, res, next) => {
 //   try {
@@ -429,16 +428,13 @@ const userProductLists = async (req, res) => {
 //   }
 // };
 
-
 const userSearch = async (req, res, next) => {
   try {
-    console.log("hi from search")
+    console.log("hi from search");
     const query = req.query.query;
     const regex = new RegExp(query, "i");
     const searchResults = await productModel.find({
-      $or: [
-        { productname: regex },
-      ],
+      $or: [{ productname: regex }],
     });
 
     const ITEMS_PER_PAGE = 3;
@@ -458,13 +454,6 @@ const userSearch = async (req, res, next) => {
     res.status(500).send("Internal Server Error");
   }
 };
-
-
-
-
-
-
-
 
 const userCategory = async (req, res) => {
   try {
@@ -499,7 +488,6 @@ const userCategory = async (req, res) => {
     console.log(error.message);
   }
 };
-
 
 // const userSortPrice = async (req, res) => {
 //   try {
@@ -992,8 +980,6 @@ const userWallet = async (req, res) => {
   }
 };
 
-
-
 // the Ogs
 // const userAddCoupon = async (req, res) => {
 //   try {
@@ -1040,20 +1026,18 @@ const contactUsController = (req, res) => {
 //   }
 // };
 
-
 // const userAddCoupon = async (req, res) => {
 //   try {
 //     const totalAmountInCheckout = req.query.total;
 //     const currentDate = new Date();
-    
+
 //     const category = await categoryModel.find();
-    
+
 //     const coupons = await couponModel.find({
 //       discountAmount: { $lte: totalAmountInCheckout },
 //       expirationDate: { $gt: currentDate },
 //       discountType: "Percentage",
 //     });
-    
 
 //     const formattedCoupons = coupons.map((coupon) => {
 //       const displayDiscountAmount =
@@ -1073,14 +1057,13 @@ const contactUsController = (req, res) => {
 //   }
 // };
 
-
 const userAddCoupon = async (req, res) => {
   try {
     const totalAmountInCheckout = req.query.total;
     const currentDate = new Date();
-    
+
     const category = await categoryModel.find();
-    
+
     const coupons = await couponModel.find({
       discountAmount: { $lte: totalAmountInCheckout },
       expirationDate: { $gt: currentDate },
@@ -1088,7 +1071,8 @@ const userAddCoupon = async (req, res) => {
     });
 
     const formattedCoupons = coupons.map((coupon) => {
-      const displayDiscountAmount = (coupon.discountAmount / 100) * totalAmountInCheckout;
+      const displayDiscountAmount =
+        (coupon.discountAmount / 100) * totalAmountInCheckout;
       return {
         code: coupon.code,
         description: coupon.description,
@@ -1131,20 +1115,17 @@ const userAddCouponpost = async (req, res) => {
   }
 };
 
-
-
-
-////////////////////to display user wishlist 
+////////////////////to display user wishlist
 const userWishlist = async (req, res) => {
   try {
-    console.log("inside wishlist")
-    const user1 = req.session.user
+    console.log("inside wishlist");
+    const user1 = req.session.user;
     const userId = req.session.user._id;
 
     let wishlist = await wishlistModel.findOne({ user: userId });
 
     if (wishlist == null) {
-      wishlist = await wishlistModel.create({ user: userId });    //if no cart, create cart for the user
+      wishlist = await wishlistModel.create({ user: userId }); //if no cart, create cart for the user
     }
 
     wishlist = await wishlistModel
@@ -1160,18 +1141,20 @@ const userWishlist = async (req, res) => {
 //////////////////////add product to the wishlist
 const addToWishlist = async (req, res) => {
   try {
-    console.log("add to wishlist...")
+    console.log("add to wishlist...");
     const userId = req.session.user._id;
     const { productId } = req.body;
 
     let wishlist = await wishlistModel.findOne({ user: userId });
-    console.log("hii")
+    console.log("hii");
 
     if (!wishlist) {
       wishlist = new wishlistModel({ user: userId, products: [] });
     }
 
-    const productIndex = wishlist.products.findIndex(product => product.product.toString() === productId);
+    const productIndex = wishlist.products.findIndex(
+      (product) => product.product.toString() === productId
+    );
 
     if (productIndex === -1) {
       wishlist.products.push({ product: productId }); // Ensure 'product' is set
@@ -1179,20 +1162,19 @@ const addToWishlist = async (req, res) => {
       await wishlist.save();
       return res.status(200).json({ success: true });
     } else {
-      return res.status(400).json({ success: false, message: 'Product already in wishlist' });
+      return res
+        .status(400)
+        .json({ success: false, message: "Product already in wishlist" });
     }
   } catch (error) {
     console.error(error.message);
     // Log the validation errors if any
     if (error.errors) {
-      Object.keys(error.errors).forEach((field) => {
-      });
+      Object.keys(error.errors).forEach((field) => {});
     }
     res.status(500).json({ success: false, message: "Something went wrong" });
   }
 };
-
-
 
 ////////////////////remove product from the wishlist
 const removeFromWishlist = async (req, res) => {
@@ -1224,7 +1206,7 @@ const removeFromWishlist = async (req, res) => {
     console.error("Error deleting product from wishlist:", error);
     return res.status(500).json({ error: "Internal server error" });
   }
-}
+};
 
 module.exports = {
   userLandingPage,

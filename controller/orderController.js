@@ -43,7 +43,6 @@ const orderlist = async (req, res) => {
 //       model: "users",
 //     });
 
-
 //     if (order.createdAt instanceof Date) {
 //       console.log("order details", order);
 
@@ -62,7 +61,6 @@ const orderlist = async (req, res) => {
 //     res.status(500).send("Internal Server Error");
 //   }
 // };
-
 
 const orderDetail = async (req, res) => {
   try {
@@ -103,7 +101,6 @@ const orderDetail = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
-
 
 const editOrderDetails = async (req, res) => {
   try {

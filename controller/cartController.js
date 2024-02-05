@@ -44,19 +44,16 @@ const userCart = async (req, res) => {
       cart = await cartModel.create({ user: userId });
     }
 
-    cart = await cartModel
-      .findOne({ user: userId })
-      .populate({
-        path: "products.product",
-        select: "productName price stock image", 
-      });
+    cart = await cartModel.findOne({ user: userId }).populate({
+      path: "products.product",
+      select: "productName price stock image",
+    });
 
     res.render("users/userCart", { cart });
   } catch (error) {
     console.log(error.message);
   }
 };
-
 
 // const addtocartpost = async (req, res) => {
 //   // Set cache-control headers to prevent caching
@@ -92,11 +89,9 @@ const userCart = async (req, res) => {
 //   }
 // };
 
-
-
 const addtocartpost = async (req, res) => {
   try {
-    console.log("in addtocart post fun")
+    console.log("in addtocart post fun");
     let cart = await cartModel.findOne({ user: req.session.user_id });
 
     if (!cart) {
@@ -211,15 +206,13 @@ const removeFromCart = async (req, res) => {
 //   }
 // };
 
-
-
 const updateCart = async (req, res) => {
-  console.log("in update cart function")
+  console.log("in update cart function");
   const userId = req.session.user_id;
   const { productId, quantity } = req.body;
   try {
     let cart = await cartModel.findOne({ user: userId });
-    console.log("cart ",cart)
+    console.log("cart ", cart);
 
     if (cart.products.length === 0) {
       cart.products.push({ product: productId, quantity });
@@ -239,19 +232,12 @@ const updateCart = async (req, res) => {
         res.status(200).json({ success: true });
       }
     }
-    console.log("qty",quantity)
+    console.log("qty", quantity);
     cart.save();
   } catch (error) {
     console.log(error.message);
   }
-}
-
-
-
-
-
-
-
+};
 
 const userCheckOut = async (req, res) => {
   try {
@@ -317,7 +303,7 @@ const userCheckOut = async (req, res) => {
 //     let discountAmount = 0;
 //     if (couponId) {
 //       const coupon = await couponModel.findById(couponId);
-    
+
 //       if (coupon) {
 //         if (coupon.discountType === 'Percentage') {
 //           discountAmount = Math.round((coupon?.discountAmount / 100) * +subTotalPrice) || 0;
@@ -433,7 +419,7 @@ const userCheckOut = async (req, res) => {
 //     let discountAmount = 0;
 //     if (couponId) {
 //       const coupon = await couponModel.findById(couponId);
-    
+
 //       if (coupon) {
 //         if (coupon.discountType === 'Percentage') {
 //           discountAmount = Math.round((coupon?.discountAmount / 100) * +subTotalPrice) || 0;
@@ -468,7 +454,7 @@ const userCheckOut = async (req, res) => {
 //     // Order creation
 //     const response = await orderModel.create(details);
 //     console.log("Order creation response:", response);
-    
+
 //     await cartModel.findOneAndUpdate({ user }, { products: [] }); // Update the cart to remove items
 
 //     if (paymentMethod === "cashondelivery") {
@@ -557,7 +543,6 @@ const userCheckOut = async (req, res) => {
 //   }
 // };
 
-
 const userCheckoutPost = async (req, res) => {
   try {
     const userId = req.session.user_id;
@@ -566,10 +551,12 @@ const userCheckoutPost = async (req, res) => {
     const couponId = req.query.couponId || "";
     const displayDiscountAmount = req.query.displayDiscountAmount || 0;
     const validatedCouponId = couponId === "" ? null : couponId;
-    console.log("hhhh",displayDiscountAmount)
+    console.log("hhhh", displayDiscountAmount);
 
     if (!user) {
-      return res.status(404).json({ success: false, message: "User not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
     }
 
     const user_id = user._id;
@@ -585,8 +572,9 @@ const userCheckoutPost = async (req, res) => {
       const coupon = await couponModel.findById(couponId);
 
       if (coupon) {
-        if (coupon.discountType === 'Percentage') {
-          discountAmount = Math.round((coupon?.discountAmount / 100) * +subTotalPrice) || 0;
+        if (coupon.discountType === "Percentage") {
+          discountAmount =
+            Math.round((coupon?.discountAmount / 100) * +subTotalPrice) || 0;
         } else {
           discountAmount = displayDiscountAmount || 0;
         }
@@ -606,14 +594,19 @@ const userCheckoutPost = async (req, res) => {
       paymentMode: paymentMethod,
       finalPrice: finalPrice,
       address: addressdetail,
-      orderID: `TX_${new Date().getTime()}_${Math.floor(Math.random() * 10000)}`,
+      orderID: `TX_${new Date().getTime()}_${Math.floor(
+        Math.random() * 10000
+      )}`,
     };
 
     // Order creation
     const response = await orderModel.create(details);
 
     // Deduct coupon amount for cashondelivery and onlinepayment
-    if (paymentMethod === "cashondelivery" || paymentMethod === "onlinepayment") {
+    if (
+      paymentMethod === "cashondelivery" ||
+      paymentMethod === "onlinepayment"
+    ) {
       response.discountAmount = discountAmount; // Include displayDiscountAmount in the response
     }
     console.log("discount in chekoutpost", discountAmount);
@@ -655,7 +648,10 @@ const userCheckoutPost = async (req, res) => {
       };
       console.log("couponId in userCheckoutPost:", couponId);
       console.log("validatedCouponId in userCheckoutPost:", validatedCouponId);
-      console.log("displayDiscountAmount in userCheckoutPost:", displayDiscountAmount);
+      console.log(
+        "displayDiscountAmount in userCheckoutPost:",
+        displayDiscountAmount
+      );
 
       // Create the Razorpay order
       const orderResponse = await createRazorpayOrder(options);
@@ -690,27 +686,26 @@ const userCheckoutPost = async (req, res) => {
         await response.save();
         await cartModel.findOneAndUpdate({ user: userId }, { products: [] });
 
-        return res.status(200).json({ success: true, url: `/orderdetails/${response._id}` });
+        return res
+          .status(200)
+          .json({ success: true, url: `/orderdetails/${response._id}` });
       } else {
-        return res.status(400).json({ success: false, message: "Insufficient wallet balance" });
+        return res
+          .status(400)
+          .json({ success: false, message: "Insufficient wallet balance" });
       }
     } else {
-      return res.status(400).json({ success: false, message: "Invalid payment method" });
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid payment method" });
     }
   } catch (error) {
     console.error("Error placing order:", error);
-    return res.status(500).json({ success: false, message: "Internal server error" });
+    return res
+      .status(500)
+      .json({ success: false, message: "Internal server error" });
   }
 };
-
-
-
-
-
-
-
-
-
 
 const updateProductAfterOrder = async (productId, quantity) => {
   try {

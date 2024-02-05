@@ -4,7 +4,7 @@ const couponModel = require("../model/couponModel");
 
 const adminCoupons = async (req, res) => {
   try {
-    console.log("in adminc coupons")
+    console.log("in adminc coupons");
     const ITEMS_PER_PAGE = 10;
     const page = parseInt(req.query.page) || 1;
     const skipItems = (page - 1) * ITEMS_PER_PAGE;
@@ -71,7 +71,6 @@ const adminEditCoupon = async (req, res) => {
 //     updatedCoupon.minimumAmount = req.body.minimumAmount;
 //     updatedCoupon.expirationDate = req.body.expirationDate;
 //     updatedCoupon.maxRedemptions = req.body.maxRedemptions;
-  
 
 //     await updatedCoupon.save();
 //     res.redirect("/admin/coupons");
@@ -80,7 +79,6 @@ const adminEditCoupon = async (req, res) => {
 //   }
 // };
 
-
 // To create new coupon from admin side
 const adminAddCouponPost = async (req, res) => {
   try {
@@ -88,7 +86,11 @@ const adminAddCouponPost = async (req, res) => {
 
     // Convert the discount amount to a percentage value
     couponData.discountAmount = parseFloat(couponData.discountAmount);
-    if (isNaN(couponData.discountAmount) || couponData.discountAmount < 0 || couponData.discountAmount > 100) {
+    if (
+      isNaN(couponData.discountAmount) ||
+      couponData.discountAmount < 0 ||
+      couponData.discountAmount > 100
+    ) {
       // Handle invalid percentage values
       console.log("Invalid percentage value");
       return res.redirect("/admin/coupons");
@@ -104,7 +106,7 @@ const adminAddCouponPost = async (req, res) => {
   } catch (error) {
     console.log(error.message);
   }
-}
+};
 
 const adminEditCouponPost = async (req, res) => {
   try {
@@ -116,7 +118,11 @@ const adminEditCouponPost = async (req, res) => {
 
     // Convert the discount amount to a percentage value
     updatedCoupon.discountAmount = parseFloat(req.body.discountAmount);
-    if (isNaN(updatedCoupon.discountAmount) || updatedCoupon.discountAmount < 0 || updatedCoupon.discountAmount > 100) {
+    if (
+      isNaN(updatedCoupon.discountAmount) ||
+      updatedCoupon.discountAmount < 0 ||
+      updatedCoupon.discountAmount > 100
+    ) {
       // Handle invalid percentage values
       console.log("Invalid percentage value");
       return res.redirect("/admin/coupons");
@@ -136,22 +142,7 @@ const adminEditCouponPost = async (req, res) => {
   } catch (error) {
     console.log(error.message);
   }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+};
 
 /////////////////to delete coupon
 const deleteCoupon = async (req, res) => {
