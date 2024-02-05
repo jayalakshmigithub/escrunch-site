@@ -4,6 +4,7 @@ const couponModel = require("../model/couponModel");
 
 const adminCoupons = async (req, res) => {
   try {
+    console.log("in adminc coupons")
     const ITEMS_PER_PAGE = 10;
     const page = parseInt(req.query.page) || 1;
     const skipItems = (page - 1) * ITEMS_PER_PAGE;

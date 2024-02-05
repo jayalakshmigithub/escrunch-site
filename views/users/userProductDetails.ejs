@@ -361,7 +361,7 @@
   </section>
     <!-- End Banner Area
 
-    <!--================Single Product Area =================-->
+    <==============Single Product Area =================-->
     <div class="product_image_area">
       <div class="container">
         <div class="row s_product_inner">
@@ -411,7 +411,7 @@
                 <% if (product.stock > 0) { %>
                   <div class="input-group quantity mr-3" style="width: 130px; margin-bottom: 0;">
                     <div class="input-group-btn">
-                      <button class="btn btn-primary btn-minus" id="dec-btn">
+                      <button class="btn btn-primary btn-minus" id="dec-btn" style="background-color: #ff1493;">
                         <i class="fa fa-minus"></i>
                       </button>
                     </div>
@@ -419,17 +419,18 @@
                     <span class="form-control bg-secondary border-0 text-center" id="inputQuantity">1</span>
               
                     <div class="input-group-btn">
-                      <button class="btn btn-primary btn-plus" id="inc-btn">
+                      <button class="btn btn-primary btn-plus" id="inc-btn" style="background-color: #ff1493;">
                         <i class="fa fa-plus"></i>
                       </button>
                     </div>
                   </div>
               
-                  <div class="card_area d-flex align-items-center" style="margin-top: 0;">
-                    <button class="primary-btn" id="addtocart" href="#">
+                  <div class="card_area d-flex align-items-center" style="margin-top: 5px;">
+                    <button class="primary-btn" id="addtocart" href="#" style="background: linear-gradient(90deg, #ff1493,#13a4d4); color: white;">
                       Add to Cart
                     </button>
                   </div>
+                  
                 <% } %>
               </div>
               

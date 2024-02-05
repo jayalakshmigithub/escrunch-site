@@ -371,9 +371,9 @@
        
         <input type="text" placeholder="COUPON CODE" value="<%= coupon %>"
             style="width: 200px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;">
-        <a class="applycoupon" data-coupon="<%= couponId %>" href="#"
-            style="background-color: #ff1493; color: #fff; padding: 10px 20px; border: none; border-radius: 5px; font-size: 18px; text-decoration: none; transition: background-color 0.3s; text-align: center; margin: 10px; display: inline-block;">Apply
-            Coupon<span style="font-size: 16px; margin-left: 10px;"></span></a>
+            <a class="applycoupon" data-coupon="<%= couponId %>" href="/checkout?couponCode=<%= item.code %>&discountAmount=<%= item.displayDiscountAmount !== undefined ? item.displayDiscountAmount : 0 %>&couponId=<%= couponId %>"
+              style="background: linear-gradient(90deg, #ff1493,#13a4d4); color: white; padding: 10px 20px; border: none; border-radius: 5px; font-size: 18px; text-decoration: none; transition: background-color 0.3s; text-align: center; margin: 10px; display: inline-block;">Apply Coupon<span style="font-size: 16px; margin-left: 10px;"></span></a>
+           
     </div>
 
         <div class="billing_details" style="margin-left: 70px; border-radius: 5px;">
@@ -426,7 +426,10 @@
                                   <h4>Coupon Discount</h4>
                               </td>
                               <td>
-                                  <p><%= coupon.couponCode %></p>
+                                <p>
+                                  <%= coupon %>
+                                </p>
+                               
                               </td>
                               <td id="couponDiscount">
                                   <% if (coupon && discountAmount !== undefined) { %>
@@ -456,10 +459,10 @@
                 <!--  code of confirmation page of order details  ends here -->
                 <!-- payment code frm checkout page -->
 
-                <br />
-                <br />
+                <br><br>
+                <h3 style="margin-bottom: 3px; color: #808080;">Select a payment Method</h3>
                 <form id="paymentOption">
-                <div class="payment_item">
+                <div class="payment_item" style="width: 600px;">
                   <div class="radion_btn">
                     <input
                       type="radio"
@@ -470,8 +473,8 @@
                     <label for="f-option5">Cash On Delivery</label>
                     <div class="check"></div>
                   </div>
-                  <p>
-                    Please pay the required amount while receiving your order.
+                  <p id="description-cod" style="display: none; color: #808080;">
+                    Cash, UPI and Cards accepted.
                     Thanks in advance!
                   </p>
                 </div>
@@ -488,24 +491,25 @@
                     <img src="img/product/card.jpg" alt="" />
                     <div class="check"></div>
                   </div>
-                  <p>Pay online; you can pay with your net banking.</p>
+                  <p id="description-online" style="display: none; color: #808080;">
+                    You can make an online payment using your internet banking credentials..</p>
                 </div>
 
 
                 <div class="payment_item">
                   <div class="radion_btn">
                       <input type="radio" id="f-option7" name="paymentoptions"
-                          value="walletpayment">
+                          value="walletpayment" onchange="handleWalletPayment()">
                       <label for="f-option7" style="color: #000;">Escrunch Wallet
                           Payment</label>
                       <div class="check"></div>
                   </div>
-                  <p id="description-wallet" style="display: none;">You can make payment
-                      from your
-                      wallet for your order.</p>
+                  <p id="description-wallet" style="display: none; color: #808080;">
+                    You can conveniently pay for your order using the balance in your wallet.
+                    </p>
                   <p id="wallet-balance" style="margin-left: 20px;">Wallet Balance: INR
                       <%=user.wallet.balance%>
-                  </p> <!-- Add your wallet balance information here -->
+                  </p> 
               </div>
 
                 <div class="creat_account">
@@ -516,7 +520,7 @@
               </form>
                 <br />
                 <!-- <a class="primary-btn btnorder" href="">Confirm Order</a> -->
-                <button class="primary-btn" id="orderButton" type="submit" onclick="handlePlaceOrder()" style="margin-left:175px ;background-color:black;">
+                <button class="primary-btn" id="orderButton" type="submit" onclick="handlePlaceOrder()" style="background: linear-gradient(90deg, #ff1493,#13a4d4); color: white;">
                   Place Order
                 </button>
                 <!-- payment code frm checkout page ends here -->
@@ -645,14 +649,47 @@
     </footer>
   </body>
   
+<script>
+   const radioButtonCOD = document.getElementById("f-option5");
+  const radioButtonOnline = document.getElementById("f-option6");
+  const radioButtonWallet = document.getElementById("f-option7");
+  const descriptionCOD = document.getElementById("description-cod");
+  const descriptionOnline = document.getElementById("description-online");
+  const descriptionWallet = document.getElementById("description-wallet");
 
+  radioButtonCOD.addEventListener("click", function () {
+      if (radioButtonCOD.checked) {
+          descriptionCOD.style.display = "block"; // Show the COD description
+          descriptionOnline.style.display = "none"; // Hide the online payment description
+          descriptionWallet.style.display = "none"; // Hide the wallet payment description
+      }
+  });
 
+  radioButtonOnline.addEventListener("click", function () {
+      if (radioButtonOnline.checked) {
+          descriptionOnline.style.display = "block"; // Show the online payment description
+          descriptionCOD.style.display = "none"; // Hide the COD description
+          descriptionWallet.style.display = "none"; // Hide the wallet payment description
+      }
+  });
+
+  radioButtonWallet.addEventListener("click", function () {
+      if (radioButtonWallet.checked) {
+          descriptionWallet.style.display = "block"; // Show the wallet payment description
+          descriptionCOD.style.display = "none"; // Hide the COD description
+          descriptionOnline.style.display = "none"; // Hide the online payment description
+      }
+  });
+</script>
+ 
+
+</script>
   <script>
     const totalpricesum = document.querySelector('.total-price-sum');
     const priceaftercoupon = document.querySelector('.price-after-coupon');
     const order = document.querySelector('.primary-btn');
 
-    /////////////////////////script to fetch the order data to the checkout post//////////////////////////////
+    //script to fetch the order data to the checkout post
     order.addEventListener('click', function () {
         console.log("clicked on on 'Place Order' in checkout page")
         const address = document.querySelector('input[name="defaultaddress"]:checked').getAttribute('data-address')
@@ -755,17 +792,19 @@
       method: "post",
       data: details,
       success: (response) => {
-        if (paymentMethod === 'cashondelivery') {
-          showCashOnDeliveryAlert();
-        } else {
-          razorpayPayment(response);
-        }
-        console.log('response', response);
-      },
-      error: (error) => {
-        console.error('Error placing order:', error);
-      },
-    });
+    if (paymentMethod === 'cashondelivery') {
+      showCashOnDeliveryAlert();
+    } else if (paymentMethod === 'onlinepayment') {
+      razorpayPayment(response);
+    } else if (paymentMethod === 'walletpayment') {
+      handleWalletPayment(response);
+    }
+    console.log('response', response);
+  },
+  error: (error) => {
+    console.error('Error placing order:', error);
+  },
+});
   }
 
   function showCashOnDeliveryAlert() {
@@ -823,7 +862,7 @@
 
     var rzp1 = new Razorpay(options);
     rzp1.open();
-}
+ }
 
 function handleWalletPayment(response) {
   // Add logic for wallet payment
@@ -853,6 +892,6 @@ function handleWalletPayment(response) {
   }
 }
 
-
 </script>
+
 </html>

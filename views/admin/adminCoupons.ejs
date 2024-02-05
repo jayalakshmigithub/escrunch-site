@@ -219,12 +219,14 @@
                                             <td><b><%= item.code %></b></td>
                                             <!-- Modify this part to display discount amount based on discount type -->
                                             <td>
-                                                <% if (item.discountType === 'Percentage') { %>
-                                                    <%= (item.discountAmount ).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %>% 
+                                                <% if (item.discountAmount !== undefined && item.discountAmount !== null) { %>
+                                                    <%= item.discountAmount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %>
                                                 <% } else { %>
-                                                    <!-- discountamount -->
+                                                    <!-- Handle the case where discountAmount is undefined or null -->
+                                                    N/A
                                                 <% } %>
                                             </td>
+                                            
                                             <!-- End of modification -->
                                             <td>
                                                 <%= item.expirationDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %>

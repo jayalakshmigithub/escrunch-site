@@ -201,11 +201,7 @@
                     <span class="ti-bag"></span>
                   </a>
                 </li>
-                <!-- <li class="nav-item" style="display: inline-block; margin-right: 2px;">
-                    <button class="search" style="background: transparent; border: none; cursor: pointer; padding: 1px 2px; font-size: 16px; color: #ff1493;">
-                      <span class="lnr lnr-magnifier" id="search"></span>
-                    </button>
-                  </li> -->
+           
                 <li class="nav-item" style="display: inline-block">
                   <div class="dropdown">
                     <button
@@ -246,6 +242,8 @@
           </div>
         </nav>
       </div>
+
+      
     </header>
 
     <!-- Start Banner Area -->
@@ -301,95 +299,120 @@
           <div class="cart_inner">
               <div class="table-responsive">
                   <table class="table">
-                      <thead>
+                      <thead style="background-color: #f5f5f5;">
                           <tr>
-                              <th scope="col">Product</th>
-                              <th scope="col">Price</th>
-                              <th scope="col">Quantity</th>
-                              <th scope="col">Total</th>
-                              <th scope="col">Action</th>
+                              <th scope="col" style="font-weight: bold;">Product</th>
+                              <th scope="col" style="font-weight: bold;">Price</th>
+                              <th scope="col" style="font-weight: bold;">Quantity</th>
+                              <th scope="col" style="font-weight: bold;">Total</th>
+                              <th scope="col" style="font-weight: bold;">Status</th>
+                              <th scope="col" style="font-weight: bold;">Remove</th>
                           </tr>
                       </thead>
                       <tbody>
-                          <% cart.products.forEach(function(item) { %> <% if (item.product) { %> <% let totalPrice = item.product.price * item.quantity; %> <% totalPriceSum += totalPrice; %>
-                          <tr class="incrementdecrement" data-id="<%= item.product._id %>" data-stock="<%= item.product.stock %>">
-                              <td class="align-middle">
-                               
-                                      <% if (item.product && item.product.image && item.product.image[0]) { %>
-                                      <img src="/uploadProductImages/<%= item.product.image[0] %>" alt="" style="width: 50px;" />
-                                      <% } %>
-                                
-                              </td>
-                              <td class="align-middle price">
-                                  <%= item.product.price.toFixed(2) %>
-                              </td>
-                              <td class="align-middle">
-                                  <div class="input-group quantity mx-auto" style="width: 130px;">
-                                      <div class="input-group-btn">
-                                          <button class="btn btn-primary btn-minus" data-action="decrement">
-                                              <i class="fa fa-minus"></i>
-                                          </button>
-                                      </div>
-                                      <span class="form-control bg-secondary border-0 text-center inputQuantity"
-                                          data-price="<%= item.product.price %>" data-total="<%= totalPrice %>"
+
+                          <% cart.products.forEach(function(item) { %>
+                              <% let totalPrice=item.product.price * item.quantity; %>
+                                  <% totalPriceSum +=totalPrice; %>
+                                      <tr class="cartPrice" data-price="<%= item.product.price %>"
+                                          data-id="<%= item.product._id %>"
                                           data-stock="<%= item.product.stock %>">
-                                          <%= item.quantity %>
-                                      </span>
-                                      <div class="input-group-btn">
-                                          <button class="btn btn-primary btn-plus" data-action="increment">
-                                              <i class="fa fa-plus"></i>
-                                          </button>
-                                      </div>
-                                  </div>
-                              </td>
-                              <td class="align-middle total-price">
-                                  <%= totalPrice.toFixed(2) %>
-                              </td>
-                              <td class="align-middle">
-                                  <a href="/cart/<%= cart._id %>/product/<%= item.product._id %>">
-                                      <button class="btn btn-sm btn-danger"
-                                          onclick="return confirm('Are you sure you want to delete?')">
-                                          <i class="fa fa-times"></i>
-                                      </button>
-                                  </a>
-                              </td>
-                          </tr>
-                          <% } %> <% }); %>
-                          <tr class="bottom_button">
-                              <td></td>
-                              <td></td>
-                          </tr>
-                          <tr>
-                              <td></td>
-                              <td></td>
-                              <td>
-                                  <h5>Subtotal</h5>
-                              </td>
-                              <td>
-                                  <h5 class="total-price-sum">
-                                      Rs.<%= totalPriceSum.toFixed(2) %>
-                                  </h5>
-                              </td>
-                          </tr>
-                          <tr class="out_button_area">
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td>
-                                 
-                              </td>
-                          </tr>
+
+                                          <td class="align-middle">
+                                              <img src="/uploadProductImages/<%= item.product.image[0] %>"
+                                                  alt="" style="width: 50px;">
+                                              <%= item.product.productname %>
+                                          </td>
+                                          <td class="align-middle price">
+
+                                              <%= item.product.price.toFixed(2) %>
+                                          </td>
+
+                                          <td>
+                                              <div
+                                                  class="product_parent d-inline-block position-relative">
+                                                  <input type="text" name="qty" maxlength="1"
+                                                      value="<%= item.quantity %>" title="Quantity:"
+                                                      class="input-text qty inputQuantity"
+                                                      style="width: 50px; height: 40px;" readonly>
+                                                  <button onclick='incFunction(this)'
+                                                      class="increase items-count position-absolute"
+                                                      style="top: 0; right: 0; background: linear-gradient(90deg, #ff1493,#13a4d4); color: white; color: #fff; border: none; border-radius: 5px;"
+                                                      type="button"><i
+                                                          class="lnr lnr-chevron-up"></i></button>
+                                                  <button onclick='decFunction(this)'
+                                                      class="reduced items-count position-absolute"
+                                                      style="bottom: 0; right: 0; background: linear-gradient(90deg, #ff1493,#13a4d4); color: white; color: #fff; border: none; border-radius: 5px;"
+                                                      type="button"><i
+                                                          class="lnr lnr-chevron-down"></i></button>
+                                              </div>
+                                          </td>
+                                          <td class="align-middle total-price">
+                                              <%= totalPrice.toFixed(2) %>
+                                          </td>
+                                          <td class="stock">
+                                              <% if (item.product.stock===0) { %>
+                                                  <p style="color: red; font-size: larger; white-space: nowrap;">Out of Stock</p>
+                                                  <% } else if (item.product.stock===2) {%>
+                                                      <p style="color: rgb(220, 152, 26);">Only 2 left!</p>
+                                                      <% } else if (item.product.stock===1) { %>
+                                                          <p style="color: rgb(219, 149, 8);"> Only 1 left!</p>
+                                                          <% } else { %>
+                                                              <p style="color: rgb(17, 194, 55); font-size: larger;">In Stock</p>
+                                                              <% } %>
+                                          </td>
+                                          <td class="align-middle">
+                                              <button class="btn btn-sm btn-danger"
+                                                  onclick="deleteItem('<%= cart._id %>', '<%= item.product._id %>')"
+                                                  style="background-color: gray; color: #fff; border: none; border-radius: 5px;">
+                                                  <i class="fa fa-times"></i>
+                                              </button>
+                                          </td>
+                                      </tr>
+
+
+                                      <% }); %>
+
+
+                                          <tr class="bottom_button">
+
+                                          </tr>
+
+                                          <td>
+                                              <h3>Subtotal</h3>
+                                          </td>
+
+                                          <td>
+                                              <h3 class="total-price-sum">: Rs.<%=
+                                                      totalPriceSum.toFixed(2) %>
+                                              </h3>
+                                          </td>
+                                          </tr>
+
+
                       </tbody>
                   </table>
               </div>
-          </div>
-      </div>
-      <% } %>
+              <div class="checkout_btn_inner d-flex align-items-center">
+                  <a class="gray_btn" href="/home"
+                  style="background: linear-gradient(90deg, #ff1493,#13a4d4); color: white; border: none; border-radius: 30px; margin-right: 20px; color: white; transition: background-color 0.3s;">
 
-      <div class="checkout_btn_inner d-flex align-items-center">
-        <a class="gray_btn" href="/home">Continue Shopping</a>
-        <a class="primary-btn" href="/checkout">Proceed to checkout</a>
-    </div>
+                      Continue Shopping
+                  </a>
+                  <a class="gray_btn" href="/checkout"
+                  style="background: linear-gradient(90deg, #ff1493,#13a4d4); color: white; border: none; border-radius: 30px; margin-right: 20px; color: white; transition: background-color 0.3s;">
+
+                      Proceed to Checkout
+                  </a>
+              </div>
+
+          </div>
+          <% } %>
+
+              <!-- container -->
+      </div>
+
+
   </section>
   
   
@@ -401,9 +424,37 @@
 
 <!-- initial sc -->
 
-<!-- <script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
-  ///////////////script for the total price to show in the cart///////////////////////////////////////////
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const searchInputBox = document.getElementById("search_input_box");
+        const closeSearchButton = document.getElementById("close_search");
+    
+        closeSearchButton.addEventListener("click", function () {
+          searchInputBox.style.display = "none";
+        });
+      });
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const searchInputBox = document.getElementById("search_input_box");
+        const closeSearchButton = document.getElementById("close_search");
+        const searchIcon = document.getElementById("search");
+    
+        searchIcon.addEventListener("click", function () {
+          searchInputBox.style.display = "block"; // or "inline-block", depending on your layout
+        });
+    
+        closeSearchButton.addEventListener("click", function () {
+          searchInputBox.style.display = "none";
+        });
+      });
+    </script>
+
+<script>
+
+  // script for the total price to show in the cart
   function updateTotalPriceSum() {
       let totalPriceSum = 0;
       const cartItems = document.querySelectorAll('.cartPrice');
@@ -424,7 +475,7 @@
 
 
 
-  /////////////script for increase and decrease quantity of the product in cart///////////////////////////////////////////
+  //script for increase and decrease quantity of the product in cart
   function incFunction(e) {
       let parent = e.closest('.cartPrice');
       let qty = parent.querySelector('.inputQuantity');
@@ -480,7 +531,7 @@
 
 
 
-  /////////////script for add to cart//////////////////////////////////////
+  //script for add to cart
   async function addToCart(productId, quantity) {
       try {
           // Send a request to your server to update the cart
@@ -512,7 +563,7 @@
   }
 
 
-  /////////////////////////////////////////////////////sweet alert for deleting the product in the cart//////////////////////
+  //sweet alert for deleting the product in the cart
 
   function deleteItem(cartId, productId) {
       Swal.fire({
@@ -531,7 +582,7 @@
       });
   }
 
-</script> -->
+</script>
 
 <style>
   /* Apply responsive styles to the table */
@@ -560,7 +611,7 @@
 
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
+<!-- <script>
 
 
   const displayCount = document.querySelectorAll(".incrementdecrement");
@@ -639,7 +690,7 @@
       });
   }
   </script>
-    <!-- Include this script at the bottom of your page or in your script section -->
+  
     <script>
       $(document).ready(function () {
           $(".btn-minus").on("click", function () {
@@ -720,7 +771,7 @@
           });
           $(".total-price-sum").text("Rs." + sum.toFixed(2));
       }
-  </script>
+  </script> -->
   
   
   

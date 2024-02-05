@@ -47,7 +47,7 @@ router.get(
   auth.isLogin,
   cartController.removeFromCart
 ); //Remove product from cart
-router.post("/updatecart", auth.isLogin, cartController.updateCart); // to update cart
+router.post("/updatecart", cartController.updateCart); // to update cart
 
 router.get("/userprofile", auth.isLogin, userController.userProfile); //Render user Profile
 router.get("/changepassword", auth.isLogin, userController.changePassword); // Change old password

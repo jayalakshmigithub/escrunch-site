@@ -1016,27 +1016,95 @@ const contactUsController = (req, res) => {
   res.render("users/contactUs");
 };
 
+// const userAddCoupon = async (req, res) => {
+//   try {
+//     const totalAmountInCheckout = req.query.total;
+//     const currentDate = new Date();
+//     const category = await categoryModel.find();
+//     const coupons = await couponModel.find({
+//       minimumAmount: { $lte: totalAmountInCheckout },
+//       expirationDate: { $gt: currentDate },
+//       discountType: "Percentage",
+//     });
+//     // percentage discount display in the UI
+//     const formattedCoupons = coupons.map((coupon) => {
+//       const displayDiscountAmount =
+//         (coupon.discountAmount / 100) * totalAmountInCheckout;
+//       return {
+//         displayDiscountAmount: displayDiscountAmount,
+//       };
+//     });
+//     res.render("users/userCoupons", { coupons: formattedCoupons, category });
+//   } catch (error) {
+//     console.log(error.message);
+//   }
+// };
+
+
+// const userAddCoupon = async (req, res) => {
+//   try {
+//     const totalAmountInCheckout = req.query.total;
+//     const currentDate = new Date();
+    
+//     const category = await categoryModel.find();
+    
+//     const coupons = await couponModel.find({
+//       discountAmount: { $lte: totalAmountInCheckout },
+//       expirationDate: { $gt: currentDate },
+//       discountType: "Percentage",
+//     });
+    
+
+//     const formattedCoupons = coupons.map((coupon) => {
+//       const displayDiscountAmount =
+//         (coupon.discountAmount / 100) * totalAmountInCheckout;
+//       return {
+//         code: coupon.code,
+//         description: coupon.description,
+//         displayDiscountAmount: displayDiscountAmount,
+//         expirationDate: coupon.expirationDate,
+//       };
+//     });
+
+//     res.render("users/userCoupons", { coupons: formattedCoupons, category });
+//   } catch (error) {
+//     console.log(error.message);
+//     res.status(500).send("Internal Server Error");
+//   }
+// };
+
+
 const userAddCoupon = async (req, res) => {
   try {
     const totalAmountInCheckout = req.query.total;
     const currentDate = new Date();
+    
     const category = await categoryModel.find();
+    
     const coupons = await couponModel.find({
-      minimumAmount: { $lte: totalAmountInCheckout },
+      discountAmount: { $lte: totalAmountInCheckout },
       expirationDate: { $gt: currentDate },
       discountType: "Percentage",
     });
-    // percentage discount display in the UI
+
     const formattedCoupons = coupons.map((coupon) => {
-      const displayDiscountAmount =
-        (coupon.discountAmount / 100) * totalAmountInCheckout;
+      const displayDiscountAmount = (coupon.discountAmount / 100) * totalAmountInCheckout;
       return {
+        code: coupon.code,
+        description: coupon.description,
         displayDiscountAmount: displayDiscountAmount,
+        expirationDate: coupon.expirationDate,
       };
     });
+    console.log("Total Amount in Checkout:", totalAmountInCheckout);
+
+    // Log the formatted coupons for debugging
+    console.log("Formatted Coupons:", formattedCoupons);
+
     res.render("users/userCoupons", { coupons: formattedCoupons, category });
   } catch (error) {
     console.log(error.message);
+    res.status(500).send("Internal Server Error");
   }
 };
 

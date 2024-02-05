@@ -16,18 +16,17 @@ const couponSchema = new mongoose.Schema({
     enum: ['Percentage'],
     required: true,
   },
-  // discountAmount: {
-  //   type: Number,
-  //   required: true,
-  //   min: 0,
-  //   max: 2000,
-  // },
+  discountAmount: {
+    type: Number,
+    required: true,
+    min: 0,
+    max: 2000,
+  },
 
-  // displayDiscountAmount: {
-  //   type: Number,
-  //   required: true,
-  // },
- 
+  displayDiscountAmount: {
+    type: Number,
+    required: true,
+  },
   expirationDate: {
     type: Date,
     required: true,
