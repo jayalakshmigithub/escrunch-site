@@ -180,12 +180,19 @@
    </section> -->
    
    <!-- End Banner Area -->
+   <section class="features-area section_gap" style="background-image: url('/user-assets/img/section\ background\ 1.jpg'); background-size: auto; background-position: center;margin-top: 100px;">
+    <div class="container">
+      <h1>User Details </h1>
+      <div class="row features-inner">
+        <!-- Your content here -->
+      </div>
+    </div>
+  </section>
    
-   
-   <div class="container" style="margin-top: 100px; ">
+   <div class="container" style="margin-top: 100px; margin-right: 100px; ">
     <div class="mb-4">
-        <h2 style="color: #ff1493;">User Details</h2>
-        <hr> <!-- Add a horizontal line for separation -->
+        <!-- <h2 style="color: #ff1493;">User Details</h2> -->
+        <!-- <hr> Add a horizontal line for separation -->
         <div class="author-card-avatar">
             <img src="/user-assets/img/userlogo.png" alt="Daniel Adams" style="width: 100px; height: 100px;">
         </div>
@@ -228,7 +235,13 @@
                     
                     <button class="btn btn-primary" type="submit">UPDATE USER</button>
                     <!-- <button class="btn btn-primary" type="submit" data-toggle="modal" data-target="#successModal">UPDATE USER</button> -->
-
+                    <a href="/addaddress" class="text-decoration-none">
+                      <button class="genric-btn success-border mt-2">+ ADD ADDRESS</button>
+                    </a>
+                    <!-- i have given the view orders button here  -->
+                    <a href="/myorders" class="text-decoration-none">
+                      <button class="genric-btn success-border mt-2">+ VIEW ORDERS</button>
+                    </a>
                      <!-- <button class="btn btn-primary" type="submit">UPDATEPASSWORD</button>  -->
 
                 </form>
@@ -269,13 +282,7 @@
   <% }); %>
 
   
-  <a href="/addaddress" class="text-decoration-none">
-    <button class="genric-btn success-border mt-2">+ ADD ADDRESS</button>
-  </a>
-  <!-- i have given the view orders button here  -->
-  <a href="/myorders" class="text-decoration-none">
-    <button class="genric-btn success-border mt-2">+ VIEW ORDERS</button>
-  </a>
+ 
   <!-- <a href="/changepassword" class="text-decoration-none">
     <button class="genric-btn success-border mt-2">+ CHANGE PASSWORD</button>
   </a> -->

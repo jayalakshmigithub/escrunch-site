@@ -23,104 +23,18 @@ const adminLogin = async (req, res) => {
   }
 };
 
-// const adminLogout = async(req,res)=>{
-//     try{
-//         req.session.admin=false
-//         res.redirect('/admin/login')
+const adminLogout = async(req,res)=>{
+    try{
+        req.session.admin=false
+        res.redirect('/admin/login')
 
-//     }catch(err){
-//         console.log(err.message);
+    }catch(err){
+        console.log(err.message);
 
-//     }
-// }
+    }
+}
 
-// const verifyAdmin = async(req,res)=>{
 
-//     try{
-//         console.log(req.body,'ooo');
-//         const email = req.body.email;
-//         const password = req.body.password;
-
-//         console.log("at verifyadmin, admincontroller- Admin signinpage printing email,password",email,password);
-//         const admin = await userHelper.getUser({email:email,password:password});
-//         console.log("checked & found admin user in db",admin);
-
-//         if(!admin){
-//             return res.redirect('/admin/login');
-//         }
-
-//         if(admin){
-//             req.session.admin = true;
-//             req.session.admin1 = admin;
-
-//             console.log(admin+'checked admin,true,redirecting to admin home page');
-//             res.redirect('/admin/adminHome');
-//         }
-
-//     }catch(error){
-//         console.log(error.message);
-//     }
-// }
-// const verifyAdmin = async(req,res)=>{
-
-//     try{
-//         console.log(req.body,'ooo');
-//         const email = req.body.email;
-//         const password = req.body.password;
-
-//         console.log("at verifyadmin, admincontroller- Admin signinpage printing email,password");
-//         const admin = await userHelper.getUser({email:email,password:password});
-//         console.log("checked & found admin user in db",admin);
-
-//         if(!admin){
-//             return res.redirect('/admin/login');
-//         }
-
-//         if(admin){
-//             req.session.admin = true;
-//             req.session.admin1 = admin;
-
-//             console.log(admin+'checked admin,true,redirecting to admin home page');
-//             res.redirect('/admin/adminHome');
-//         }
-
-//     }catch(error){
-//         console.log(error.message);
-//     }
-// }
-// const verifyAdmin = async (req, res) => {
-//     try {
-//       const email = req.body.email;
-//       const password = req.body.password;
-
-//       const adminData = await userModel.findOne({ email: email });
-
-//       if (!adminData) {
-//         console.log('gshsli')
-//         return res.render("admin/adminLogin", { msg: "Admin not found" });
-//       }
-
-//       const passwordMatch = await bcrypt.compare(password, adminData.password);
-
-//       if (!adminData.isAdmin) {
-//         return res.render("admin/adminLogin", { msg: "Admin not verified" });
-//       }
-//       if (passwordMatch) {
-//         req.session.admin_id = adminData;
-//         console.log(req.session.admin_id);
-//          res.redirect("/admin/adminhome");
-//       } else {
-//         return res.render("admin/adminLogin", {
-//           msg: "Email or password is incorrect",
-//         });
-//       }
-//     } catch (error) {
-//       console.error(error.message);
-//       return res.render("admin/adminLogin", {
-//         msg: "An error occurred. Please try again later.",
-//       });
-//     }
-//   };
 
 const verifyAdmin = async (req, res) => {
   try {
@@ -157,69 +71,6 @@ const verifyAdmin = async (req, res) => {
   }
 };
 
-// const adminHome = async(req,res)=>{
-//     try{
-//        res.render('admin/adminHome');
-//        const orders = await orderModel.aggregate([
-//         { $match: { orderStatus: 'Delivered' } },
-//         {
-//           $group: {
-//             _id: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } },
-//             total: { $sum: '$totalAmount' },
-//             count: { $sum: 1 },
-//           },
-//         },
-//         { $sort: { _id: 1 } },
-//       ]);
-
-//       const data = orders.map(({ _id, total, count }) => ({ date: _id, amount: total, count }));
-//       res.render('admin/adminHome', { data });
-
-//     }catch(err){
-//         console.log(err.message);
-
-//     }
-// }
-// OG
-// const adminHome = async (req, res) => {
-//   try {
-//     res.render("admin/adminHome");
-
-//     const orders = await orderModel.aggregate([
-//       { $match: { orderStatus: "Delivered" } },
-//       {
-//         $group: {
-//           _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
-//           total: { $sum: "$totalAmount" },
-//           count: { $sum: 1 },
-//         },
-//       },
-//       { $sort: { _id: 1 } },
-//     ]);
-
-//     const data = orders.map(({ _id, total, count }) => ({
-//       date: _id,
-//       amount: total,
-//       count,
-//     }));
-//     const today = moment().format("YYYY-MM-DD");
-//     const yesterday = moment().subtract(1, "days").format("YYYY-MM-DD");
-//     const last7days = moment().subtract(7, "days").format("YYYY-MM-DD");
-//     const last30days = moment().subtract(30, "days").format("YYYY-MM-DD");
-//     const lastYear = moment().subtract(1, "years").format("YYYY-MM-DD");
-
-//     res.render("admin/adminHome", {
-//       data,
-//       today,
-//       yesterday,
-//       last7days,
-//       last30days,
-//       lastYear,
-//     });
-//   } catch (err) {
-//     console.log(err.message);
-//   }
-// };
 
 async function calculateDeliveredOrderTotal() {
   try {
@@ -497,23 +348,9 @@ const adminHome = async (req, res) => {
     const codPay = await calculateCodOrderCountAndTotal();
     const latestorders = await getLatestOrders();
 
-    //  console.log(ordersData,"get dashBorde rsData")
-    //  console.log(orders,'fhfhf++');
-
-    //  console.log(orders,"get dashBordorders")
+    
     console.log(categorySales, "get dashBorders categorySales");
-    //    console.log(salesData,"get dashBorders  salesData")
-    //    console.log(salesCount,"get dashBordersData salesCount")
-    //  console.log(categoryCount ,"get dashBorders categoryCount ")
-    //    console.log(productsCount,"get dashBorders productsCount")
-    //  console.log(onlinePay,"get dashBord onlinePay")
-    //  console.log(codPay,"get dashBord codPay")
-    //    console.log(latestorders,"get dashBord latestorders")
-    //    console.log("productsCount:", productsCount);
-    //  console.log("categoryCount:", categoryCount);
-    //   console.log("onlinePay.totalPriceSum:", onlinePay[0].totalPriceSum);
-    // console.log("onlinePay.count:");
-    // console.log('uasername',latestorders)
+    
 
     res.render("admin/adminHome", {
       orders,
@@ -530,31 +367,7 @@ const adminHome = async (req, res) => {
     res.render("/error");
   }
 };
-// const adminHome = async (req, res) => {
-//   try {
-//     if (!req.session.admin) {
-//       // If the user is not authenticated as an admin, redirect them to the admin login page
-//       return res.redirect('/admin/login');
-//     }
 
-//     const orders = await orderModel.aggregate([
-//       { $match: { orderStatus: 'Delivered' } },
-//       {
-//         $group: {
-//           _id: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } },
-//           total: { $sum: '$totalAmount' },
-//           count: { $sum: 1 },
-//         },
-//       },
-//       { $sort: { _id: 1 } },
-//     ]);
-
-//     const data = orders.map(({ _id, total, count }) => ({ date: _id, amount: total, count }));
-//     res.render('admin/adminHome', { data });
-//   } catch (error) {
-//     console.error(error.message); // Use console.error for error messages
-//   }
-// };
 
 const adminUsersList = async (req, res) => {
   try {
@@ -565,27 +378,31 @@ const adminUsersList = async (req, res) => {
     throw err;
   }
 };
-// const adminBlockUnblock = async(req,res)=>{
-//     try{
-//         const user = await userModel.findById(req.body.id);
-//         if(!user){
-//             return res.status(404).json({message:"User not found"});
-//         }
-//         if(user.isActive){
-//             user.isActive = false;
-//             console.log("User blocked");
-//         }else{
-//             user.isActive = true;
-//             console.log("User unblocked");
-//         }
-//         await user.save();
-//         res.json({status: true,message:"user blocked successsfully"});
-//     }catch(err){
-//         console.error(err);
-//         res.status(500).json({message:"Interval server error"});
 
+// const adminBlockUnblock = async (req, res) => {
+//   try {
+//     const userId = req.body.id;
+//     const user = await userModel.findById(userId);
+
+//     if (!user) {
+//       return res.status(404).json({ message: "User not found" });
 //     }
-// }
+
+//     user.isBlocked = !user.isBlocked; // Toggle the isBlocked field
+
+//     await user.save();
+//     res.json({
+//       status: true,
+//       message: user.isBlocked
+//         ? "User blocked successfully"
+//         : "User unblocked successfully",
+//     });
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ message: "Internal server error" });
+//   }
+// };
+
 const adminBlockUnblock = async (req, res) => {
   try {
     const userId = req.body.id;
@@ -593,6 +410,12 @@ const adminBlockUnblock = async (req, res) => {
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
+    }
+
+    // Check if the user being blocked is currently authenticated
+    if (req.user && req.user._id.toString() === userId) {
+      // Log out the user if they are currently authenticated
+      req.logout();
     }
 
     user.isBlocked = !user.isBlocked; // Toggle the isBlocked field
@@ -609,6 +432,7 @@ const adminBlockUnblock = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
 
 const salesreport = async (req, res, next) => {
   try {
@@ -735,10 +559,7 @@ const salesreportpost = async (req, res) => {
         status: ord.orderStatus, // Updated field name for the order status
         payment_method: ord.paymentMode, // Updated field name for the payment mode
         orderdate: formattedDate,
-        // delivery_date: ord.delivery_date,
-        // Assuming there is a field called 'delivery_date'
-        // return: ord.return.status,
-        // Assuming there is a field called 'return' with a 'status' property
+        
         product: productsWithNames,
       };
     });
@@ -1041,28 +862,20 @@ const adminDownloadReports = async (req, res, next) => {
 
 const adminBannerList = async (req, res) => {
   try {
-    console.log("in adminbannerlist");
-    const ITEMS_PER_PAGE = 9;
-    const page = parseInt(req.query.page) || 1;
-    const skipItems = (page - 1) * ITEMS_PER_PAGE;
-    const totalCount = await orderModel.countDocuments();
-    const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
-    const banner = await bannerModel
-      .find()
-      .sort({ createdAt: -1 })
-      .skip(skipItems)
-      .limit(ITEMS_PER_PAGE);
-    if (banner)
-      res.render("admin/adminBannerLists", {
-        data: banner,
-        currentPage: page,
-        totalPages: totalPages,
-      });
+    const ITEMS_PER_PAGE = 12
+    const page = parseInt(req.query.page) || 1
+    const skipItems = (page - 1) * ITEMS_PER_PAGE
+    const totalCount = await orderModel.countDocuments()
+    const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE)
+    const banner = await bannerModel.find().sort({ createdAt: -1 }).skip(skipItems)
+      .limit(ITEMS_PER_PAGE)
+    if (banner) res.render("admin/adminBannerLists", { data: banner, currentPage: page, totalPages: totalPages });
   } catch (error) {
     console.error("Error getting banners:", error);
     throw error;
   }
-};
+}
+
 
 const adminAddbanner = async (req, res) => {
   try {
@@ -1145,7 +958,7 @@ const deleteBanner = async (req, res) => {
 
 module.exports = {
   adminLogin,
-  //adminLogout,
+  adminLogout,
   verifyAdmin,
   adminHome,
   adminBlockUnblock,

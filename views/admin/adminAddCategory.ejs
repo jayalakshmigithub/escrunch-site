@@ -65,23 +65,9 @@
           
                     </div> -->
                 </li>
+               
                 
-                <li class="menu-item has-submenu">
-                    <a class="menu-link" href="#"> <i class="icon material-icons md-person"></i>
-                        <span class="text">Account</span>
-                    </a>
-                    <div class="submenu">
-                        <a href="page-account-login.html">User login</a>
-                        <a href="page-account-register.html">User registration</a>
-                        <a href="page-error-404.html">Error 404</a>
-                    </div>
-                </li>
-                
-                <li class="menu-item">
-                    <a class="menu-link" disabled href="#"> <i class="icon material-icons md-pie_chart"></i>
-                        <span class="text">Statistics</span>
-                    </a>
-                </li>
+               
             </ul>
             <hr>
         </nav>
@@ -190,8 +176,15 @@
 
     if(!/^[a-zA-Z]+$/.test(categoryName)){
       categoryNameError.textContent= ' category name already exists'
+      categoryNameError.style.color = "red"; 
       return false;
     }
+
+    if (!/^[a-zA-Z]+$/.test(categoryName)) {
+        categoryNameError.textContent = 'Numbers are not allowed in the category name';
+        categoryNameError.style.color = "red"; 
+        return false;
+      }
 
     categoryNameError.textContent="";
     return true;
@@ -199,24 +192,25 @@
 
   
 
-  function validateDescription(){
-    const description = categoryDescription.value.trim()
-    const descriptionError = document.getElementById('descriptionError')
+  function validateDescription() {
+      const description = categoryDescription.value.trim();
+      const descriptionError = document.getElementById('descriptionError');
 
-    if(categoryDescription===""){
-      descriptionError.textContent='Category description cannot be empty'
-      return false
+      if (description === "") {
+        descriptionError.textContent = 'Category description cannot be empty';
+        descriptionError.style.color = "red"; 
+        return false;
+      }
+
+      if (!/^[a-zA-Z\s]*$/.test(description)) {
+        descriptionError.textContent = 'Only letters are allowed in the category description';
+        descriptionError.style.color = "red"; 
+        return false;
+      }
+
+      descriptionError.textContent = "";
+      return true;
     }
-
-    if( !/[a-zA-Z]+$/.test(categoryDescription)){
-      descriptionError.textContent ='Only letters are allowed '
-      return false;
-
-    }
-    descriptionError.textContent =" ";
-    return true;
-  
-  }
 });
 
 

@@ -205,8 +205,28 @@
         </nav>
       </div>
     </header>
+    <!-- <section class="banner-area organic-breadcrumb">
+        <div class="container">
+            <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+                <div class="col-first">
+                    <h1 style="background-color: brown; padding: 10px;">Wishlist</h1>
+                    <nav class="d-flex align-items-center">
 
-  
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section> -->
+
+    <section class="features-area section_gap" style="background-image: url('/user-assets/img/section\ background\ 1.jpg'); background-size: auto; background-position: center;margin-top: 100px;">
+      <div class="container">
+        <h1>Checkout </h1>
+        <div class="row features-inner">
+          <!-- Your content here -->
+        </div>
+      </div>
+    </section>
+    
 
     <!--================Checkout Area =================-->
 
@@ -217,8 +237,8 @@
         <!-- trying a new code for the above,,cg -->
         <div>
           <div class="container mt-5">
-            <h2 class="content-title card-title" style="margin-left: 400px; margin-bottom: 30px; color: #ff1493;">Checkout</h2>
-            <hr style="border-color: #000; margin-top: 50px;">
+            <!-- <h2 class="content-title card-title" style="margin-left: 400px; margin-bottom: 30px; color: #ff1493;">Checkout</h2> -->
+            <!-- <hr style="border-color: #000; margin-top: 50px;"> -->
             <div class="row">
               <div class="col-lg-8">
                 <h5 class="section-title position-relative text-uppercase mb-3 mt-4">
@@ -704,7 +724,7 @@
         if (couponId) {
             orderData.coupon = coupon.getAttribute('data-coupon')
         }
-        fetch("/checkoutpost", {
+        fetch(`/checkoutpost?couponId=${couponId}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(orderData),
@@ -786,9 +806,11 @@
       paymentMethod: paymentMethod,
       subTotalPrice,
     };
-
+    const urlParams = new URLSearchParams(window.location.search)
+    const two = urlParams.get("couponId")
+console.log("couponid",two)
     $.ajax({
-      url: "/checkoutpost",
+      url: `/checkoutpost?couponId=${two}`,
       method: "post",
       data: details,
       success: (response) => {

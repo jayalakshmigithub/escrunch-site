@@ -69,26 +69,6 @@
                     </li>
                   </ul>
                 </li>
-                <!-- <li class="nav-item submenu dropdown">
-                  <a href="/cart" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
-                    aria-haspopup="true" aria-expanded="false">Blog</a>
-                </li> -->
-
-                <!-- <li class="nav-item">
-                  <a class="search" style="color: #090808;">
-                    <i class="fa-solid fa-magnifying-glass" id="search"
-                      style="font-size: 24px; margin-top: 30px;"></i>
-                  </a>
-                </li> -->
-
-              
-
-
-
-
-
-
-
                 <li class="nav-item submenu dropdown active">
                   <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                     aria-expanded="false" style="color: #ff1493;">Account</a>
@@ -102,15 +82,6 @@
                     <li class="nav-item">
                       <a class="nav-link" href="/wallet" style="color: #ff1493;">My wallet</a>
                     </li>
-                    <!-- <li class="nav-item">
-                      <a class="nav-link" href="tracking.html" style="color: #ff1493;">Tracking</a>
-                    </li> -->
-                    <!-- <li class="nav-item">
-                      <a class="nav-link" href="elements.html" style="color: #ff1493;">Elements</a>
-                    </li> -->
-                    <!-- <li class="nav-item">
-                      <a class="nav-link" href="/logout" style="color: #ff1493;">Logout</a>
-                    </li> -->
                   </ul>
                 </li>
                 <li class="nav-item">
@@ -123,31 +94,6 @@
                     <span class="ti-bag"></span>
                   </a>
                 </li>
-
-
-                <!-- <li class="nav-item">
-                  <button class="search">
-                    <img
-                      src="/user-assets/img/searchnewicon.png"
-                      alt="Search Icon"
-                      style="width: 24px; height: 24px; margin-right: 3px"
-                    />
-                  </button>
-                </li> -->
-                <!-- <li class="nav-item" style="display: inline-block; margin-right: 2px;">
-                  <button class="search" style="background: transparent; border: none; cursor: pointer; padding: 1px 2px; font-size: 16px; color: #ff1493;">
-                    <span class="lnr lnr-magnifier" id="search"></span>
-                  </button>
-                </li> -->
-
-
-                <!-- <li class="nav-item" style="display: inline-block; margin-right: 2px;">
-                  <a class="search" class="search" style="text-decoration: none; color: #ff1493; padding: 1px 2px; font-size: 16px;">
-                    <i class="lnr lnr-magnifier" id="search"></i>
-                  </a>
-                </li> -->
-
-
                 <li class="nav-item" style="display: inline-block;">
                   <div class="dropdown">
                     <button class="user-button" id="userButton" style="background: transparent; border: none; cursor: pointer; padding: 1px 2px;">
@@ -165,38 +111,10 @@
           </div>
         </nav>
       </div>
-
-
-      <!-- <div class="search_input" id="search_input_box" style="background-color: rgb(77, 78, 80);">
-        <div class="container">
-          <form class="d-flex justify-content-between" id="search_form" action="/search" method="GET">
-            <input type="text" class="form-control" id="search_input" name="query"
-              placeholder="Search Products">
-            <button type="submit" class="btn"></button>
-            <span class="lnr lnr-cross" id="close_search" title="Close Search"></span>
-          </form>
-        </div>
-      </div> -->
-
-      
-      <!-- <form class="form-inline ml-auto" style="margin-top: 10px; margin-right: 10px;" id="searchForm"
-				action="/search" method="Post">
-				<div class="input-group">
-					<input type="search" name="search" id="searchform" class="form-control" placeholder="Search"
-						style="border-radius: 0; height: 30px; font-size: 14px;" />
-					<label class="form-label sr-only" for="form1">Search</label>
-					<button type="submit" class="btn btn-primary" id="searchButton"
-						style="border-radius: 0; height: 30px; width: 30px; padding: 0;">
-						<i class="fas fa-search" style="font-size: 16px;"></i>
-					</button>
-				</div>
-			</form> -->
-
-
     </header>
 
     <!-- Start Banner Area -->
-    <section class="banner-area organic-breadcrumb">
+    <!-- <section class="banner-area organic-breadcrumb">
         <div class="container">
             <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
                 <div class="col-first">
@@ -207,8 +125,16 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
     <!-- End Banner Area -->
+    <section class="features-area section_gap" style="background-image: url('/user-assets/img/section\ background\ 1.jpg'); background-size: auto; background-position: center;margin-top: 100px;">
+      <div class="container">
+        <h1>Wishlist </h1>
+        <div class="row features-inner">
+          <!-- Your content here -->
+        </div>
+      </div>
+    </section>
 
     <section class="cart_area">
         <div class="container">
@@ -245,7 +171,7 @@
                                                 <p id="addtocartId" value="<%= item.product._id %>" hidden></p>
                                                 <button class="primary-btn"
                                                     onclick="buttonclick('<%= item.product._id %>')" id="addtocart"
-                                                    href="#" style="margin-bottom: 30px; margin-top: 20px;">Add to
+                                                    href="#" style="margin-bottom: 30px; margin-top: 20px;background: linear-gradient(90deg, #ff1493,#13a4d4); color: white; ">Add to
                                                     Cart</button>
                                             </div>
                                             <% } else { %>
@@ -287,17 +213,24 @@
                 </div>
             </div>
 
-            <div class="modal" id="addToCartModal" style="display: none;">
-                <div class="modal-dialog modal-dialog-centered" style="max-width: 400px;">
-                    <div class="modal-content" style="border-radius: 10px; box-shadow: 0px 0px 10px rgb(255, 252, 252); background-color: #ffffff; color: #000000;">
-                        <div class="modal-body" style="padding: 20px;">
-                            <h4 style="text-align: center; font-size: 20px; color: #000000;">Hooray! <br> Your Cart Just Got a New Item</h4>
-                            <div style="text-align: center; margin-top: 20px;">
-                                <button class="btn btn-primary" data-dismiss="modal" style="background-color: #000000; color: #ffffff; border: none; border-radius: 5px; padding: 10px 20px;">Close</button>
-                            </div>
-                        </div>
+            <div class="modal" id="addToCartModal">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-body">
+                    <div class="text-center">
+                      <img
+                        src="/user-assets/img/cartsuccess.png"
+                        alt="Success Icon"
+                        width="80"
+                      />
                     </div>
+                    <h4 class="text-center mt-3">Product Added to Cart!</h4>
+                    <p class="text-center">
+                      You've successfully added the product to your shopping cart.
+                    </p>
+                  </div>
                 </div>
+              </div>
             </div>
             
 
@@ -305,6 +238,8 @@
             <!-- container -->
         </div>
     </section>
+      <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
 
 <!-- footer -->
@@ -326,20 +261,67 @@
                     }
                 });
             }
-
-
-
-
-
         </script>
 
+<script>
+function buttonclick(event, productId) {
+  event.preventDefault(); // Prevent default anchor behavior
+  
+  $.ajax({
+      url: '/addtowishlist', // Correct URL for the addToWishlist POST route
+      method: 'post', // Use the 'POST' method
+      data: {
+          productId: productId, // Pass the productId parameter
+      },
+      success: function (response) {
+          // Show SweetAlert success message
+          Swal.fire({
+              icon: 'success',
+              title: 'Success',
+              text: 'Product has been added to your wishlist!',
+          });
+      },
+      error: function (error) {
+          // Handle any errors if needed
+          Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Something went wrong!',
+          });
+      }
+  });
+}
+
+</script>
 
 
         
+<style>
+  /* Modal */
+  .modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+  }
+
+  .modal-dialog {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 4px;
+  }
+</style>
 
 
-
-        <!-- <script>
+        <script>
             function buttonclick(id) {
                 // Display the custom modal
                 $('#addToCartModal').modal('show');
@@ -362,29 +344,44 @@
                 });
             }
 
-        </script> -->
+            const myButton = document.getElementById("addtocart");
+const addToCartModal = document.getElementById("addToCartModal");
 
-        <script>
-            function buttonclick(id) {
-                // Perform your AJAX request here
-                $.ajax({
-                    url: '/addtowishlist',
-                    method: 'post',
-                    data: {
-                        productId: id,
-                    },
-                    success: function (response) {
-                        // Handle the success response if needed
-        
-                        // Display the custom modal
-                        $('#addToCartModal').modal('show');
-                    },
-                    error: function (error) {
-                        // Handle any errors if needed
-                    }
-                });
-            }
-        </script>
+myButton.addEventListener("click", function (e) {
+  console.log("clicked on add to cart button ");
+  addToCartModal.style.display = "block";
+  setTimeout(() => {
+    addToCartModal.style.display = "none";
+  }, 2000);
+});
+
+
+        </script> 
+
+<!-- <script>
+  function buttonclick(id) {
+      // Display the custom modal
+      $('#addToCartModal').modal('show');
+
+      // Perform your AJAX request here
+      $.ajax({
+          url: '/addtocart',
+          method: 'post',
+          data: {
+              productId: id,
+              quantity: 1,
+          },
+          success: function (response) {
+              // Handle the success response if needed
+
+          },
+          error: function (error) {
+              // Handle any errors if needed
+          }
+      });
+  }
+
+</script> -->
 
         <style>
             /* Apply responsive styles to the table */
@@ -408,3 +405,4 @@
                 }
             }
         </style>
+        </body>

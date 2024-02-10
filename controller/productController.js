@@ -35,13 +35,16 @@ const adminAddProductPage = async (req, res) => {
   }
 };
 
-// just to find the validation error
+//  to find the validation error
 const adminAddProduct = async (req, res) => {
-  let product = req.body;
-  await cropImage.crop(req);
-  const images = req.files.map((file) => file.filename);
-  product.image = images;
+ 
   try {
+    console.log("in admin add product")
+    let product = req.body;
+    await cropImage.crop(req);
+    const images = req.files.map((file) => file.filename);
+    product.image = images;
+
     await productModel.create(product);
     const sortedProducts = await productModel.find().sort({ _id: -1 });
     res.render("admin/adminProducts", { data: sortedProducts });

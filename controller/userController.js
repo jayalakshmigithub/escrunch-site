@@ -111,15 +111,7 @@ const userLandingPage = async (req, res) => {
     console.log(err.message);
   }
 };
-// const userLogin = async (req, res) => {
-//   try {
-//     if (req.session.user_id) res.redirect("/home");
-//     //if(req.session.user) res.redirect('/userLandingPage')
-//     else res.render("users/userLogin", { err: "user not found" });
-//   } catch (err) {
-//     console.log(err.message);
-//   }
-// };
+
 
 const userLogin = async (req, res) => {
   try {
@@ -134,15 +126,6 @@ const userLogin = async (req, res) => {
   }
 };
 
-// const userLogout = async (req, res) => {
-//   try {
-//     // Destroy the session to log the user out
-//     req.session.destroy();
-//     res.redirect("/login");
-//   } catch (error) {
-//     console.log(error.message);
-//   }
-// };
 const userLogout = async (req, res) => {
   try {
     // Destroy the session to log the user out
@@ -329,104 +312,6 @@ const userProductLists = async (req, res) => {
   }
 };
 
-// const ITEMS_PER_PAGE = 3;
-
-// const userProductLists = async (req, res) => {
-//   try {
-//     console.log('Entered into the product list');
-//     const results = await productModel.aggregate([
-//       {
-//         $group: {
-//           _id: "$categoryname",
-//           count: { $sum: 1 },
-//         },
-//       },
-//     ]);
-//     console.log('Results in product list', results);
-//     const categoriesWithCounts = await Promise.all(
-//       results.map(async (result) => {
-//         const category = await categoryModel.findOne({
-//           categoryname: result._id,
-//         });
-
-//         return {
-//           categoryid: result._id,
-//           count: result.count,
-//         };
-//       })
-//     );
-
-//     for (const categoryinfo of categoriesWithCounts) {
-//       const product = await productModel
-//         .findOne({ categoryname: categoryinfo.categoryid })
-//         .populate("categoryname")
-//         .exec();
-
-//       if (product && product.categoryname) {
-//         const categoryName = product.categoryname.categoryname;
-//         categoryinfo.catname = categoryName;
-//       }
-//     }
-
-//     const page = parseInt(req.query.page) || 1;
-//     const skipItems = (page - 1) * ITEMS_PER_PAGE;
-//     const totalCount = await productModel.countDocuments();
-//     const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
-
-//     // Limit the number of displayed pages to 5
-//     const maxDisplayedPages = 5;
-//     const startPage = Math.max(1, page - Math.floor(maxDisplayedPages / 2));
-//     const endPage = Math.min(totalPages, startPage + maxDisplayedPages - 1);
-
-//     const products = await productModel
-//       .find()
-//       .populate("categoryname")
-//       .skip(skipItems)
-//       .limit(ITEMS_PER_PAGE);
-
-//     if (products) {
-//       res.render("users/userProductLists", {
-//         products,
-//         currentPage: page,
-//         totalPages: totalPages,
-//         displayedPages: Array.from({ length: endPage - startPage + 1 }, (_, i) => i + startPage),
-//         category: categoriesWithCounts,
-//         sortOption: req.query.sortOption || '1',
-//       });
-//     }
-//   } catch (error) {
-//     console.log(error.message);
-//   }
-// };
-
-//////////////////////to seach the products
-// const userSearch = async (req, res, next) => {
-//   try {
-//     const query = req.query;
-
-//     // Using $regex for case-insensitive search directly in the database query
-//     const searchResults = await productModel.find({
-//       productname: { $regex: query, $options: 'i' },
-//     });
-//     console.log("searchResults",searchResults)
-
-//     const ITEMS_PER_PAGE = 3;
-//     const page = parseInt(req.query.page) || 1;
-//     const skipItems = (page - 1) * ITEMS_PER_PAGE;
-//     const totalCount = searchResults.length;
-//     const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
-
-//     res.render("users/userSearch", {
-//       results: searchResults,
-//       query: query,
-//       currentPage: page,
-//       totalPages: totalPages,
-//     });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send("Internal Server Error");
-//   }
-// };
 
 const userSearch = async (req, res, next) => {
   try {
@@ -489,85 +374,7 @@ const userCategory = async (req, res) => {
   }
 };
 
-// const userSortPrice = async (req, res) => {
-//   try {
-//     console.log('enterd in sortprice')
-//     const results = await productModel.aggregate([
-//       {
-//         $group: {
-//           _id: "$categoryname", // Group by category name
-//           count: { $sum: 1 }, // Count the number of products in each group
-//         },
-//       },
-//     ]);
-//     console.log('result in sorprice',results);
 
-//     const categoriesWithCounts = await Promise.all(
-//       results.map(async (result) => {
-//         const category = await categoryModel.findOne({
-//           categoryname: result._id,
-//         });
-
-//         return {
-//           categoryid: result._id,
-//           count: result.count,
-//         };
-//       })
-//     );
-
-//     for (const categoryinfo of categoriesWithCounts) {
-//       // Find the product with the given ObjectId
-//       const product = await productModel
-//         .findOne({ categoryname: categoryinfo.categoryid })
-//         .populate("categoryname")
-//         .exec();
-
-//       if (product && product.categoryname) {
-//         const categoryName = product.categoryname.categoryname;
-//         categoryinfo.catname = categoryName;
-//       }
-//     }
-//     const { sortOption } = req.query;
-//     let sortCriteria = {};
-//     if (sortOption === '2') {
-//       sortCriteria = { price: 1 };      // Sort by Price: Low to High
-//     } else if (sortOption === '3') {
-//       sortCriteria = { price: -1 };    // Sort by Price: High to Low
-//     }
-
-//     const ITEMS_PER_PAGE = 3;
-//     const page = parseInt(req.query.page) || 1;
-//     const skipItems = (page - 1) * ITEMS_PER_PAGE;
-//     const totalCount = await productModel.countDocuments();
-//     const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
-
-//     const sortedProducts = await productModel.find().populate('categoryname').sort(sortCriteria).skip(skipItems).limit(ITEMS_PER_PAGE);
-
-//     if (sortedProducts)
-//       res.render("users/userSortPrice", {
-//         products: sortedProducts,
-//         currentPage: page,
-//         totalPages: totalPages,
-//         category: categoriesWithCounts,
-//         sortOption,
-
-//         calculateMRP: (product) => {
-
-//           if (product.categoryname.offerPercentage > 0) {
-//             return product.price;
-//           } else if (product.categoryname.offerPercentage === 0 && product.productOffer > 0) {
-//             return product.productOffer;
-
-//           } else {
-//             return product.mrp;
-//           }
-//         },
-//       });
-
-//   } catch (error) {
-//     console.log(error.message);
-//   }
-// }
 
 const userSortPrice = async (req, res) => {
   try {
@@ -734,45 +541,6 @@ const userProfileUpdated = async (req, res) => {
   }
 };
 
-//   const userAddress = async(req,res) =>{
-//     try{
-//         const category = await categoryModel.find();
-//         const userId = req.session.user_id;
-//         const user = await userModel.findById(userId);
-//         res.render("users/userAddAddress",{ user,category });
-//     }catch(err){
-//         console.log(err);
-//     }
-//   }
-
-//   const userAddressPost = async( req,res ) =>{
-//     try{
-//     const userId = req.session.user_id;
-//     const address = req.body.address;
-//     const city = req.body.city;
-//     const state = req.body.state;
-//     const pincode = req.body.pincode;
-//     const user = await userModel.findByIdAndUpdate(
-//         userId,
-//         {
-//             $push :{
-//                 address:{
-//                     address:address,
-//                     city:city,
-//                     state:state,
-//                     pincode:pincode,
-
-//                 },
-//             },
-//         },
-//         { new :true }
-//     )
-//     res.render("users/userProfile",{user});
-//     }catch(err){
-//         console.log(err.message);
-//     }
-
-//   }
 const userAddress = async (req, res) => {
   try {
     const category = await categoryModel.find();
@@ -848,35 +616,6 @@ const userEditAddress = async (req, res) => {
   }
 };
 
-// const userUpdatedAddress = async (req, res) => {
-//   try {
-//     const userId = req.session.user_id;
-//     const addressId = req.query.addressId;
-//     console.log("Address id= req.query.addressId ", addressId);
-
-//     const address = req.body.address;
-//     const city = req.body.city;
-//     const state = req.body.state;
-//     const pincode = req.body.pincode;
-
-//     const user = await userModel.findOneAndUpdate(
-//       { _id: userId, "address._id": addressId }, // Match the user and address ID
-//       {
-//         $set: {
-//           "address.$.address": address,
-//           "address.$.city": city,
-//           "address.$.state": state,
-//           "address.$.pincode": pincode,
-//         },
-//       },
-//       { new: true }
-//     );
-
-//     res.redirect("/userprofile");
-//   } catch (error) {
-//     console.log(error.message);
-//   }
-// };
 
 const userUpdatedAddress = async (req, res) => {
   try {
@@ -980,21 +719,7 @@ const userWallet = async (req, res) => {
   }
 };
 
-// the Ogs
-// const userAddCoupon = async (req, res) => {
-//   try {
-//     const totalAmountInCheckout = req.query.total;
-//     const currentDate = new Date();
-//     const category = await categoryModel.find();
-//     const coupons = await couponModel.find({
-//       // minimumAmount: { $lte: totalAmountInCheckout },
-//       expirationDate: { $gt: currentDate },
-//     });
-//     res.render("users/userCoupons", { coupons, category });
-//   } catch (error) {
-//     console.log(error.message);
-//   }
-// };
+
 
 // //////////////////adding coupon to the checkout
 
@@ -1002,60 +727,7 @@ const contactUsController = (req, res) => {
   res.render("users/contactUs");
 };
 
-// const userAddCoupon = async (req, res) => {
-//   try {
-//     const totalAmountInCheckout = req.query.total;
-//     const currentDate = new Date();
-//     const category = await categoryModel.find();
-//     const coupons = await couponModel.find({
-//       minimumAmount: { $lte: totalAmountInCheckout },
-//       expirationDate: { $gt: currentDate },
-//       discountType: "Percentage",
-//     });
-//     // percentage discount display in the UI
-//     const formattedCoupons = coupons.map((coupon) => {
-//       const displayDiscountAmount =
-//         (coupon.discountAmount / 100) * totalAmountInCheckout;
-//       return {
-//         displayDiscountAmount: displayDiscountAmount,
-//       };
-//     });
-//     res.render("users/userCoupons", { coupons: formattedCoupons, category });
-//   } catch (error) {
-//     console.log(error.message);
-//   }
-// };
 
-// const userAddCoupon = async (req, res) => {
-//   try {
-//     const totalAmountInCheckout = req.query.total;
-//     const currentDate = new Date();
-
-//     const category = await categoryModel.find();
-
-//     const coupons = await couponModel.find({
-//       discountAmount: { $lte: totalAmountInCheckout },
-//       expirationDate: { $gt: currentDate },
-//       discountType: "Percentage",
-//     });
-
-//     const formattedCoupons = coupons.map((coupon) => {
-//       const displayDiscountAmount =
-//         (coupon.discountAmount / 100) * totalAmountInCheckout;
-//       return {
-//         code: coupon.code,
-//         description: coupon.description,
-//         displayDiscountAmount: displayDiscountAmount,
-//         expirationDate: coupon.expirationDate,
-//       };
-//     });
-
-//     res.render("users/userCoupons", { coupons: formattedCoupons, category });
-//   } catch (error) {
-//     console.log(error.message);
-//     res.status(500).send("Internal Server Error");
-//   }
-// };
 
 const userAddCoupon = async (req, res) => {
   try {
@@ -1074,6 +746,7 @@ const userAddCoupon = async (req, res) => {
       const displayDiscountAmount =
         (coupon.discountAmount / 100) * totalAmountInCheckout;
       return {
+        _id:coupon._id,
         code: coupon.code,
         description: coupon.description,
         displayDiscountAmount: displayDiscountAmount,
@@ -1115,13 +788,12 @@ const userAddCouponpost = async (req, res) => {
   }
 };
 
-////////////////////to display user wishlist
+//to display user wishlist
 const userWishlist = async (req, res) => {
   try {
     console.log("inside wishlist");
     const user1 = req.session.user;
-    const userId = req.session.user._id;
-
+    const userId = req.session.user_id;
     let wishlist = await wishlistModel.findOne({ user: userId });
 
     if (wishlist == null) {
@@ -1131,18 +803,18 @@ const userWishlist = async (req, res) => {
     wishlist = await wishlistModel
       .findOne({ user: userId })
       .populate({ path: "products.product" });
-    res.render("users/userWishlist", { wishlist });
+    res.render("users/userWishlist", { wishlist});
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");
   }
 };
 
-//////////////////////add product to the wishlist
+//add product to the wishlist
 const addToWishlist = async (req, res) => {
   try {
     console.log("add to wishlist...");
-    const userId = req.session.user._id;
+    const userId = req.session.user_id;
     const { productId } = req.body;
 
     let wishlist = await wishlistModel.findOne({ user: userId });

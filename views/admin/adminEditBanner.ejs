@@ -32,11 +32,11 @@
         </div>
         <nav>
             <ul class="menu-aside">
-                <li class="menu-item active">
-                    <a class="menu-link" href="/admin/adminhome> <i class="icon material-icons md-home"></i>
-                        <span class="text">Dashboard</span>
-                    </a>
-                </li>
+              <li class="menu-item active">
+                <a class="menu-link" href="/admin/adminhome"> <i class="icon material-icons md-home"></i>
+                    <span class="text">Dashboard</span>
+                </a>
+            </li>
                 <li class="menu-item has-submenu">
                     <a class="menu-link" href="page-products-list.html"> <i class="icon material-icons md-shopping_bag"></i>
                         <span class="text">Products</span>
@@ -96,57 +96,14 @@
                     </div>
                 </li>
                 
-                <li class="menu-item has-submenu">
-                    <a class="menu-link" href="page-transactions-1.html"> <i class="icon material-icons md-monetization_on"></i>
-                        <span class="text">Transactions</span>
-                    </a>
-                    <!-- <div class="submenu">
-                        <a href="page-transactions-1.html">Transaction 1</a>
-                        <a href="page-transactions-2.html">Transaction 2</a>
-                    </div> -->
-                </li>
-                <li class="menu-item has-submenu">
-                    <a class="menu-link" href="#"> <i class="icon material-icons md-person"></i>
-                        <span class="text">Account</span>
-                    </a>
-                    <div class="submenu">
-                        <!-- <a href="page-account-login.html">User login</a>
-                        <a href="page-account-register.html">User registration</a>
-                        <a href="page-error-404.html">Error 404</a> -->
-                    </div>
-                </li>
-                <li class="menu-item">
-                    <a class="menu-link" href="page-reviews.html"> <i class="icon material-icons md-comment"></i>
-                        <span class="text">Reviews</span>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a class="menu-link" href="page-brands.html"> <i class="icon material-icons md-stars"></i>
-                        <span class="text">Brands</span> </a>
-                </li>
-                <li class="menu-item">
-                    <a class="menu-link" disabled href="#"> <i class="icon material-icons md-pie_chart"></i>
-                        <span class="text">Statistics</span>
-                    </a>
-                </li>
+              
+             
+              
+               
+              
             </ul>
             <hr>
-            <ul class="menu-aside">
-                <li class="menu-item has-submenu">
-                    <a class="menu-link" href="#"> <i class="icon material-icons md-settings"></i>
-                        <span class="text">Settings</span>
-                    </a>
-                    <div class="submenu">
-                        <a href="page-settings-1.html">Setting sample 1</a>
-                        <a href="page-settings-2.html">Setting sample 2</a>
-                    </div>
-                </li>
-                <li class="menu-item">
-                    <a class="menu-link" href="page-blank.html"> <i class="icon material-icons md-local_offer"></i>
-                        <span class="text"> Starter page </span>
-                    </a>
-                </li>
-            </ul>
+            
             <br>
             <br>
         </nav>
@@ -236,7 +193,7 @@
             bannernameError.style.display = 'block';
             isValid = false;
           } else {
-            bannernameError.style.display = 'none'; // Corrected the typo here
+            bannernameError.style.display = 'none'; 
           }
 
 
@@ -246,22 +203,26 @@
             bannerUrlError.style.display = 'block';
             isValid = false;
           } else {
-            bannerUrlError.style.display = 'none'; // Corrected the typo here
+            bannerUrlError.style.display = 'none';
           }
 
           if (!isValid) {
-            event.preventDefault(); // Prevent form submission if validation fails
+            event.preventDefault(); 
           }
         });
 
         function isValidBannerName(bannername) {
-          // Check if the input is not empty and contains the allowed characters
-          const bannernamePattern = /^[A-Za-z0-9\s!@#$%^&*()_+-=,.<>;:'"\\/{}[\]]*$/;
-          return bannername.trim() !== '' && bannernamePattern.test(bannername);
+          const bannernamePattern =
+            /^[A-Za-z0-9\s!@#$%^&*()_+-=,.<>;:'"\\/{}[\]]*$/;
+          const containsLetter = /[A-Za-z]/.test(bannername);
+          return (
+            bannername.trim() !== "" &&
+            bannernamePattern.test(bannername) &&
+            containsLetter
+          );
         }
 
         function isValidBannerUrl(bannerurl) {
-          // Check if the input is not empty and contains the allowed characters
           const bannerurlPattern = /^[A-Za-z0-9\s!@#$%^&*()_+-=,.<>;:'"\\/{}[\]]*$/;
           return bannerurl.trim() !== '' && bannerurlPattern.test(bannerurl);
         }

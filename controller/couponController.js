@@ -36,16 +36,7 @@ const adminAddCoupon = async (req, res) => {
 };
 
 // ////////////////////to create new coupon from admin side
-// const adminAddCouponPost = async (req, res) => {
-//   try {
-//     const couponData = req.body;
-//     console.log(couponData);
-//     await couponModel.create(couponData);
-//     res.redirect("/admin/coupons");
-//   } catch (error) {
-//     console.log(error.message);
-//   }
-// };
+
 
 // ////////////////////to show edit coupon page
 const adminEditCoupon = async (req, res) => {
@@ -59,25 +50,7 @@ const adminEditCoupon = async (req, res) => {
 };
 
 // /////////////////to edit the existing coupon
-// const adminEditCouponPost = async (req, res) => {
-//   try {
-//     const couponId = req.body.id;
-//     const updatedCoupon = await couponModel.findById(couponId);
 
-//     updatedCoupon.code = req.body.code;
-//     updatedCoupon.description = req.body.description;
-//     updatedCoupon.discountType = req.body.discountType;
-//     updatedCoupon.discountAmount = req.body.discountAmount;
-//     updatedCoupon.minimumAmount = req.body.minimumAmount;
-//     updatedCoupon.expirationDate = req.body.expirationDate;
-//     updatedCoupon.maxRedemptions = req.body.maxRedemptions;
-
-//     await updatedCoupon.save();
-//     res.redirect("/admin/coupons");
-//   } catch (error) {
-//     console.log(error.message);
-//   }
-// };
 
 // To create new coupon from admin side
 const adminAddCouponPost = async (req, res) => {

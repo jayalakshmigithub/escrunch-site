@@ -21,7 +21,6 @@ const addressSchema = new mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: "users",
   },
-  
 });
 
 module.exports = mongoose.model("address", addressSchema);

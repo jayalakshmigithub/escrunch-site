@@ -68,7 +68,6 @@ const userSchema = new mongoose.Schema({
         ID: {
           type: String,
           required: true,
-
         },
         createdAt: {
           type: Date,
@@ -76,7 +75,7 @@ const userSchema = new mongoose.Schema({
         },
         type: {
           type: String,
-          enum: ['credit', 'debit'],
+          enum: ["credit", "debit"],
         },
 
         amount: {
