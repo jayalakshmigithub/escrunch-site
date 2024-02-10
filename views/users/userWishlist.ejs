@@ -322,7 +322,12 @@ function buttonclick(event, productId) {
 
 
         <script>
+
+const addToCartModal = document.getElementById("addToCartModal");
+const myButton = document.getElementById("addtocart");
+
             function buttonclick(id) {
+              console.log(id)
                 // Display the custom modal
                 $('#addToCartModal').modal('show');
 
@@ -344,8 +349,8 @@ function buttonclick(event, productId) {
                 });
             }
 
-            const myButton = document.getElementById("addtocart");
-const addToCartModal = document.getElementById("addToCartModal");
+           
+
 
 myButton.addEventListener("click", function (e) {
   console.log("clicked on add to cart button ");
